@@ -1,0 +1,75 @@
+dag_type: typed
+description: A granular execution plan for testing workflow
+name: Testing Workflow
+nodes:
+  analyze_test_results:
+    agent: false
+    description: Analyze the results of the test cases
+    name: analyze_test_results
+    nodes_depended_on:
+    - execute_test_cases
+    nodes_dependent_on: []
+    output_structure:
+    - description: Names of test cases that passed
+      key: passed_test_cases
+      type: List[str]
+    - description: Names of test cases that failed
+      key: failed_test_cases
+      type: List[str]
+    prompt: Analyze the results of the test cases. Focus on identifying any failures
+      or issues.
+  cleanup_test_environment:
+    agent: false
+    description: Clean up the test environment
+    name: cleanup_test_environment
+    nodes_depended_on:
+    - analyze_test_results
+    nodes_dependent_on: []
+    output_structure:
+    - description: Status of the test environment cleanup (e.g., 'success', 'failure')
+      key: cleanup_status
+      type: str
+    prompt: Clean up the test environment by removing any resources or configurations
+      created. Focus on ensuring the environment is left in its original state.
+  define_test_cases:
+    agent: false
+    description: Define test cases for the workflow
+    name: define_test_cases
+    nodes_depended_on:
+    - init_test_environment
+    nodes_dependent_on: []
+    output_structure:
+    - description: Names of the test cases
+      key: test_case_names
+      type: List[str]
+    - description: Descriptions of each test case (in the same order as test_case_names)
+      key: test_case_descriptions
+      type: List[str]
+    prompt: Identify and list the test cases required for workflow testing. Focus
+      on defining the test cases.
+  execute_test_cases:
+    agent: false
+    description: Execute the defined test cases
+    name: execute_test_cases
+    nodes_depended_on:
+    - define_test_cases
+    nodes_dependent_on: []
+    output_structure:
+    - description: Results of each test case (in the same order as test_case_names)
+      key: test_case_results
+      type: List[bool]
+    prompt: Run each test case defined in the previous step. Focus on executing the
+      test cases and capturing results.
+  init_test_environment:
+    agent: false
+    description: Initialize the test environment
+    name: init_test_environment
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Status of the test environment initialization (e.g., 'success',
+        'failure')
+      key: environment_status
+      type: str
+    prompt: Set up the test environment for workflow testing. Focus on creating any
+      necessary resources or configurations.
