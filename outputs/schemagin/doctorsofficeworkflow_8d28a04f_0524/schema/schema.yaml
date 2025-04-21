@@ -1,0 +1,83 @@
+tables:
+  doctors:
+    name: doctors
+    columns:
+      id:
+        name: id
+        data_type: int
+        nullable: false
+        description: Unique doctor identifier
+      name:
+        name: name
+        data_type: string
+        nullable: false
+        description: Doctor's full name
+      specialty:
+        name: specialty
+        data_type: string
+        nullable: false
+        description: Doctor's medical specialty
+    primary_key:
+    - id
+    description: Table storing information about doctors in the office
+  patients:
+    name: patients
+    columns:
+      id:
+        name: id
+        data_type: int
+        nullable: false
+        description: Unique patient identifier
+      name:
+        name: name
+        data_type: string
+        nullable: false
+        description: Patient's full name
+      date_of_birth:
+        name: date_of_birth
+        data_type: date
+        nullable: false
+        description: Patient's date of birth
+    primary_key:
+    - id
+    description: Table storing information about patients in the office
+  appointments:
+    name: appointments
+    columns:
+      id:
+        name: id
+        data_type: int
+        nullable: false
+        description: Unique appointment identifier
+      doctor_id:
+        name: doctor_id
+        data_type: int
+        nullable: false
+        description: Foreign key referencing the doctors table
+      patient_id:
+        name: patient_id
+        data_type: int
+        nullable: false
+        description: Foreign key referencing the patients table
+      appointment_date:
+        name: appointment_date
+        data_type: date
+        nullable: false
+        description: Date of the appointment
+      appointment_time:
+        name: appointment_time
+        data_type: string
+        nullable: false
+        description: Time of the appointment
+    primary_key:
+    - id
+    foreign_keys:
+    - column: doctor_id
+      target_table: doctors
+      target_column: id
+      constraint_name: fk_appointments_doctors
+    - column: patient_id
+      target_table: patients
+      target_column: id
+      constraint_name: fk_appointments_patients
+    description: Table storing information about appointments in the office
