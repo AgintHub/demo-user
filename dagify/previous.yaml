@@ -1,94 +1,12 @@
-dag_type: stub
+dag_type: spec
 description: Systematically generate, organize, and validate a Product Requirements
   Document (PRD) given user workflow requirements.
 name: PRDDocumentDraftingWorkflow
 nodes:
   compile_final_prd_document:
     agent: false
-    code_node_type: stub
     description: Combine all previously drafted sections into a single coherent PRD
       document, maintaining logical order and structure.
-    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
-      \n\nclass DraftPrdSectionObjectivesOutput(BaseModel):\n    \"\"\"Pydantic model\
-      \ for draft_prd_section_objectives node outputs.\"\"\"\n    objectives_section_heading:\
-      \ str = Field(..., description=\"The section heading for objectives, e.g. 'Objectives'.\"\
-      )\n    objective_statements: List[str] = Field(..., description=\"A list of\
-      \ individual, formal objective statements for inclusion in the PRD Objectives\
-      \ section.\")\n\n\nclass DraftPrdSectionUserRolesOutput(BaseModel):\n    \"\"\
-      \"Pydantic model for draft_prd_section_user_roles node outputs.\"\"\"\n    role_names:\
-      \ List[str] = Field(..., description=\"List of user role or persona names included\
-      \ in the PRD section\")\n    role_descriptions: List[str] = Field(..., description=\"\
-      List of brief descriptions for each user role or persona, matching the order\
-      \ of role_names\")\n    section_text: str = Field(..., description=\"The full\
-      \ 'User Roles & Personas' section as formatted text for the PRD\")\n\n\nclass\
-      \ DraftPrdSectionFeaturesOutput(BaseModel):\n    \"\"\"Pydantic model for draft_prd_section_features\
-      \ node outputs.\"\"\"\n    features_section_title: str = Field(..., description=\"\
-      The heading/title for the PRD Features section.\")\n    feature_list: List[str]\
-      \ = Field(..., description=\"A list of core product features, each stated concisely\
-      \ suitable for inclusion in the PRD.\")\n\n\nclass DraftPrdSectionConstraintsOutput(BaseModel):\n\
-      \    \"\"\"Pydantic model for draft_prd_section_constraints node outputs.\"\"\
-      \"\n    constraints_section_heading: str = Field(..., description=\"Section\
-      \ heading for the Constraints section in the PRD.\")\n    constraints_list:\
-      \ List[str] = Field(..., description=\"A list of formal, clearly stated constraints\
-      \ relevant to the product requirements.\")\n\n\nclass DraftPrdSectionSuccessMetricsOutput(BaseModel):\n\
-      \    \"\"\"Pydantic model for draft_prd_section_success_metrics node outputs.\"\
-      \"\"\n    success_metrics_section_title: str = Field(..., description=\"The\
-      \ section heading for the success metrics in the PRD.\")\n    success_metrics_list:\
-      \ List[str] = Field(..., description=\"A list of strings, each describing a\
-      \ quantifiable or objectively verifiable success metric for the product.\")\n\
-      \n\nclass DraftPrdSectionStakeholdersOutput(BaseModel):\n    \"\"\"Pydantic\
-      \ model for draft_prd_section_stakeholders node outputs.\"\"\"\n    stakeholder_names:\
-      \ List[str] = Field(..., description=\"List of the stakeholder names or titles\
-      \ included in the PRD Stakeholders section.\")\n    stakeholder_roles: List[str]\
-      \ = Field(..., description=\"List of short descriptions for each stakeholder's\
-      \ role in the project. Aligned by index with stakeholder_names.\")\n    stakeholder_significance:\
-      \ List[str] = Field(..., description=\"List of brief statements of each stakeholder's\
-      \ significance or interest in the project outcome. Aligned by index with stakeholder_names.\"\
-      )\n    prd_stakeholders_section_text: str = Field(..., description=\"The fully\
-      \ formatted 'Stakeholders' section text, ready to be inserted directly into\
-      \ the PRD document.\")\n\n\nclass DraftPrdSectionUserJourneysOutput(BaseModel):\n\
-      \    \"\"\"Pydantic model for draft_prd_section_user_journeys node outputs.\"\
-      \"\"\n    user_journey_section_heading: str = Field(..., description=\"Heading\
-      \ for the User Journeys section in the PRD.\")\n    user_roles: List[str] =\
-      \ Field(..., description=\"List of user roles for which user journeys are documented.\"\
-      )\n    user_journey_titles: List[str] = Field(..., description=\"List of titles/names\
-      \ for each user journey, corresponding one-to-one with user_roles.\")\n    user_journey_narratives:\
-      \ List[str] = Field(..., description=\"List of narrative descriptions for each\
-      \ user journey, corresponding one-to-one with user_roles.\")\n    user_journey_step_lists:\
-      \ List[str] = Field(..., description=\"For each user journey, a string formatted\
-      \ step-by-step sequence describing the actions in that journey (bulleted or\
-      \ numbered).\")\n\n\nclass CompileFinalPrdDocumentOutput(BaseModel):\n    \"\
-      \"\"Pydantic model for compile_final_prd_document node outputs.\"\"\"\n    prd_title:\
-      \ str = Field(..., description=\"Title of the Product Requirements Document\"\
-      )\n    objectives_section: str = Field(..., description=\"The full formatted\
-      \ Objectives section text\")\n    user_roles_and_personas_section: str = Field(...,\
-      \ description=\"The full formatted User Roles & Personas section text\")\n \
-      \   features_section: str = Field(..., description=\"The full formatted Features\
-      \ section text\")\n    constraints_section: str = Field(..., description=\"\
-      The full formatted Constraints section text\")\n    success_metrics_section:\
-      \ str = Field(..., description=\"The full formatted Success Metrics section\
-      \ text\")\n    stakeholders_section: str = Field(..., description=\"The full\
-      \ formatted Stakeholders section text\")\n    user_journeys_section: str = Field(...,\
-      \ description=\"The full formatted User Journeys section text\")\n    full_prd_document:\
-      \ str = Field(..., description=\"The complete combined PRD document as a single\
-      \ string, with all sections in proper order and headings\")\n\n\ndef compile_final_prd_document_fx(draft_prd_section_objectives_input:\
-      \ DraftPrdSectionObjectivesOutput, draft_prd_section_user_roles_input: DraftPrdSectionUserRolesOutput,\
-      \ draft_prd_section_features_input: DraftPrdSectionFeaturesOutput, draft_prd_section_constraints_input:\
-      \ DraftPrdSectionConstraintsOutput, draft_prd_section_success_metrics_input:\
-      \ DraftPrdSectionSuccessMetricsOutput, draft_prd_section_stakeholders_input:\
-      \ DraftPrdSectionStakeholdersOutput, draft_prd_section_user_journeys_input:\
-      \ DraftPrdSectionUserJourneysOutput, **kwargs) -> CompileFinalPrdDocumentOutput:\n\
-      \    \"\"\"Combine all previously drafted sections into a single coherent PRD\
-      \ document, maintaining logical order and structure.\n\n    Args:\n        draft_prd_section_objectives_input:\
-      \ Input from the 'draft_prd_section_objectives' node.\n        draft_prd_section_user_roles_input:\
-      \ Input from the 'draft_prd_section_user_roles' node.\n        draft_prd_section_features_input:\
-      \ Input from the 'draft_prd_section_features' node.\n        draft_prd_section_constraints_input:\
-      \ Input from the 'draft_prd_section_constraints' node.\n        draft_prd_section_success_metrics_input:\
-      \ Input from the 'draft_prd_section_success_metrics' node.\n        draft_prd_section_stakeholders_input:\
-      \ Input from the 'draft_prd_section_stakeholders' node.\n        draft_prd_section_user_journeys_input:\
-      \ Input from the 'draft_prd_section_user_journeys' node.\n        **kwargs:\
-      \ Additional keyword arguments.\n\n    Returns:\n        CompileFinalPrdDocumentOutput:\
-      \ Object containing outputs for this node.\n    \"\"\"\n    pass"
     name: compile_final_prd_document
     nodes_depended_on:
     - draft_prd_section_objectives
@@ -195,36 +113,14 @@ nodes:
           evolution as user/product needs change.
         text: Allow for easy extensibility to accommodate future PRD section types
           or custom section insertions, without breaking the core assembly workflow.
-    prompt: "Assemble the individually drafted PRD sections\u2014Objectives, User\
-      \ Roles & Personas, Features, Constraints, Success Metrics, Stakeholders, and\
-      \ User Journeys\u2014into a complete, well-structured Product Requirements Document.\
-      \ Present each section with clear headings and preserve the coherence of the\
-      \ original content."
-    shims: []
+    prompt: Assemble the individually drafted PRD sections—Objectives, User Roles
+      & Personas, Features, Constraints, Success Metrics, Stakeholders, and User Journeys—into
+      a complete, well-structured Product Requirements Document. Present each section
+      with clear headings and preserve the coherence of the original content.
   define_success_metrics:
     agent: false
-    code_node_type: stub
     description: Articulate measurable criteria for determining product success based
       on extracted objectives.
-    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
-      \n\nclass ExtractObjectivesFromWorkflowRequirementsOutput(BaseModel):\n    \"\
-      \"\"Pydantic model for extract_objectives_from_workflow_requirements node outputs.\"\
-      \"\"\n    objectives: List[str] = Field(..., description=\"A list of explicit\
-      \ and implicit objectives that the PRD must address, each as a clearly stated\
-      \ goal.\")\n\n\nclass DefineSuccessMetricsOutput(BaseModel):\n    \"\"\"Pydantic\
-      \ model for define_success_metrics node outputs.\"\"\"\n    metric_names: List[str]\
-      \ = Field(..., description=\"List of names or brief descriptions for each defined\
-      \ success metric.\")\n    metric_objective_mappings: List[str] = Field(...,\
-      \ description=\"For each metric, a string describing which objective(s) it maps\
-      \ to.\")\n    metric_quantifiability: List[bool] = Field(..., description=\"\
-      List indicating whether each success metric is quantifiable or objectively verifiable.\"\
-      )\n\n\ndef define_success_metrics_fx(extract_objectives_from_workflow_requirements_input:\
-      \ ExtractObjectivesFromWorkflowRequirementsOutput, **kwargs) -> DefineSuccessMetricsOutput:\n\
-      \    \"\"\"Articulate measurable criteria for determining product success based\
-      \ on extracted objectives.\n\n    Args:\n        extract_objectives_from_workflow_requirements_input:\
-      \ Input from the 'extract_objectives_from_workflow_requirements' node.\n   \
-      \     **kwargs: Additional keyword arguments.\n\n    Returns:\n        DefineSuccessMetricsOutput:\
-      \ Object containing outputs for this node.\n    \"\"\"\n    pass"
     name: define_success_metrics
     nodes_depended_on:
     - extract_objectives_from_workflow_requirements
@@ -294,42 +190,10 @@ nodes:
     prompt: Given the set of objectives, define measurable success metrics for this
       product. Each metric should directly map to one or more objectives and be quantifiable
       or objectively verifiable.
-    shims: []
   define_user_journeys_for_each_role:
     agent: false
-    code_node_type: stub
     description: For each identified user role, provide a concise narrative of the
       main user journey(s) within the workflow.
-    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
-      \n\nclass IdentifyPrimaryUserRolesOutput(BaseModel):\n    \"\"\"Pydantic model\
-      \ for identify_primary_user_roles node outputs.\"\"\"\n    user_role_names:\
-      \ List[str] = Field(..., description=\"List of primary user role or persona\
-      \ names directly involved with the product.\")\n    user_role_descriptions:\
-      \ List[str] = Field(..., description=\"List of concise one-sentence descriptions\
-      \ for each user role, matched by index to user_role_names.\")\n\n\nclass ExtractCoreProductFeaturesOutput(BaseModel):\n\
-      \    \"\"\"Pydantic model for extract_core_product_features node outputs.\"\"\
-      \"\n    core_product_features: List[str] = Field(..., description=\"A list of\
-      \ singular, succinct descriptions of each core product feature required to achieve\
-      \ the stated objectives.\")\n\n\nclass DefineUserJourneysForEachRoleOutput(BaseModel):\n\
-      \    \"\"\"Pydantic model for define_user_journeys_for_each_role node outputs.\"\
-      \"\"\n    user_role_names: List[str] = Field(..., description=\"List of user\
-      \ role or persona names for whom journeys are defined.\")\n    user_role_descriptions:\
-      \ List[str] = Field(..., description=\"List of brief descriptions for each user\
-      \ role, aligned by index with user_role_names.\")\n    user_journey_titles:\
-      \ List[str] = Field(..., description=\"List of main user journey titles or names\
-      \ for each user role, matching the order of user_role_names.\")\n    user_journey_steps:\
-      \ List[str] = Field(..., description=\"List of step-by-step narratives for each\
-      \ user journey, one item per user role, matching the order of user_role_names.\
-      \ Each step-by-step narrative is a single string with steps sequenced, separated\
-      \ by a delimiter or in formatted text.\")\n\n\ndef define_user_journeys_for_each_role_fx(identify_primary_user_roles_input:\
-      \ IdentifyPrimaryUserRolesOutput, extract_core_product_features_input: ExtractCoreProductFeaturesOutput,\
-      \ **kwargs) -> DefineUserJourneysForEachRoleOutput:\n    \"\"\"For each identified\
-      \ user role, provide a concise narrative of the main user journey(s) within\
-      \ the workflow.\n\n    Args:\n        identify_primary_user_roles_input: Input\
-      \ from the 'identify_primary_user_roles' node.\n        extract_core_product_features_input:\
-      \ Input from the 'extract_core_product_features' node.\n        **kwargs: Additional\
-      \ keyword arguments.\n\n    Returns:\n        DefineUserJourneysForEachRoleOutput:\
-      \ Object containing outputs for this node.\n    \"\"\"\n    pass"
     name: define_user_journeys_for_each_role
     nodes_depended_on:
     - identify_primary_user_roles
@@ -355,20 +219,19 @@ nodes:
       type: List[str]
     prd:
       bullets:
-      - complexity: "LOW \u2013 Straightforward extraction and alignment."
-        impact: "HIGH \u2013 Accuracy at this stage underpins all further journey\
-          \ modeling and increases the relevance of downstream documentation."
+      - complexity: LOW – Straightforward extraction and alignment.
+        impact: HIGH – Accuracy at this stage underpins all further journey modeling
+          and increases the relevance of downstream documentation.
         method: Query the identify_primary_user_roles output, iterate over user_role_names
           and user_role_descriptions, and structure them for iteration.
         reason: Ensures that user journeys are precisely tailored to each distinct
           user persona involved with the product, maintaining role clarity.
         text: Retrieve and align the list of user roles and their descriptions from
           the identify_primary_user_roles node.
-      - complexity: "MEDIUM \u2013 Requires logical mapping between features and user\
-          \ role objectives, possibly involving rule-based selection or expert-driven\
-          \ heuristics."
-        impact: "HIGH \u2013 Guarantees that each journey scenario is actionable and\
-          \ demonstrates how users achieve objectives through available system functionality."
+      - complexity: MEDIUM – Requires logical mapping between features and user role
+          objectives, possibly involving rule-based selection or expert-driven heuristics.
+        impact: HIGH – Guarantees that each journey scenario is actionable and demonstrates
+          how users achieve objectives through available system functionality.
         method: For each user role, filter or select features from core_product_features
           that the role would utilize. This can be rule-based, persona-profiled, or
           curated via expert input.
@@ -376,10 +239,10 @@ nodes:
           both realistic and anchored to actual capabilities.
         text: Extract the core product features from the extract_core_product_features
           node and map relevant features to each user role.
-      - complexity: "MEDIUM \u2013 Demands careful sequencing based on feature dependencies\
-          \ and role workflows."
-        impact: "HIGH \u2013 Represents core value of the workflow and forms a foundation\
-          \ for further UX and technical design."
+      - complexity: MEDIUM – Demands careful sequencing based on feature dependencies
+          and role workflows.
+        impact: HIGH – Represents core value of the workflow and forms a foundation
+          for further UX and technical design.
         method: For each role-feature mapping, compose a narrative of actions as a
           numbered or bulleted list. Use templates aligned to standard user journey
           frameworks (e.g., 'Start', 'Access Feature X', 'Complete Task', 'Receive
@@ -389,9 +252,9 @@ nodes:
         text: For each user role, design a high-level user journey by sequencing essential
           steps that a typical user would follow to accomplish a main task using the
           mapped features.
-      - complexity: "LOW \u2013 Straightforward title assignment process."
-        impact: "MEDIUM \u2013 Aids stakeholders in quickly tracing responsibilities\
-          \ and workflow coverage."
+      - complexity: LOW – Straightforward title assignment process.
+        impact: MEDIUM – Aids stakeholders in quickly tracing responsibilities and
+          workflow coverage.
         method: Generate journey titles programmatically with templates (e.g., 'Onboarding
           Process for [Role]', 'Feature Utilization by [Role]') or through brief human
           curation.
@@ -399,8 +262,8 @@ nodes:
           especially in lengthy PRDs.
         text: Assign a concise, descriptive title to each user journey representing
           the core goal or scenario for the user role.
-      - complexity: "LOW \u2013 Standard output formatting."
-        impact: "HIGH \u2013 Supports error-free document synthesis and improves maintainability."
+      - complexity: LOW – Standard output formatting.
+        impact: HIGH – Supports error-free document synthesis and improves maintainability.
         method: Collate outputs into indexed lists/arrays ensuring alignment across
           user_role_names, descriptions, journey titles, and steps. Apply validation
           checks (index consistency, presence of required fields).
@@ -409,17 +272,16 @@ nodes:
         text: Output all user role names, descriptions, user journey titles, and formatted
           step-by-step journey texts in a consistent, indexed structure for downstream
           use.
-      - complexity: "MEDIUM \u2013 Requires flexible input parsing and grouping logic."
-        impact: "MEDIUM \u2013 Increases coverage and robustness for diverse workflow\
-          \ requirements."
+      - complexity: MEDIUM – Requires flexible input parsing and grouping logic.
+        impact: MEDIUM – Increases coverage and robustness for diverse workflow requirements.
         method: Allow for input schemas where one role may map to multiple main journeys;
           implement grouping and iterative logic to aggregate outputs accordingly.
         reason: Supports extensibility for advanced PRDs that capture multiple entry
           points or workflows per persona.
         text: Implement optional input parsing and templating for workflows with multiple
           journeys per role, supporting complex persona scenarios.
-      - complexity: "LOW \u2013 Inline text insertion or template matching."
-        impact: "MEDIUM \u2013 Increases auditability and completeness of documentation."
+      - complexity: LOW – Inline text insertion or template matching.
+        impact: MEDIUM – Increases auditability and completeness of documentation.
         method: Inject feature names or references directly in each journey step description,
           using string formatting or templating techniques.
         reason: Provides traceability from journeys back to features, which is essential
@@ -430,29 +292,10 @@ nodes:
       (user journey) that illustrates how the user interacts with the product using
       the core features. Each journey should be specific to the role and workflow
       context.
-    shims: []
   draft_prd_section_constraints:
     agent: false
-    code_node_type: stub
     description: Format the extracted constraints into a 'Constraints' section for
       the PRD.
-    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
-      \n\nclass ExtractCriticalConstraintsOutput(BaseModel):\n    \"\"\"Pydantic model\
-      \ for extract_critical_constraints node outputs.\"\"\"\n    constraints: List[str]\
-      \ = Field(..., description=\"Individual statements of technical, business, regulatory,\
-      \ or design constraints relevant to the product requirements.\")\n\n\nclass\
-      \ DraftPrdSectionConstraintsOutput(BaseModel):\n    \"\"\"Pydantic model for\
-      \ draft_prd_section_constraints node outputs.\"\"\"\n    constraints_section_heading:\
-      \ str = Field(..., description=\"Section heading for the Constraints section\
-      \ in the PRD.\")\n    constraints_list: List[str] = Field(..., description=\"\
-      A list of formal, clearly stated constraints relevant to the product requirements.\"\
-      )\n\n\ndef draft_prd_section_constraints_fx(extract_critical_constraints_input:\
-      \ ExtractCriticalConstraintsOutput, **kwargs) -> DraftPrdSectionConstraintsOutput:\n\
-      \    \"\"\"Format the extracted constraints into a 'Constraints' section for\
-      \ the PRD.\n\n    Args:\n        extract_critical_constraints_input: Input from\
-      \ the 'extract_critical_constraints' node.\n        **kwargs: Additional keyword\
-      \ arguments.\n\n    Returns:\n        DraftPrdSectionConstraintsOutput: Object\
-      \ containing outputs for this node.\n    \"\"\"\n    pass"
     name: draft_prd_section_constraints
     nodes_depended_on:
     - extract_critical_constraints
@@ -520,27 +363,9 @@ nodes:
           assembly.
     prompt: Present the list of constraints in a formal 'Constraints' section of the
       PRD. Use clear, specific language and list each constraint separately.
-    shims: []
   draft_prd_section_features:
     agent: false
-    code_node_type: stub
     description: Compile the core features into the PRD 'Features' section.
-    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
-      \n\nclass ExtractCoreProductFeaturesOutput(BaseModel):\n    \"\"\"Pydantic model\
-      \ for extract_core_product_features node outputs.\"\"\"\n    core_product_features:\
-      \ List[str] = Field(..., description=\"A list of singular, succinct descriptions\
-      \ of each core product feature required to achieve the stated objectives.\"\
-      )\n\n\nclass DraftPrdSectionFeaturesOutput(BaseModel):\n    \"\"\"Pydantic model\
-      \ for draft_prd_section_features node outputs.\"\"\"\n    features_section_title:\
-      \ str = Field(..., description=\"The heading/title for the PRD Features section.\"\
-      )\n    feature_list: List[str] = Field(..., description=\"A list of core product\
-      \ features, each stated concisely suitable for inclusion in the PRD.\")\n\n\n\
-      def draft_prd_section_features_fx(extract_core_product_features_input: ExtractCoreProductFeaturesOutput,\
-      \ **kwargs) -> DraftPrdSectionFeaturesOutput:\n    \"\"\"Compile the core features\
-      \ into the PRD 'Features' section.\n\n    Args:\n        extract_core_product_features_input:\
-      \ Input from the 'extract_core_product_features' node.\n        **kwargs: Additional\
-      \ keyword arguments.\n\n    Returns:\n        DraftPrdSectionFeaturesOutput:\
-      \ Object containing outputs for this node.\n    \"\"\"\n    pass"
     name: draft_prd_section_features
     nodes_depended_on:
     - extract_core_product_features
@@ -555,9 +380,9 @@ nodes:
       type: List[str]
     prd:
       bullets:
-      - complexity: "LOW \u2013 Feature list is provided in a standardized format."
-        impact: "HIGH \u2013 This validation step guarantees the PRD's accuracy, as\
-          \ downstream sections depend on its completeness."
+      - complexity: LOW – Feature list is provided in a standardized format.
+        impact: HIGH – This validation step guarantees the PRD's accuracy, as downstream
+          sections depend on its completeness.
         method: Implement an input validation routine that checks the existence and
           non-emptiness of the incoming feature list; raise an explicit error or warning
           if validation fails.
@@ -565,71 +390,51 @@ nodes:
           requirement-driven features, reducing subjectivity or omissions.
         text: Receive and validate the list of core product features from the 'extract_core_product_features'
           node.
-      - complexity: "MEDIUM \u2013 Requires consistent language and awareness of PRD\
-          \ standards."
-        impact: "MEDIUM \u2013 Improves the consumption and implementation alignment\
-          \ for the engineering and product teams."
-        method: "Apply a templating or formatting function to transform each raw feature\
-          \ into a complete, standardized statement (e.g., capitalize, avoid jargon,\
-          \ phrase as 'The system shall\u2026')."
+      - complexity: MEDIUM – Requires consistent language and awareness of PRD standards.
+        impact: MEDIUM – Improves the consumption and implementation alignment for
+          the engineering and product teams.
+        method: Apply a templating or formatting function to transform each raw feature
+          into a complete, standardized statement (e.g., capitalize, avoid jargon,
+          phrase as 'The system shall…').
         reason: Ensures that every feature description is unambiguous, actionable,
           and easily understood by technical and business stakeholders.
         text: Format each core feature into a PRD-appropriate statement, ensuring
           clarity and consistency.
-      - complexity: "LOW \u2013 List formatting is straightforward once features are\
-          \ already well-phrased."
-        impact: "MEDIUM \u2013 Critical for the usability of the PRD during development\
-          \ and review cycles."
+      - complexity: LOW – List formatting is straightforward once features are already
+          well-phrased.
+        impact: MEDIUM – Critical for the usability of the PRD during development
+          and review cycles.
         method: Leverage markdown, HTML, or a structured text format; implement logic
           for bullet/numbered list selection based on configuration or length.
         reason: Enhances readability and reference-ability, making it easy for teams
           to map features to requirements and implementation tasks.
         text: Organize all formatted features into a clearly structured section using
           a bullet point or numbered list format.
-      - complexity: "LOW \u2013 Single string prepended to the section."
-        impact: "LOW \u2013 Mainly improves document usability, but critical for professionalism."
+      - complexity: LOW – Single string prepended to the section.
+        impact: LOW – Mainly improves document usability, but critical for professionalism.
         method: Set the section heading as a static string or allow override via configuration;
           prepend it programmatically to the formatted feature list.
         reason: Adheres to industry-standard PRD structure, improving document navigation
           and aligning with organizational templates.
         text: Generate a distinctive, formal section heading (e.g., 'Features') and
           include it at the beginning of the section.
-      - complexity: "MEDIUM \u2013 Requires maintaining cross-references in memory\
-          \ or as metadata."
-        impact: "MEDIUM \u2013 Supports change management and future audits of requirements\
-          \ coverage."
+      - complexity: MEDIUM – Requires maintaining cross-references in memory or as
+          metadata.
+        impact: MEDIUM – Supports change management and future audits of requirements
+          coverage.
         method: Carry forward (internally or as comments/metadata) a mapping of features
           to objectives from the parent node, usable in future PRD enrichment steps.
-        reason: "Provides a mechanism for traceability, enabling stakeholders to map\
-          \ features to business goals, even if the initial output doesn\u2019t display\
-          \ this directly."
+        reason: Provides a mechanism for traceability, enabling stakeholders to map
+          features to business goals, even if the initial output doesn’t display this
+          directly.
         text: Maintain the mapping between each feature and its originating objective
           (for potential traceability, although not required in output fields).
     prompt: Transform the core features into a detailed 'Features' section for a PRD.
       Present each feature concisely, using bullet points or a numbered list.
-    shims: []
   draft_prd_section_objectives:
     agent: false
-    code_node_type: stub
     description: Format the extracted objectives as the 'Objectives' section for the
       PRD.
-    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
-      \n\nclass ExtractObjectivesFromWorkflowRequirementsOutput(BaseModel):\n    \"\
-      \"\"Pydantic model for extract_objectives_from_workflow_requirements node outputs.\"\
-      \"\"\n    objectives: List[str] = Field(..., description=\"A list of explicit\
-      \ and implicit objectives that the PRD must address, each as a clearly stated\
-      \ goal.\")\n\n\nclass DraftPrdSectionObjectivesOutput(BaseModel):\n    \"\"\"\
-      Pydantic model for draft_prd_section_objectives node outputs.\"\"\"\n    objectives_section_heading:\
-      \ str = Field(..., description=\"The section heading for objectives, e.g. 'Objectives'.\"\
-      )\n    objective_statements: List[str] = Field(..., description=\"A list of\
-      \ individual, formal objective statements for inclusion in the PRD Objectives\
-      \ section.\")\n\n\ndef draft_prd_section_objectives_fx(extract_objectives_from_workflow_requirements_input:\
-      \ ExtractObjectivesFromWorkflowRequirementsOutput, **kwargs) -> DraftPrdSectionObjectivesOutput:\n\
-      \    \"\"\"Format the extracted objectives as the 'Objectives' section for the\
-      \ PRD.\n\n    Args:\n        extract_objectives_from_workflow_requirements_input:\
-      \ Input from the 'extract_objectives_from_workflow_requirements' node.\n   \
-      \     **kwargs: Additional keyword arguments.\n\n    Returns:\n        DraftPrdSectionObjectivesOutput:\
-      \ Object containing outputs for this node.\n    \"\"\"\n    pass"
     name: draft_prd_section_objectives
     nodes_depended_on:
     - extract_objectives_from_workflow_requirements
@@ -704,35 +509,9 @@ nodes:
     prompt: Using the extracted objectives, rephrase these as a cohesive 'Objectives'
       section for a PRD. Use formal, declarative language appropriate for a technical
       document.
-    shims: []
   draft_prd_section_stakeholders:
     agent: false
-    code_node_type: stub
     description: Format the stakeholder summaries into a PRD 'Stakeholders' section.
-    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
-      \n\nclass SummarizeKeyStakeholdersOutput(BaseModel):\n    \"\"\"Pydantic model\
-      \ for summarize_key_stakeholders node outputs.\"\"\"\n    stakeholder_names:\
-      \ List[str] = Field(..., description=\"List of key stakeholder names.\")\n \
-      \   stakeholder_roles: List[str] = Field(..., description=\"List of brief descriptions\
-      \ of each stakeholder's role.\")\n    stakeholder_interests: List[str] = Field(...,\
-      \ description=\"List of brief descriptions of each stakeholder's interest in\
-      \ the project outcome.\")\n\n\nclass DraftPrdSectionStakeholdersOutput(BaseModel):\n\
-      \    \"\"\"Pydantic model for draft_prd_section_stakeholders node outputs.\"\
-      \"\"\n    stakeholder_names: List[str] = Field(..., description=\"List of the\
-      \ stakeholder names or titles included in the PRD Stakeholders section.\")\n\
-      \    stakeholder_roles: List[str] = Field(..., description=\"List of short descriptions\
-      \ for each stakeholder's role in the project. Aligned by index with stakeholder_names.\"\
-      )\n    stakeholder_significance: List[str] = Field(..., description=\"List of\
-      \ brief statements of each stakeholder's significance or interest in the project\
-      \ outcome. Aligned by index with stakeholder_names.\")\n    prd_stakeholders_section_text:\
-      \ str = Field(..., description=\"The fully formatted 'Stakeholders' section\
-      \ text, ready to be inserted directly into the PRD document.\")\n\n\ndef draft_prd_section_stakeholders_fx(summarize_key_stakeholders_input:\
-      \ SummarizeKeyStakeholdersOutput, **kwargs) -> DraftPrdSectionStakeholdersOutput:\n\
-      \    \"\"\"Format the stakeholder summaries into a PRD 'Stakeholders' section.\n\
-      \n    Args:\n        summarize_key_stakeholders_input: Input from the 'summarize_key_stakeholders'\
-      \ node.\n        **kwargs: Additional keyword arguments.\n\n    Returns:\n \
-      \       DraftPrdSectionStakeholdersOutput: Object containing outputs for this\
-      \ node.\n    \"\"\"\n    pass"
     name: draft_prd_section_stakeholders
     nodes_depended_on:
     - summarize_key_stakeholders
@@ -806,32 +585,10 @@ nodes:
           significance) are of equal length and non-empty, and flag inconsistencies.
     prompt: Use the summarized stakeholders to create a 'Stakeholders' section for
       the PRD, briefly describing each stakeholder's role and significance.
-    shims: []
   draft_prd_section_success_metrics:
     agent: false
-    code_node_type: stub
     description: Draft the 'Success Metrics' section for the PRD using the defined
       metrics.
-    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
-      \n\nclass DefineSuccessMetricsOutput(BaseModel):\n    \"\"\"Pydantic model for\
-      \ define_success_metrics node outputs.\"\"\"\n    metric_names: List[str] =\
-      \ Field(..., description=\"List of names or brief descriptions for each defined\
-      \ success metric.\")\n    metric_objective_mappings: List[str] = Field(...,\
-      \ description=\"For each metric, a string describing which objective(s) it maps\
-      \ to.\")\n    metric_quantifiability: List[bool] = Field(..., description=\"\
-      List indicating whether each success metric is quantifiable or objectively verifiable.\"\
-      )\n\n\nclass DraftPrdSectionSuccessMetricsOutput(BaseModel):\n    \"\"\"Pydantic\
-      \ model for draft_prd_section_success_metrics node outputs.\"\"\"\n    success_metrics_section_title:\
-      \ str = Field(..., description=\"The section heading for the success metrics\
-      \ in the PRD.\")\n    success_metrics_list: List[str] = Field(..., description=\"\
-      A list of strings, each describing a quantifiable or objectively verifiable\
-      \ success metric for the product.\")\n\n\ndef draft_prd_section_success_metrics_fx(define_success_metrics_input:\
-      \ DefineSuccessMetricsOutput, **kwargs) -> DraftPrdSectionSuccessMetricsOutput:\n\
-      \    \"\"\"Draft the 'Success Metrics' section for the PRD using the defined\
-      \ metrics.\n\n    Args:\n        define_success_metrics_input: Input from the\
-      \ 'define_success_metrics' node.\n        **kwargs: Additional keyword arguments.\n\
-      \n    Returns:\n        DraftPrdSectionSuccessMetricsOutput: Object containing\
-      \ outputs for this node.\n    \"\"\"\n    pass"
     name: draft_prd_section_success_metrics
     nodes_depended_on:
     - define_success_metrics
@@ -846,9 +603,9 @@ nodes:
       type: List[str]
     prd:
       bullets:
-      - complexity: "LOW \u2013 Simple data extraction and field mapping."
-        impact: "HIGH \u2013 Accurate extraction preserves traceability and guarantees\
-          \ the PRD metrics are measurable and relevant."
+      - complexity: LOW – Simple data extraction and field mapping.
+        impact: HIGH – Accurate extraction preserves traceability and guarantees the
+          PRD metrics are measurable and relevant.
         method: Parse the 'define_success_metrics' output fields (metric_names, metric_objective_mappings,
           and metric_quantifiability) and store them for formatting.
         reason: This ensures direct alignment between the success metrics defined
@@ -856,17 +613,16 @@ nodes:
           loss or misinterpretation of requirement intent.
         text: Extract metric names, objective mappings, and quantifiability indicators
           from the output of the 'define_success_metrics' node.
-      - complexity: "LOW \u2013 Hardcoded string assignment."
-        impact: "LOW \u2013 Primarily affects presentation and readability."
+      - complexity: LOW – Hardcoded string assignment.
+        impact: LOW – Primarily affects presentation and readability.
         method: Set a static string ('Success Metrics' or similar) for the section_title
           output field.
         reason: Provides consistency for PRD consumers and enables reliable automated
           assembly into standardized documents.
         text: Format the section heading as a standardized string, e.g., 'Success
           Metrics'.
-      - complexity: "MEDIUM \u2013 Requires multi-field synthesis and careful templating."
-        impact: "HIGH \u2013 Directly shapes how stakeholders and QA teams interpret\
-          \ success."
+      - complexity: MEDIUM – Requires multi-field synthesis and careful templating.
+        impact: HIGH – Directly shapes how stakeholders and QA teams interpret success.
         method: 'Iterate over metrics; template each as, e.g., ''- [Metric Name]:
           [Description]. Objective(s): [objective mapping]. Quantifiable: [Yes/No]
           with details.'''
@@ -876,74 +632,39 @@ nodes:
           that includes: the metric name or description, the associated mapped objectives
           (in brief), and an indication of quantifiability (e.g., ''Measured by X'',
           ''Objectively verifiable'').'
-      - complexity: "MEDIUM \u2013 Requires domain awareness and careful rewording\
-          \ in templating."
-        impact: "HIGH \u2013 Ensures that success/failure can actually be assessed\
-          \ post-launch."
+      - complexity: MEDIUM – Requires domain awareness and careful rewording in templating.
+        impact: HIGH – Ensures that success/failure can actually be assessed post-launch.
         method: In the formatting logic, check for quantifiability. If true, include
           target values or measurable endpoints from the source or default template.
-        reason: "Enables future teams and reviewers to objectively determine if a\
-          \ metric has been met, fulfilling the PRD\u2019s foundational purpose."
-        text: "Provide clear, verifiable criteria in each metric\u2019s phrasing using\
-          \ action words such as 'Achieve', 'Increase', 'Reduce', along with a target\
-          \ value or objective measure where available."
-      - complexity: "LOW \u2013 List order preservation during data transformation."
-        impact: "MEDIUM \u2013 Improves usability for all readers, especially reviewers\
-          \ and product leads."
+        reason: Enables future teams and reviewers to objectively determine if a metric
+          has been met, fulfilling the PRD’s foundational purpose.
+        text: Provide clear, verifiable criteria in each metric’s phrasing using action
+          words such as 'Achieve', 'Increase', 'Reduce', along with a target value
+          or objective measure where available.
+      - complexity: LOW – List order preservation during data transformation.
+        impact: MEDIUM – Improves usability for all readers, especially reviewers
+          and product leads.
         method: Process metrics in list order without sorting; apply stable enumeration
           in output.
-        reason: "Order can be significant\u2014stakeholders often expect the most\
-          \ critical metrics to appear first, matching objective priority."
+        reason: Order can be significant—stakeholders often expect the most critical
+          metrics to appear first, matching objective priority.
         text: Maintain the order of metrics as defined in the parent node to preserve
           logical mapping to objectives.
-      - complexity: "LOW \u2013 Controlled output field naming and assignment."
-        impact: "HIGH \u2013 Directly affects the integration and reusability of PRD\
-          \ components."
+      - complexity: LOW – Controlled output field naming and assignment.
+        impact: HIGH – Directly affects the integration and reusability of PRD components.
         method: Return a dict/object with 'success_metrics_section_title' and 'success_metrics_list'
           keys, mapping to section heading and fully formatted list respectively.
         reason: Structured output enables downstream nodes (such as assembly into
           the final PRD) to easily insert and manipulate the section as needed.
-        text: "Output the section heading and the formatted list of metrics as separate\
-          \ fields matching the node\u2019s output structure."
+        text: Output the section heading and the formatted list of metrics as separate
+          fields matching the node’s output structure.
     prompt: Rewrite the measurable success metrics as a dedicated 'Success Metrics'
       section for the PRD. Structure each metric in a way that allows later verification
       of product success.
-    shims: []
   draft_prd_section_user_journeys:
     agent: false
-    code_node_type: stub
     description: Organize the user journeys as a distinct 'User Journeys' section
       in the PRD.
-    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
-      \n\nclass DefineUserJourneysForEachRoleOutput(BaseModel):\n    \"\"\"Pydantic\
-      \ model for define_user_journeys_for_each_role node outputs.\"\"\"\n    user_role_names:\
-      \ List[str] = Field(..., description=\"List of user role or persona names for\
-      \ whom journeys are defined.\")\n    user_role_descriptions: List[str] = Field(...,\
-      \ description=\"List of brief descriptions for each user role, aligned by index\
-      \ with user_role_names.\")\n    user_journey_titles: List[str] = Field(...,\
-      \ description=\"List of main user journey titles or names for each user role,\
-      \ matching the order of user_role_names.\")\n    user_journey_steps: List[str]\
-      \ = Field(..., description=\"List of step-by-step narratives for each user journey,\
-      \ one item per user role, matching the order of user_role_names. Each step-by-step\
-      \ narrative is a single string with steps sequenced, separated by a delimiter\
-      \ or in formatted text.\")\n\n\nclass DraftPrdSectionUserJourneysOutput(BaseModel):\n\
-      \    \"\"\"Pydantic model for draft_prd_section_user_journeys node outputs.\"\
-      \"\"\n    user_journey_section_heading: str = Field(..., description=\"Heading\
-      \ for the User Journeys section in the PRD.\")\n    user_roles: List[str] =\
-      \ Field(..., description=\"List of user roles for which user journeys are documented.\"\
-      )\n    user_journey_titles: List[str] = Field(..., description=\"List of titles/names\
-      \ for each user journey, corresponding one-to-one with user_roles.\")\n    user_journey_narratives:\
-      \ List[str] = Field(..., description=\"List of narrative descriptions for each\
-      \ user journey, corresponding one-to-one with user_roles.\")\n    user_journey_step_lists:\
-      \ List[str] = Field(..., description=\"For each user journey, a string formatted\
-      \ step-by-step sequence describing the actions in that journey (bulleted or\
-      \ numbered).\")\n\n\ndef draft_prd_section_user_journeys_fx(define_user_journeys_for_each_role_input:\
-      \ DefineUserJourneysForEachRoleOutput, **kwargs) -> DraftPrdSectionUserJourneysOutput:\n\
-      \    \"\"\"Organize the user journeys as a distinct 'User Journeys' section\
-      \ in the PRD.\n\n    Args:\n        define_user_journeys_for_each_role_input:\
-      \ Input from the 'define_user_journeys_for_each_role' node.\n        **kwargs:\
-      \ Additional keyword arguments.\n\n    Returns:\n        DraftPrdSectionUserJourneysOutput:\
-      \ Object containing outputs for this node.\n    \"\"\"\n    pass"
     name: draft_prd_section_user_journeys
     nodes_depended_on:
     - define_user_journeys_for_each_role
@@ -969,10 +690,10 @@ nodes:
       type: List[str]
     prd:
       bullets:
-      - complexity: "LOW \u2013 Relies on systematic collection and mapping from upstream\
-          \ output without complex processing."
-        impact: "HIGH \u2013 Misalignment would cause incorrect rendering of user\
-          \ journeys in the PRD and could misinform product teams or stakeholders."
+      - complexity: LOW – Relies on systematic collection and mapping from upstream
+          output without complex processing.
+        impact: HIGH – Misalignment would cause incorrect rendering of user journeys
+          in the PRD and could misinform product teams or stakeholders.
         method: Use list comprehensions or dictionary mapping to maintain strict index
           alignment and validate lengths of all lists before formatting.
         reason: Ensures that every field (user_roles, user_journey_titles, user_journey_narratives,
@@ -980,19 +701,18 @@ nodes:
           individual user journeys.
         text: Aggregate user journey data from the output of 'define_user_journeys_for_each_role'
           and validate alignment of roles, titles, narratives, and steps by index.
-      - complexity: "LOW \u2013 Involves setting or retrieving a constant string value."
-        impact: "MEDIUM \u2013 Enhances clarity and enforces organizational PRD standards."
+      - complexity: LOW – Involves setting or retrieving a constant string value.
+        impact: MEDIUM – Enhances clarity and enforces organizational PRD standards.
         method: Preset or retrieve the section heading string. Consider supporting
           internationalization or customization if necessary.
         reason: A uniform section heading (e.g., 'User Journeys') ensures readability
           and enables downstream automation or template processing.
         text: Standardize the section heading for user journeys to maintain consistency
           across all PRD documents.
-      - complexity: "MEDIUM \u2013 Requires building composite strings or objects\
-          \ and supporting multiple formatting options (bullets, numbers, markdown,\
-          \ etc.)."
-        impact: "HIGH \u2013 Directly affects document clarity, user empathy, and\
-          \ downstream development alignment."
+      - complexity: MEDIUM – Requires building composite strings or objects and supporting
+          multiple formatting options (bullets, numbers, markdown, etc.).
+        impact: HIGH – Directly affects document clarity, user empathy, and downstream
+          development alignment.
         method: Use string templates or formatting engine. Implement configurable
           formatting options (e.g., markdown vs plaintext bullets).
         reason: Grouping this information makes the section easy to digest and allows
@@ -1001,29 +721,28 @@ nodes:
         text: Format each user journey as a grouped unit, beginning with the user
           role and journey title, followed by the narrative and clearly formatted
           steps (bulleted or numbered).
-      - complexity: "LOW \u2013 Reuses material from parent nodes; merely formats\
-          \ narrative as an introductory paragraph."
-        impact: "MEDIUM \u2013 Improves document comprehension and empathy building\
-          \ for developers and stakeholders."
+      - complexity: LOW – Reuses material from parent nodes; merely formats narrative
+          as an introductory paragraph.
+        impact: MEDIUM – Improves document comprehension and empathy building for
+          developers and stakeholders.
         method: Extract and prepend narrative strings before step lists; validate
           presence for all roles.
         reason: Narratives offer context, making step-by-step instructions more meaningful,
           especially for readers unfamiliar with the workflow.
         text: Provide narrative descriptions for each user journey, summarizing the
           flow before listing detailed sequential steps.
-      - complexity: "MEDIUM \u2013 Formatting logic may require handling special characters,\
-          \ numbered vs. bullet formats, and potential nesting."
-        impact: "HIGH \u2013 Impacts legibility and reduces error in document interpretation."
+      - complexity: MEDIUM – Formatting logic may require handling special characters,
+          numbered vs. bullet formats, and potential nesting.
+        impact: HIGH – Impacts legibility and reduces error in document interpretation.
         method: Parse step strings; if necessary, split on delimiters and render as
           ordered/unordered lists with markdown or rich text formatting.
-        reason: "Properly formatted sequences ensure that readers can follow the workflow\
-          \ in order and don\u2019t miss critical interactions."
+        reason: Properly formatted sequences ensure that readers can follow the workflow
+          in order and don’t miss critical interactions.
         text: Implement clear and consistent formatting for user journey steps (e.g.,
           numbering or bullet points, in markdown syntax if applicable), with logical
           sequencing.
-      - complexity: "LOW \u2013 Simple checks on string/list length and presence."
-        impact: "HIGH \u2013 Safeguards correctness of the PRD and downstream team\
-          \ reliability."
+      - complexity: LOW – Simple checks on string/list length and presence.
+        impact: HIGH – Safeguards correctness of the PRD and downstream team reliability.
         method: Include assertions or validation checks at generation time; log or
           raise errors for any missing components.
         reason: Prevents incomplete or misleading documentation output; missing information
@@ -1032,32 +751,10 @@ nodes:
           and step list are present and non-empty before including in final section.'
     prompt: Format the user journeys as a 'User Journeys' section for the PRD, grouping
       each journey by user role and sequencing the steps in a clear, readable format.
-    shims: []
   draft_prd_section_user_roles:
     agent: false
-    code_node_type: stub
     description: Format the identified user roles as the 'User Roles & Personas' section
       for the PRD.
-    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
-      \n\nclass IdentifyPrimaryUserRolesOutput(BaseModel):\n    \"\"\"Pydantic model\
-      \ for identify_primary_user_roles node outputs.\"\"\"\n    user_role_names:\
-      \ List[str] = Field(..., description=\"List of primary user role or persona\
-      \ names directly involved with the product.\")\n    user_role_descriptions:\
-      \ List[str] = Field(..., description=\"List of concise one-sentence descriptions\
-      \ for each user role, matched by index to user_role_names.\")\n\n\nclass DraftPrdSectionUserRolesOutput(BaseModel):\n\
-      \    \"\"\"Pydantic model for draft_prd_section_user_roles node outputs.\"\"\
-      \"\n    role_names: List[str] = Field(..., description=\"List of user role or\
-      \ persona names included in the PRD section\")\n    role_descriptions: List[str]\
-      \ = Field(..., description=\"List of brief descriptions for each user role or\
-      \ persona, matching the order of role_names\")\n    section_text: str = Field(...,\
-      \ description=\"The full 'User Roles & Personas' section as formatted text for\
-      \ the PRD\")\n\n\ndef draft_prd_section_user_roles_fx(identify_primary_user_roles_input:\
-      \ IdentifyPrimaryUserRolesOutput, **kwargs) -> DraftPrdSectionUserRolesOutput:\n\
-      \    \"\"\"Format the identified user roles as the 'User Roles & Personas' section\
-      \ for the PRD.\n\n    Args:\n        identify_primary_user_roles_input: Input\
-      \ from the 'identify_primary_user_roles' node.\n        **kwargs: Additional\
-      \ keyword arguments.\n\n    Returns:\n        DraftPrdSectionUserRolesOutput:\
-      \ Object containing outputs for this node.\n    \"\"\"\n    pass"
     name: draft_prd_section_user_roles
     nodes_depended_on:
     - identify_primary_user_roles
@@ -1135,28 +832,10 @@ nodes:
     prompt: Format the list of primary user roles into a structured 'User Roles &
       Personas' section suitable for a PRD. Use list or table format and include the
       brief description for each role.
-    shims: []
   extract_core_product_features:
     agent: false
-    code_node_type: stub
     description: Identify and list all core product features needed to satisfy the
       workflow requirements.
-    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
-      \n\nclass ExtractObjectivesFromWorkflowRequirementsOutput(BaseModel):\n    \"\
-      \"\"Pydantic model for extract_objectives_from_workflow_requirements node outputs.\"\
-      \"\"\n    objectives: List[str] = Field(..., description=\"A list of explicit\
-      \ and implicit objectives that the PRD must address, each as a clearly stated\
-      \ goal.\")\n\n\nclass ExtractCoreProductFeaturesOutput(BaseModel):\n    \"\"\
-      \"Pydantic model for extract_core_product_features node outputs.\"\"\"\n   \
-      \ core_product_features: List[str] = Field(..., description=\"A list of singular,\
-      \ succinct descriptions of each core product feature required to achieve the\
-      \ stated objectives.\")\n\n\ndef extract_core_product_features_fx(extract_objectives_from_workflow_requirements_input:\
-      \ ExtractObjectivesFromWorkflowRequirementsOutput, **kwargs) -> ExtractCoreProductFeaturesOutput:\n\
-      \    \"\"\"Identify and list all core product features needed to satisfy the\
-      \ workflow requirements.\n\n    Args:\n        extract_objectives_from_workflow_requirements_input:\
-      \ Input from the 'extract_objectives_from_workflow_requirements' node.\n   \
-      \     **kwargs: Additional keyword arguments.\n\n    Returns:\n        ExtractCoreProductFeaturesOutput:\
-      \ Object containing outputs for this node.\n    \"\"\"\n    pass"
     name: extract_core_product_features
     nodes_depended_on:
     - extract_objectives_from_workflow_requirements
@@ -1168,9 +847,9 @@ nodes:
       type: List[str]
     prd:
       bullets:
-      - complexity: "LOW \u2013 Standard data extraction and parsing."
-        impact: "HIGH \u2013 The fidelity of parsed objectives determines the completeness\
-          \ and correctness of downstream feature listing."
+      - complexity: LOW – Standard data extraction and parsing.
+        impact: HIGH – The fidelity of parsed objectives determines the completeness
+          and correctness of downstream feature listing.
         method: Automatically ingest the objectives list from the parent node's output;
           perform normalization such as lowercasing, deduplication, and whitespace
           trimming.
@@ -1178,10 +857,9 @@ nodes:
           features directly map to what the product must achieve.
         text: Parse the list of explicit and implicit objectives extracted from user
           workflow requirements.
-      - complexity: "MEDIUM \u2013 Semantic mapping and disambiguation required in\
-          \ cases of complex or compound objectives."
-        impact: "HIGH \u2013 Omission or misinterpretation leads to product-functional\
-          \ misalignment."
+      - complexity: MEDIUM – Semantic mapping and disambiguation required in cases
+          of complex or compound objectives.
+        impact: HIGH – Omission or misinterpretation leads to product-functional misalignment.
         method: Use rule-based matching (e.g., keyword extraction and mapping dictionaries)
           and, if needed, supplement with natural language understanding models for
           semantic mapping from objectives to features.
@@ -1189,33 +867,33 @@ nodes:
           to prevent critical gaps in functionality.
         text: Systematically analyze each objective and distill it into one or more
           core product features, ensuring every objective is covered.
-      - complexity: "LOW \u2013 Formatting and standardization work."
-        impact: "MEDIUM \u2013 Impacts downstream documentation clarity and interpretability."
+      - complexity: LOW – Formatting and standardization work.
+        impact: MEDIUM – Impacts downstream documentation clarity and interpretability.
         method: Enforce text constraints (e.g., character limit, single action per
           feature); use templates such as 'The system shall be able to <do X>'.
         reason: Clear, consistent feature statements aid hand-off, cross-team understanding,
           and prevent scope creep in later development.
         text: Format each product feature as a short, singular, and implementation-agnostic
           description suitable for inclusion in a PRD.
-      - complexity: "MEDIUM \u2013 Requires intelligent comparison (e.g., semantic\
-          \ similarity scoring)."
-        impact: "MEDIUM \u2013 Enhances maintainability and prevents errors."
+      - complexity: MEDIUM – Requires intelligent comparison (e.g., semantic similarity
+          scoring).
+        impact: MEDIUM – Enhances maintainability and prevents errors.
         method: Apply fuzzy matching (e.g., Levenshtein distance, embeddings), manual
           review heuristics, and group by theme before removing duplicates.
         reason: Redundant features complicate design discussions, inflate implementation
           scope, and cause confusion.
         text: Deduplicate and consolidate overlapping or redundant features to ensure
           concise and non-repetitive output.
-      - complexity: "MEDIUM \u2013 Requires storing and exposing mapping metadata."
-        impact: "HIGH \u2013 Foundational for PRD validation and change management."
+      - complexity: MEDIUM – Requires storing and exposing mapping metadata.
+        impact: HIGH – Foundational for PRD validation and change management.
         method: Maintain a dictionary or mapping data structure linking each feature
           string to one or more objective indices or text blocks.
         reason: Ensures transparent prioritization, supports later scope validation,
           and facilitates auditing of requirement coverage.
         text: Ensure traceability by maintaining a reference mapping from each feature
           back to its originating objective(s).
-      - complexity: "LOW \u2013 Data serialization and type enforcement."
-        impact: "HIGH \u2013 Structural correctness here enables workflow automation."
+      - complexity: LOW – Data serialization and type enforcement.
+        impact: HIGH – Structural correctness here enables workflow automation.
         method: Serialize output as an array of strings (List[str]); apply schema
           validation to ensure required format.
         reason: Downstream nodes rely on this output to populate key PRD sections
@@ -1225,22 +903,10 @@ nodes:
     prompt: Using the previously extracted objectives, identify and enumerate each
       core feature that the product must deliver. State each feature succinctly, without
       implementation details.
-    shims: []
   extract_critical_constraints:
     agent: false
-    code_node_type: stub
     description: List all technical, business, or regulatory constraints inferred
       or stated in the workflow requirements.
-    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
-      \n\nclass ExtractCriticalConstraintsOutput(BaseModel):\n    \"\"\"Pydantic model\
-      \ for extract_critical_constraints node outputs.\"\"\"\n    constraints: List[str]\
-      \ = Field(..., description=\"Individual statements of technical, business, regulatory,\
-      \ or design constraints relevant to the product requirements.\")\n\n\ndef extract_critical_constraints_fx(general_input:\
-      \ str, **kwargs) -> ExtractCriticalConstraintsOutput:\n    \"\"\"List all technical,\
-      \ business, or regulatory constraints inferred or stated in the workflow requirements.\n\
-      \n    Args:\n        general_input: General input string for the root node.\n\
-      \        **kwargs: Additional keyword arguments.\n\n    Returns:\n        ExtractCriticalConstraintsOutput:\
-      \ Object containing outputs for this node.\n    \"\"\"\n    pass"
     name: extract_critical_constraints
     nodes_depended_on: []
     nodes_dependent_on: []
@@ -1251,12 +917,11 @@ nodes:
       type: List[str]
     prd:
       bullets:
-      - complexity: "MEDIUM \u2013 Requires some tuning of NLP methods and potential\
-          \ adaptation for different requirement formats, but leverages well-established\
-          \ libraries."
-        impact: "HIGH \u2013 Correct and comprehensive extraction of constraint candidates\
-          \ is critical, as missing constraints could result in non-compliant or unfeasible\
-          \ requirements."
+      - complexity: MEDIUM – Requires some tuning of NLP methods and potential adaptation
+          for different requirement formats, but leverages well-established libraries.
+        impact: HIGH – Correct and comprehensive extraction of constraint candidates
+          is critical, as missing constraints could result in non-compliant or unfeasible
+          requirements.
         method: Utilize NLP libraries (spaCy, NLTK, or similar) to identify potential
           constraint phrases based on keyword spotting (e.g., 'must', 'shall not',
           'required to', 'limited by'), syntactic patterns, and sentence context.
@@ -1265,10 +930,10 @@ nodes:
           foundation for effective constraint capture.
         text: Parse the workflow requirements to extract candidate constraint statements
           using NLP techniques (e.g., keyword matching and context analysis).
-      - complexity: "LOW \u2013 Simple rule-based or ML classification using predefined\
-          \ keywords or training data."
-        impact: "MEDIUM \u2013 Improves readability and organization for users and\
-          \ connected nodes, supports automated merging or reporting."
+      - complexity: LOW – Simple rule-based or ML classification using predefined
+          keywords or training data.
+        impact: MEDIUM – Improves readability and organization for users and connected
+          nodes, supports automated merging or reporting.
         method: Apply a rule-based classifier or a lightweight ML model trained on
           example constraints to assign each extracted constraint to its most likely
           category.
@@ -1276,20 +941,20 @@ nodes:
           validation, traceability, and risk management.
         text: 'Classify extracted constraint statements into categories: technical,
           business, regulatory, or design.'
-      - complexity: "LOW to MEDIUM \u2013 Standard in data processing; may require\
-          \ semantic similarity checks to catch near-duplicates."
-        impact: "MEDIUM \u2013 Clean, de-duplicated output prevents overcounting and\
-          \ misrepresentation of constraints, increasing PRD accuracy."
+      - complexity: LOW to MEDIUM – Standard in data processing; may require semantic
+          similarity checks to catch near-duplicates.
+        impact: MEDIUM – Clean, de-duplicated output prevents overcounting and misrepresentation
+          of constraints, increasing PRD accuracy.
         method: Use string similarity (Levenshtein distance, paraphrase detection)
           to merge near-duplicates; standardize terms and phrasing for consistency.
         reason: Deduplication and normalization reduce confusion and redundancy, and
           promote uniformity in presentation for use in formal documents.
         text: Deduplicate and normalize constraint statements to ensure uniqueness
           and clarity.
-      - complexity: "LOW to MEDIUM \u2013 Mostly text rephrasing, with some contextual\
-          \ rewriting required."
-        impact: "HIGH \u2013 Directly affects document quality, ensuring constraints\
-          \ are actionable and align with best practices."
+      - complexity: LOW to MEDIUM – Mostly text rephrasing, with some contextual rewriting
+          required.
+        impact: HIGH – Directly affects document quality, ensuring constraints are
+          actionable and align with best practices.
         method: Template-based language generation, post-processing NLP rewriting
           to enforce a declarative format, e.g., 'The system must ...', 'The product
           will not ...'.
@@ -1297,19 +962,19 @@ nodes:
           by technical and business stakeholders without further interpretation.
         text: Reformat all constraints as clearly worded, standalone statements suitable
           for inclusion in a PRD.
-      - complexity: "MEDIUM \u2013 May require manual spot-checking or automated requirement-to-constraint\
-          \ mapping."
-        impact: "HIGH \u2013 Catching errors early reduces downstream mistakes and\
-          \ costly revisions in later PRD steps."
+      - complexity: MEDIUM – May require manual spot-checking or automated requirement-to-constraint
+          mapping.
+        impact: HIGH – Catching errors early reduces downstream mistakes and costly
+          revisions in later PRD steps.
         method: Implement rule-based cross-checks and, where feasible, user interaction
           or review loops for flagged uncertainties.
         reason: Backchecking ensures completeness and correctness, lowering the risk
           of missing or misunderstood requirements.
         text: Validate extracted and normalized constraints against the original workflow
           requirements to check for omissions or misclassifications.
-      - complexity: "LOW \u2013 Standardized serialization step."
-        impact: "HIGH \u2013 Ensures compatibility and modularity across the DAG,\
-          \ supporting automation and traceability."
+      - complexity: LOW – Standardized serialization step.
+        impact: HIGH – Ensures compatibility and modularity across the DAG, supporting
+          automation and traceability.
         method: Produce a Python list of strings, formatted for direct inclusion in
           JSON or markdown as per the output specification.
         reason: Structured output in an easily consumable format facilitates seamless
@@ -1319,24 +984,10 @@ nodes:
     prompt: From the workflow requirements, identify all constraints that restrict
       how the product can be built or operate, including technical, business, regulatory,
       or design constraints. Present each constraint as an individual bullet point.
-    shims: []
   extract_objectives_from_workflow_requirements:
     agent: false
-    code_node_type: stub
     description: Extract explicit and implicit project objectives from the provided
       workflow requirements.
-    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
-      \n\nclass ExtractObjectivesFromWorkflowRequirementsOutput(BaseModel):\n    \"\
-      \"\"Pydantic model for extract_objectives_from_workflow_requirements node outputs.\"\
-      \"\"\n    objectives: List[str] = Field(..., description=\"A list of explicit\
-      \ and implicit objectives that the PRD must address, each as a clearly stated\
-      \ goal.\")\n\n\ndef extract_objectives_from_workflow_requirements_fx(general_input:\
-      \ str, **kwargs) -> ExtractObjectivesFromWorkflowRequirementsOutput:\n    \"\
-      \"\"Extract explicit and implicit project objectives from the provided workflow\
-      \ requirements.\n\n    Args:\n        general_input: General input string for\
-      \ the root node.\n        **kwargs: Additional keyword arguments.\n\n    Returns:\n\
-      \        ExtractObjectivesFromWorkflowRequirementsOutput: Object containing\
-      \ outputs for this node.\n    \"\"\"\n    pass"
     name: extract_objectives_from_workflow_requirements
     nodes_depended_on: []
     nodes_dependent_on: []
@@ -1404,24 +1055,10 @@ nodes:
     prompt: Given the workflow requirements input, identify and list all explicit
       and implicit objectives that the PRD must address. Focus only on stating clear
       objectives and do not include features, users, or constraints in this step.
-    shims: []
   identify_primary_user_roles:
     agent: false
-    code_node_type: stub
     description: Extract the main user roles or personas directly involved with the
       product based on the requirements.
-    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
-      \n\nclass IdentifyPrimaryUserRolesOutput(BaseModel):\n    \"\"\"Pydantic model\
-      \ for identify_primary_user_roles node outputs.\"\"\"\n    user_role_names:\
-      \ List[str] = Field(..., description=\"List of primary user role or persona\
-      \ names directly involved with the product.\")\n    user_role_descriptions:\
-      \ List[str] = Field(..., description=\"List of concise one-sentence descriptions\
-      \ for each user role, matched by index to user_role_names.\")\n\n\ndef identify_primary_user_roles_fx(general_input:\
-      \ str, **kwargs) -> IdentifyPrimaryUserRolesOutput:\n    \"\"\"Extract the main\
-      \ user roles or personas directly involved with the product based on the requirements.\n\
-      \n    Args:\n        general_input: General input string for the root node.\n\
-      \        **kwargs: Additional keyword arguments.\n\n    Returns:\n        IdentifyPrimaryUserRolesOutput:\
-      \ Object containing outputs for this node.\n    \"\"\"\n    pass"
     name: identify_primary_user_roles
     nodes_depended_on: []
     nodes_dependent_on: []
@@ -1490,25 +1127,10 @@ nodes:
     prompt: Based only on the provided workflow requirements, list the primary user
       roles or personas that will interact with the product. Describe each user role
       in one sentence, focusing on their relationship to the workflow.
-    shims: []
   summarize_key_stakeholders:
     agent: false
-    code_node_type: stub
     description: Identify and summarize the interest and influence of key project
       stakeholders.
-    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
-      \n\nclass SummarizeKeyStakeholdersOutput(BaseModel):\n    \"\"\"Pydantic model\
-      \ for summarize_key_stakeholders node outputs.\"\"\"\n    stakeholder_names:\
-      \ List[str] = Field(..., description=\"List of key stakeholder names.\")\n \
-      \   stakeholder_roles: List[str] = Field(..., description=\"List of brief descriptions\
-      \ of each stakeholder's role.\")\n    stakeholder_interests: List[str] = Field(...,\
-      \ description=\"List of brief descriptions of each stakeholder's interest in\
-      \ the project outcome.\")\n\n\ndef summarize_key_stakeholders_fx(general_input:\
-      \ str, **kwargs) -> SummarizeKeyStakeholdersOutput:\n    \"\"\"Identify and\
-      \ summarize the interest and influence of key project stakeholders.\n\n    Args:\n\
-      \        general_input: General input string for the root node.\n        **kwargs:\
-      \ Additional keyword arguments.\n\n    Returns:\n        SummarizeKeyStakeholdersOutput:\
-      \ Object containing outputs for this node.\n    \"\"\"\n    pass"
     name: summarize_key_stakeholders
     nodes_depended_on: []
     nodes_dependent_on: []
@@ -1546,15 +1168,14 @@ nodes:
           Regulator), to generate concise role descriptions.
         reason: Role classification clarifies the contribution and responsibilities
           of each stakeholder, informing both product design and communication plans.
-        text: "Develop logic to summarize and classify each stakeholder\u2019s role\
-          \ within the project based on their mention and contextual cues from the\
-          \ requirements."
+        text: Develop logic to summarize and classify each stakeholder’s role within
+          the project based on their mention and contextual cues from the requirements.
       - complexity: LOW - Interests can often be inferred from their role and context.
         impact: MEDIUM - Directly informs risk and communications planning, and can
           influence requirement prioritization.
-        method: "Infer interests using pattern-based inference\u2014e.g., matching\
-          \ roles like \u2018regulator\u2019 to compliance concerns, \u2018business\
-          \ sponsor\u2019 to ROI, or \u2018end user\u2019 to usability."
+        method: Infer interests using pattern-based inference—e.g., matching roles
+          like ‘regulator’ to compliance concerns, ‘business sponsor’ to ROI, or ‘end
+          user’ to usability.
         reason: Understanding stakeholder interests ensures product alignment with
           stakeholder goals and improves buy-in.
         text: For each identified stakeholder, generate a brief but specific statement
@@ -1573,9 +1194,9 @@ nodes:
           fallbacks or warnings.
         impact: MEDIUM - Improves system fault tolerance, user confidence, and data
           integrity.
-        method: "Incorporate rule-based fallback logic\u2014for instance, flag missing\
-          \ stakeholder roles/interests and insert placeholder descriptions where\
-          \ necessary. Log ambiguities for review."
+        method: Incorporate rule-based fallback logic—for instance, flag missing stakeholder
+          roles/interests and insert placeholder descriptions where necessary. Log
+          ambiguities for review.
         reason: Ensures system resilience to varied input quality and prevents downstream
           propagation of errors.
         text: Implement input validation and error handling to manage incomplete,
@@ -1583,4 +1204,3 @@ nodes:
     prompt: Based on the workflow requirements, list the key stakeholders for the
       product. For each stakeholder, briefly describe their role and interest in the
       project outcome.
-    shims: []

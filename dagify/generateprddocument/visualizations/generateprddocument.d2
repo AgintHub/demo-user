@@ -1,6 +1,6 @@
 # GeneratePRDDocument
 
-# Create a Product Requirements Document based on the provided workflow requirements
+# Create a comprehensive Product Requirements Document (PRD) based on input information
 
 direction: down
 
@@ -13,26 +13,52 @@ style {
   shadow: "true"
 }
 
-IdentifyProductPurpose: "IDENTIFYPRODUCTPURPOSE\n\nUnderstand the product's goals and\nobjectives" {
+GatherInputInformation: "GATHERINPUTINFORMATION\n\nCollect relevant data and assumptions\nabout the product" {
   style.fill: "#f5f5f5"
 }
 
-IdentifyTargetAudience: "IDENTIFYTARGETAUDIENCE\n\nDetermine who the product is intended\nfor" {
+DefineProductOverview: "DEFINEPRODUCTOVERVIEW\n\nCreate a brief overview of the product" {
   style.fill: "#f5f5f5"
 }
-IdentifyProductPurpose -> IdentifyTargetAudience
+GatherInputInformation -> DefineProductOverview
 
-ListProductFeatures: "LISTPRODUCTFEATURES\n\nEnumerate the key features of the\nproduct" {
+IdentifyUserPersonas: "IDENTIFYUSERPERSONAS\n\nDevelop user personas for the product" {
   style.fill: "#f5f5f5"
 }
-IdentifyTargetAudience -> ListProductFeatures
+GatherInputInformation -> IdentifyUserPersonas
 
-DefineProductFunctionalities: "DEFINEPRODUCTFUNCTIONALITIES\n\nDetail how the product will work and\nwhat it will do" {
+DetermineFunctionalRequirements: "DETERMINEFUNCTIONALREQUIREMENTS\n\nOutline the product's functional\nrequirements" {
   style.fill: "#f5f5f5"
 }
-ListProductFeatures -> DefineProductFunctionalities
+GatherInputInformation -> DetermineFunctionalRequirements
 
-CompilePRDDocument: "COMPILEPRDDOCUMENT\n\nPut together all gathered information\ninto a PRD document" {
+DetermineNonFunctionalRequirements: "DETERMINENONFUNCTIONALREQUIREMENTS\n\nOutline the product's non-functional\nrequirements" {
   style.fill: "#f5f5f5"
 }
-DefineProductFunctionalities -> CompilePRDDocument
+GatherInputInformation -> DetermineNonFunctionalRequirements
+
+CreateUserStories: "CREATEUSERSTORIES\n\nCraft user stories based on the\nrequirements" {
+  style.fill: "#f5f5f5"
+}
+DetermineFunctionalRequirements -> CreateUserStories
+IdentifyUserPersonas -> CreateUserStories
+
+DefineAcceptanceCriteria: "DEFINEACCEPTANCECRITERIA\n\nDefine acceptance criteria for the user\nstories" {
+  style.fill: "#f5f5f5"
+}
+CreateUserStories -> DefineAcceptanceCriteria
+
+CompilePRDDocument: "COMPILEPRDDOCUMENT\n\nOrganize all the information into a PRD\ndocument" {
+  style.fill: "#f5f5f5"
+}
+DefineProductOverview -> CompilePRDDocument
+IdentifyUserPersonas -> CompilePRDDocument
+DetermineFunctionalRequirements -> CompilePRDDocument
+DetermineNonFunctionalRequirements -> CompilePRDDocument
+CreateUserStories -> CompilePRDDocument
+DefineAcceptanceCriteria -> CompilePRDDocument
+
+ReviewAndRefinePRD: "REVIEWANDREFINEPRD\n\nReview the PRD for completeness and\nclarity" {
+  style.fill: "#f5f5f5"
+}
+CompilePRDDocument -> ReviewAndRefinePRD

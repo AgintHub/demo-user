@@ -1,0 +1,48 @@
+# CreatePRDDocument
+
+# Generate a Product Requirements Document (PRD) through a series of granular steps
+
+direction: down
+
+# Global styles
+style {
+  stroke: "#2f4f4f"
+  stroke-width: "2"
+  border-radius: "10"
+  font-size: "14"
+  shadow: "true"
+}
+
+define_product_vision: "DEFINE_PRODUCT_VISION\n\nDefine the product's vision, goals, and\nkey stakeholders" {
+  style.fill: "#f5f5f5"
+}
+
+identify_stakeholders: "IDENTIFY_STAKEHOLDERS\n\nList all stakeholders involved in or\naffected by the product" {
+  style.fill: "#f5f5f5"
+}
+define_product_vision -> identify_stakeholders
+
+gather_requirements: "GATHER_REQUIREMENTS\n\nCollect requirements from identified\nstakeholders" {
+  style.fill: "#f5f5f5"
+}
+identify_stakeholders -> gather_requirements
+
+analyze_requirements: "ANALYZE_REQUIREMENTS\n\nAnalyze the gathered requirements for\nclarity, consistency, and feasibility" {
+  style.fill: "#f5f5f5"
+}
+gather_requirements -> analyze_requirements
+
+document_requirements: "DOCUMENT_REQUIREMENTS\n\nOrganize and document the analyzed\nrequirements in a structured format" {
+  style.fill: "#f5f5f5"
+}
+analyze_requirements -> document_requirements
+
+review_and_refine: "REVIEW_AND_REFINE\n\nReview the drafted PRD with stakeholders\nand refine it based on feedback" {
+  style.fill: "#f5f5f5"
+}
+document_requirements -> review_and_refine
+
+finalize_prd: "FINALIZE_PRD\n\nMake any final adjustments and approve\nthe PRD" {
+  style.fill: "#f5f5f5"
+}
+review_and_refine -> finalize_prd

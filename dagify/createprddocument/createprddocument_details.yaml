@@ -1,0 +1,68 @@
+dag_type: plain_text
+description: Generate a Product Requirements Document (PRD) through a series of granular
+  steps
+name: CreatePRDDocument
+nodes:
+  analyze_requirements:
+    agent: false
+    description: Analyze the gathered requirements for clarity, consistency, and feasibility
+    name: analyze_requirements
+    nodes_depended_on:
+    - gather_requirements
+    nodes_dependent_on: []
+    prompt: Examine the collected requirements for clarity, consistency, and feasibility.
+      Identify any conflicts or ambiguities and propose resolutions.
+  define_product_vision:
+    agent: false
+    description: Define the product's vision, goals, and key stakeholders
+    name: define_product_vision
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: Based on the initial product concept, define the product vision, its primary
+      goals, and identify key stakeholders. Provide a concise statement of the product's
+      purpose and objectives.
+  document_requirements:
+    agent: false
+    description: Organize and document the analyzed requirements in a structured format
+    name: document_requirements
+    nodes_depended_on:
+    - analyze_requirements
+    nodes_dependent_on: []
+    prompt: Using the analyzed requirements, create a structured document that clearly
+      outlines the product's requirements. Ensure the document is coherent and accessible.
+  finalize_prd:
+    agent: false
+    description: Make any final adjustments and approve the PRD
+    name: finalize_prd
+    nodes_depended_on:
+    - review_and_refine
+    nodes_dependent_on: []
+    prompt: Incorporate any final feedback, make necessary adjustments, and formally
+      approve the PRD. Confirm that it is ready for use in product development.
+  gather_requirements:
+    agent: false
+    description: Collect requirements from identified stakeholders
+    name: gather_requirements
+    nodes_depended_on:
+    - identify_stakeholders
+    nodes_dependent_on: []
+    prompt: Gather requirements from the listed stakeholders through appropriate means
+      (e.g., interviews, surveys). Document the requirements in a raw format.
+  identify_stakeholders:
+    agent: false
+    description: List all stakeholders involved in or affected by the product
+    name: identify_stakeholders
+    nodes_depended_on:
+    - define_product_vision
+    nodes_dependent_on: []
+    prompt: Using the product vision and goals, identify all relevant stakeholders.
+      List their names, roles, and interests related to the product.
+  review_and_refine:
+    agent: false
+    description: Review the drafted PRD with stakeholders and refine it based on feedback
+    name: review_and_refine
+    nodes_depended_on:
+    - document_requirements
+    nodes_dependent_on: []
+    prompt: Share the drafted PRD with stakeholders, gather feedback, and refine the
+      document accordingly. Ensure that all critical concerns are addressed.
