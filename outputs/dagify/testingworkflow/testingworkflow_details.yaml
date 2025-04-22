@@ -1,84 +1,67 @@
 dag_type: typed
-description: A workflow for testing with a series of fundamental steps
+description: A granular plan for testing a system to ensure its functionality and
+  efficiency
 name: TestingWorkflow
 nodes:
-  analyze_test_results:
+  analyze_results:
     agent: false
-    description: Analyze the results of the executed test cases
-    name: analyze_test_results
+    description: Analyze the results to identify areas for improvement
+    name: analyze_results
     nodes_depended_on:
-    - execute_test_cases
+    - run_tests
     nodes_dependent_on: []
     output_structure:
-    - description: Summary report of test results, including pass rates and notable
-        issues
-      key: summary_report
+    - description: List of areas where the system can be optimized for better performance
+      key: optimization_areas
+      type: List[str]
+    prompt: Examine the test results to determine which areas of the system require
+      optimization
+  apply_optimizations:
+    agent: false
+    description: Implement the identified optimizations to improve the system
+    name: apply_optimizations
+    nodes_depended_on:
+    - analyze_results
+    nodes_dependent_on: []
+    output_structure:
+    - description: Description of the optimized system
+      key: optimized_system
       type: str
-    - description: List of reasons for failed test cases (in same order as failed
-        test cases)
-      key: failure_reasons
-      type: List[str]
-    prompt: Analyze the test results to identify any patterns, failures, or areas
-      for improvement.
-  assign_test_environment:
+    prompt: Implement the suggested optimizations to improve the system's performance
+  generate_test_data:
     agent: false
-    description: Assign a suitable test environment for the identified test cases
-    name: assign_test_environment
-    nodes_depended_on:
-    - identify_test_cases
-    nodes_dependent_on: []
-    output_structure:
-    - description: List of environment configurations assigned to each test case (in
-        same order as test_case_ids)
-      key: environment_configurations
-      type: List[str]
-    prompt: Based on the identified test cases, assign a suitable test environment
-      for execution.
-  define_test_scope:
-    agent: false
-    description: Define the scope of the testing workflow
-    name: define_test_scope
+    description: Produce a set of test data to simulate user input
+    name: generate_test_data
     nodes_depended_on: []
     nodes_dependent_on: []
     output_structure:
-    - description: List of primary objectives for the testing workflow
-      key: test_objectives
+    - description: List of user input strings used for testing
+      key: test_input
       type: List[str]
-    - description: List of components or systems involved in the testing
-      key: components_involved
-      type: List[str]
-    prompt: Identify the key components and objectives of the testing workflow. Focus
-      on defining the scope and goals.
-  execute_test_cases:
+    prompt: Create a set of random user input data to use for testing
+  run_tests:
     agent: false
-    description: Execute the test cases in the assigned environment
-    name: execute_test_cases
+    description: Execute the system with the generated test data
+    name: run_tests
     nodes_depended_on:
-    - assign_test_environment
+    - generate_test_data
     nodes_dependent_on: []
     output_structure:
-    - description: List of test results (true for pass, false for fail) in same order
-        as test_case_ids
+    - description: List of test scores, with higher values indicating better performance
       key: test_results
-      type: List[bool]
-    - description: List of output logs or summaries for each test case (in same order
-        as test_case_ids)
-      key: test_outputs
-      type: List[str]
-    prompt: Execute each test case in its assigned environment and report the results.
-  identify_test_cases:
+      type: List[float]
+    prompt: Run the system with the provided test input and collect results
+  verify_optimizations:
     agent: false
-    description: Identify relevant test cases based on the defined scope
-    name: identify_test_cases
+    description: Verify that the implemented optimizations have improved the system
+    name: verify_optimizations
     nodes_depended_on:
-    - define_test_scope
+    - apply_optimizations
     nodes_dependent_on: []
     output_structure:
-    - description: List of test case IDs
-      key: test_case_ids
+    - description: List of verification results, indicating whether the optimizations
+        had a positive impact
+      key: verification_results
       type: List[str]
-    - description: Brief descriptions of each test case (in same order as test_case_ids)
-      key: test_case_descriptions
-      type: List[str]
-    prompt: Using the defined scope and objectives, list the relevant test cases that
-      need to be executed.
+    prompt: Test the optimized system to ensure that the implemented optimizations
+      have improved its performance
