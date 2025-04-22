@@ -1,84 +1,77 @@
 dag_type: typed
-description: A workflow for testing with a series of fundamental steps
-name: TestingWorkflow
+description: A granular execution plan for testing workflow
+name: Testing Workflow
 nodes:
   analyze_test_results:
     agent: false
-    description: Analyze the results of the executed test cases
+    description: Analyze the test results
     name: analyze_test_results
     nodes_depended_on:
-    - execute_test_cases
+    - perform_test_cases
     nodes_dependent_on: []
     output_structure:
-    - description: Summary report of test results, including pass rates and notable
-        issues
-      key: summary_report
+    - description: Analysis results
+      key: analysis_results
       type: str
-    - description: List of reasons for failed test cases (in same order as failed
-        test cases)
-      key: failure_reasons
-      type: List[str]
-    prompt: Analyze the test results to identify any patterns, failures, or areas
-      for improvement.
-  assign_test_environment:
+    prompt: Analyze the test results to determine the success or failure of the test
+      cases.
+  document_test_results:
     agent: false
-    description: Assign a suitable test environment for the identified test cases
-    name: assign_test_environment
+    description: Document the test results
+    name: document_test_results
     nodes_depended_on:
-    - identify_test_cases
+    - analyze_test_results
     nodes_dependent_on: []
     output_structure:
-    - description: List of environment configurations assigned to each test case (in
-        same order as test_case_ids)
-      key: environment_configurations
-      type: List[str]
-    prompt: Based on the identified test cases, assign a suitable test environment
-      for execution.
-  define_test_scope:
+    - description: Document ID
+      key: document_id
+      type: str
+    - description: Document URL
+      key: document_url
+      type: str
+    prompt: Document the test results, including the analysis results and any other
+      relevant information.
+  get_testing_environment:
     agent: false
-    description: Define the scope of the testing workflow
-    name: define_test_scope
+    description: Get the testing environment details
+    name: get_testing_environment
     nodes_depended_on: []
     nodes_dependent_on: []
     output_structure:
-    - description: List of primary objectives for the testing workflow
-      key: test_objectives
+    - description: Type of the testing environment
+      key: environment_type
+      type: str
+    - description: List of test cases
+      key: test_cases
       type: List[str]
-    - description: List of components or systems involved in the testing
-      key: components_involved
+    - description: List of test data
+      key: test_data
       type: List[str]
-    prompt: Identify the key components and objectives of the testing workflow. Focus
-      on defining the scope and goals.
-  execute_test_cases:
+    prompt: Describe the testing environment details, including the test cases, test
+      data, and any other relevant information.
+  perform_test_cases:
     agent: false
-    description: Execute the test cases in the assigned environment
-    name: execute_test_cases
+    description: Perform the selected test cases
+    name: perform_test_cases
     nodes_depended_on:
-    - assign_test_environment
+    - select_test_cases
     nodes_dependent_on: []
     output_structure:
-    - description: List of test results (true for pass, false for fail) in same order
-        as test_case_ids
+    - description: List of test results
       key: test_results
-      type: List[bool]
-    - description: List of output logs or summaries for each test case (in same order
-        as test_case_ids)
-      key: test_outputs
       type: List[str]
-    prompt: Execute each test case in its assigned environment and report the results.
-  identify_test_cases:
+    prompt: Perform the selected test cases using the testing data and environment
+      details.
+  select_test_cases:
     agent: false
-    description: Identify relevant test cases based on the defined scope
-    name: identify_test_cases
+    description: Select the relevant test cases
+    name: select_test_cases
     nodes_depended_on:
-    - define_test_scope
+    - get_testing_environment
     nodes_dependent_on: []
     output_structure:
-    - description: List of test case IDs
-      key: test_case_ids
+    - description: List of selected test cases
+      key: selected_test_cases
       type: List[str]
-    - description: Brief descriptions of each test case (in same order as test_case_ids)
-      key: test_case_descriptions
-      type: List[str]
-    prompt: Using the defined scope and objectives, list the relevant test cases that
-      need to be executed.
+    prompt: Select the relevant test cases based on the test cases list provided in
+      the testing environment details.

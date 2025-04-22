@@ -1,67 +1,99 @@
 dag_type: typed
-description: A granular plan for testing a system to ensure its functionality and
-  efficiency
+description: Define a granular execution plan for testing-related activities
 name: TestingWorkflow
 nodes:
-  analyze_results:
+  capture_test_output:
     agent: false
-    description: Analyze the results to identify areas for improvement
-    name: analyze_results
+    description: Collect output from executed test cases
+    name: capture_test_output
     nodes_depended_on:
-    - run_tests
+    - run_unit_testing
     nodes_dependent_on: []
     output_structure:
-    - description: List of areas where the system can be optimized for better performance
-      key: optimization_areas
-      type: List[str]
-    prompt: Examine the test results to determine which areas of the system require
-      optimization
-  apply_optimizations:
-    agent: false
-    description: Implement the identified optimizations to improve the system
-    name: apply_optimizations
-    nodes_depended_on:
-    - analyze_results
-    nodes_dependent_on: []
-    output_structure:
-    - description: Description of the optimized system
-      key: optimized_system
+    - description: Output from the executed test cases
+      key: test_output
       type: str
-    prompt: Implement the suggested optimizations to improve the system's performance
-  generate_test_data:
+    - description: Types of output collected from test cases
+      key: output_types
+      type: List[str]
+    prompt: Gather the output from each executed test case. Focus only on collecting
+      output, not analyzing the content.
+  evaluate_test_results:
     agent: false
-    description: Produce a set of test data to simulate user input
-    name: generate_test_data
+    description: Analyze the output of the executed test cases
+    name: evaluate_test_results
+    nodes_depended_on:
+    - capture_test_output
+    nodes_dependent_on: []
+    output_structure:
+    - description: Status indicating test cases were executed successfully
+      key: test_success_status
+      type: bool
+    - description: List of failing test cases and their corresponding outputs
+      key: failing_test_cases
+      type: List[str]
+    prompt: Analyze the output collected from the test case executions. Focus on identifying
+      successful or failed test cases without looking into the root cause.
+  obtain_test_environment:
+    agent: false
+    description: Set up the necessary environment for testing
+    name: obtain_test_environment
     nodes_depended_on: []
     nodes_dependent_on: []
     output_structure:
-    - description: List of user input strings used for testing
-      key: test_input
+    - description: Current status of the test environment
+      key: environment_status
+      type: str
+    - description: List of available resources for testing
+      key: available_resources
       type: List[str]
-    prompt: Create a set of random user input data to use for testing
-  run_tests:
+    prompt: Prepare all necessary environmental factors and resources for the testing
+      process. Focus on setting up the required infrastructure without execution.
+  run_unit_testing:
     agent: false
-    description: Execute the system with the generated test data
-    name: run_tests
+    description: Execute the unit tests to validate test cases
+    name: run_unit_testing
     nodes_depended_on:
-    - generate_test_data
+    - write_test_cases
     nodes_dependent_on: []
     output_structure:
-    - description: List of test scores, with higher values indicating better performance
-      key: test_results
-      type: List[float]
-    prompt: Run the system with the provided test input and collect results
-  verify_optimizations:
+    - description: Results of test case execution
+      key: test_execution_results
+      type: List[str]
+    - description: Unique IDs for each test execution
+      key: test_execution_ids
+      type: List[str]
+    prompt: Run the unit tests for each test case. Focus on validating the test case
+      execution without identifying any issues or analyzing the results.
+  submit_test_results:
     agent: false
-    description: Verify that the implemented optimizations have improved the system
-    name: verify_optimizations
+    description: Compile the report of the executed test cases
+    name: submit_test_results
     nodes_depended_on:
-    - apply_optimizations
+    - evaluate_test_results
     nodes_dependent_on: []
     output_structure:
-    - description: List of verification results, indicating whether the optimizations
-        had a positive impact
-      key: verification_results
+    - description: Compiled report of the executed test cases
+      key: test_report
+      type: str
+    - description: Status indicating completion of the report creation
+      key: report_status
+      type: str
+    prompt: Combine the test success status and execution outputs into a comprehensive
+      report. Focus on producing a cohesive report without modifying the contents.
+  write_test_cases:
+    agent: false
+    description: Develop test cases according to the requirements
+    name: write_test_cases
+    nodes_depended_on:
+    - obtain_test_environment
+    nodes_dependent_on: []
+    output_structure:
+    - description: Test case descriptions in detail
+      key: test_case_descriptions
       type: List[str]
-    prompt: Test the optimized system to ensure that the implemented optimizations
-      have improved its performance
+    - description: Unique IDs for each test case
+      key: test_case_ids
+      type: List[str]
+    prompt: Create comprehensive test cases using the set environment. Focus only
+      on writing detailed test scenarios without execution.

@@ -1,0 +1,49 @@
+dag_type: plain_text
+description: Create a Product Requirements Document based on the provided workflow
+  requirements
+name: GeneratePRDDocument
+nodes:
+  CompilePRDDocument:
+    agent: false
+    description: Put together all gathered information into a PRD document
+    name: CompilePRDDocument
+    nodes_depended_on:
+    - DefineProductFunctionalities
+    nodes_dependent_on: []
+    prompt: Compile the PRD document using the information gathered from previous
+      steps. Ensure it includes product purpose, target audience, features, and functionalities.
+  DefineProductFunctionalities:
+    agent: false
+    description: Detail how the product will work and what it will do
+    name: DefineProductFunctionalities
+    nodes_depended_on:
+    - ListProductFeatures
+    nodes_dependent_on: []
+    prompt: Using the listed product features, define the functionalities of the product.
+      Explain how it will operate and meet the requirements.
+  IdentifyProductPurpose:
+    agent: false
+    description: Understand the product's goals and objectives
+    name: IdentifyProductPurpose
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: Based on the given requirements, identify the primary purpose and objectives
+      of the product. Provide a concise statement.
+  IdentifyTargetAudience:
+    agent: false
+    description: Determine who the product is intended for
+    name: IdentifyTargetAudience
+    nodes_depended_on:
+    - IdentifyProductPurpose
+    nodes_dependent_on: []
+    prompt: Using the product purpose identified, determine the target audience for
+      the product. Describe the audience characteristics.
+  ListProductFeatures:
+    agent: false
+    description: Enumerate the key features of the product
+    name: ListProductFeatures
+    nodes_depended_on:
+    - IdentifyTargetAudience
+    nodes_dependent_on: []
+    prompt: Based on the product purpose and target audience, list the key features
+      the product should have. Focus on functionalities and characteristics.

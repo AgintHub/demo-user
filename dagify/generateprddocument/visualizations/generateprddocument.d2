@@ -1,0 +1,38 @@
+# GeneratePRDDocument
+
+# Create a Product Requirements Document based on the provided workflow requirements
+
+direction: down
+
+# Global styles
+style {
+  stroke: "#2f4f4f"
+  stroke-width: "2"
+  border-radius: "10"
+  font-size: "14"
+  shadow: "true"
+}
+
+IdentifyProductPurpose: "IDENTIFYPRODUCTPURPOSE\n\nUnderstand the product's goals and\nobjectives" {
+  style.fill: "#f5f5f5"
+}
+
+IdentifyTargetAudience: "IDENTIFYTARGETAUDIENCE\n\nDetermine who the product is intended\nfor" {
+  style.fill: "#f5f5f5"
+}
+IdentifyProductPurpose -> IdentifyTargetAudience
+
+ListProductFeatures: "LISTPRODUCTFEATURES\n\nEnumerate the key features of the\nproduct" {
+  style.fill: "#f5f5f5"
+}
+IdentifyTargetAudience -> ListProductFeatures
+
+DefineProductFunctionalities: "DEFINEPRODUCTFUNCTIONALITIES\n\nDetail how the product will work and\nwhat it will do" {
+  style.fill: "#f5f5f5"
+}
+ListProductFeatures -> DefineProductFunctionalities
+
+CompilePRDDocument: "COMPILEPRDDOCUMENT\n\nPut together all gathered information\ninto a PRD document" {
+  style.fill: "#f5f5f5"
+}
+DefineProductFunctionalities -> CompilePRDDocument
