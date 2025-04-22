@@ -1,0 +1,300 @@
+tables:
+  doctors:
+    name: doctors
+    columns:
+      doctor_id:
+        name: doctor_id
+        data_type: int
+        nullable: false
+        description: Primary key for doctors
+      first_name:
+        name: first_name
+        data_type: string
+        nullable: false
+        description: Doctor's first name
+      last_name:
+        name: last_name
+        data_type: string
+        nullable: false
+        description: Doctor's last name
+      email:
+        name: email
+        data_type: string
+        nullable: false
+        description: Doctor's email address
+      specialty:
+        name: specialty
+        data_type: string
+        nullable: true
+        description: Doctor's specialty
+      phone_number:
+        name: phone_number
+        data_type: string
+        nullable: true
+        description: Doctor's contact phone number
+    primary_key:
+    - doctor_id
+    description: Table storing doctor details
+  patients:
+    name: patients
+    columns:
+      patient_id:
+        name: patient_id
+        data_type: int
+        nullable: false
+        description: Primary key for patients
+      first_name:
+        name: first_name
+        data_type: string
+        nullable: false
+        description: Patient's first name
+      last_name:
+        name: last_name
+        data_type: string
+        nullable: false
+        description: Patient's last name
+      date_of_birth:
+        name: date_of_birth
+        data_type: date
+        nullable: false
+        description: Patient's date of birth
+      email:
+        name: email
+        data_type: string
+        nullable: true
+        description: Patient's email address
+      phone_number:
+        name: phone_number
+        data_type: string
+        nullable: true
+        description: Patient's contact phone number
+      address:
+        name: address
+        data_type: string
+        nullable: true
+        description: Patient's address
+    primary_key:
+    - patient_id
+    description: Table storing patient information
+  appointments:
+    name: appointments
+    columns:
+      appointment_id:
+        name: appointment_id
+        data_type: int
+        nullable: false
+        description: Primary key for appointments
+      patient_id:
+        name: patient_id
+        data_type: int
+        nullable: false
+        description: References patient
+      doctor_id:
+        name: doctor_id
+        data_type: int
+        nullable: false
+        description: References doctor
+      appointment_date:
+        name: appointment_date
+        data_type: date
+        nullable: false
+        description: Date of appointment
+      appointment_time:
+        name: appointment_time
+        data_type: string
+        nullable: false
+        description: Time of appointment (e.g. 14:30)
+      status:
+        name: status
+        data_type: string
+        nullable: false
+        description: Status of the appointment (scheduled, canceled, completed)
+      notes:
+        name: notes
+        data_type: string
+        nullable: true
+        description: Notes related to the appointment
+    primary_key:
+    - appointment_id
+    foreign_keys:
+    - column: patient_id
+      target_table: patients
+      target_column: patient_id
+      constraint_name: fk_appointments_patient
+    - column: doctor_id
+      target_table: doctors
+      target_column: doctor_id
+      constraint_name: fk_appointments_doctor
+    description: Table for scheduling and tracking appointments
+  prescriptions:
+    name: prescriptions
+    columns:
+      prescription_id:
+        name: prescription_id
+        data_type: int
+        nullable: false
+        description: Primary key for prescriptions
+      patient_id:
+        name: patient_id
+        data_type: int
+        nullable: false
+        description: References patient
+      doctor_id:
+        name: doctor_id
+        data_type: int
+        nullable: false
+        description: References doctor issuing the prescription
+      medication:
+        name: medication
+        data_type: string
+        nullable: false
+        description: Name of the medication
+      dosage:
+        name: dosage
+        data_type: string
+        nullable: true
+        description: Dosage of the medication
+      instructions:
+        name: instructions
+        data_type: string
+        nullable: true
+        description: Instructions for the patient
+      date_issued:
+        name: date_issued
+        data_type: date
+        nullable: false
+        description: Date prescription was issued
+    primary_key:
+    - prescription_id
+    foreign_keys:
+    - column: patient_id
+      target_table: patients
+      target_column: patient_id
+      constraint_name: fk_prescriptions_patient
+    - column: doctor_id
+      target_table: doctors
+      target_column: doctor_id
+      constraint_name: fk_prescriptions_doctor
+    description: Table for prescriptions issued to patients
+  medical_records:
+    name: medical_records
+    columns:
+      record_id:
+        name: record_id
+        data_type: int
+        nullable: false
+        description: Primary key for medical records
+      patient_id:
+        name: patient_id
+        data_type: int
+        nullable: false
+        description: References patient
+      doctor_id:
+        name: doctor_id
+        data_type: int
+        nullable: false
+        description: References doctor who created or updated the record
+      visit_date:
+        name: visit_date
+        data_type: date
+        nullable: false
+        description: Date of the medical record entry
+      diagnosis:
+        name: diagnosis
+        data_type: string
+        nullable: true
+        description: Diagnosis provided during visit
+      treatment:
+        name: treatment
+        data_type: string
+        nullable: true
+        description: Treatment administered or prescribed
+      notes:
+        name: notes
+        data_type: string
+        nullable: true
+        description: Any additional notes
+    primary_key:
+    - record_id
+    foreign_keys:
+    - column: patient_id
+      target_table: patients
+      target_column: patient_id
+      constraint_name: fk_medical_records_patient
+    - column: doctor_id
+      target_table: doctors
+      target_column: doctor_id
+      constraint_name: fk_medical_records_doctor
+    description: Table for storing patient medical history
+  staff:
+    name: staff
+    columns:
+      staff_id:
+        name: staff_id
+        data_type: int
+        nullable: false
+        description: Primary key for staff
+      first_name:
+        name: first_name
+        data_type: string
+        nullable: false
+        description: Staff's first name
+      last_name:
+        name: last_name
+        data_type: string
+        nullable: false
+        description: Staff's last name
+      email:
+        name: email
+        data_type: string
+        nullable: false
+        description: Staff email address
+      role:
+        name: role
+        data_type: string
+        nullable: false
+        description: Role of the staff member (e.g., nurse, receptionist)
+      phone_number:
+        name: phone_number
+        data_type: string
+        nullable: true
+        description: Staff contact phone number
+    primary_key:
+    - staff_id
+    description: Table storing staff information
+  tasks:
+    name: tasks
+    columns:
+      task_id:
+        name: task_id
+        data_type: int
+        nullable: false
+        description: Primary key for tasks
+      staff_id:
+        name: staff_id
+        data_type: int
+        nullable: false
+        description: Staff member responsible for the task
+      description:
+        name: description
+        data_type: string
+        nullable: false
+        description: Description of the task
+      status:
+        name: status
+        data_type: string
+        nullable: false
+        description: Status of the task (pending, in progress, completed)
+      due_date:
+        name: due_date
+        data_type: date
+        nullable: true
+        description: When the task is due
+    primary_key:
+    - task_id
+    foreign_keys:
+    - column: staff_id
+      target_table: staff
+      target_column: staff_id
+      constraint_name: fk_tasks_staff
+    description: Table to track office workflow tasks assigned to staff
