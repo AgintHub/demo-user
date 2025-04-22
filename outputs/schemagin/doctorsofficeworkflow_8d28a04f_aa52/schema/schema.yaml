@@ -1,0 +1,78 @@
+tables:
+  doctors:
+    name: doctors
+    columns:
+      id:
+        name: id
+        data_type: int
+        nullable: false
+        description: Unique doctor ID
+      name:
+        name: name
+        data_type: string
+        nullable: false
+        description: Doctor's name
+      specialty:
+        name: specialty
+        data_type: string
+        nullable: false
+        description: Doctor's specialty
+    primary_key:
+    - id
+    description: Table to store doctor information
+  patients:
+    name: patients
+    columns:
+      id:
+        name: id
+        data_type: int
+        nullable: false
+        description: Unique patient ID
+      name:
+        name: name
+        data_type: string
+        nullable: false
+        description: Patient's name
+      date_of_birth:
+        name: date_of_birth
+        data_type: date
+        nullable: false
+        description: Patient's date of birth
+    primary_key:
+    - id
+    description: Table to store patient information
+  appointments:
+    name: appointments
+    columns:
+      id:
+        name: id
+        data_type: int
+        nullable: false
+        description: Unique appointment ID
+      doctor_id:
+        name: doctor_id
+        data_type: int
+        nullable: false
+        description: ID of the doctor assigned to the appointment
+      patient_id:
+        name: patient_id
+        data_type: int
+        nullable: false
+        description: ID of the patient assigned to the appointment
+      appointment_date:
+        name: appointment_date
+        data_type: date
+        nullable: false
+        description: Date of the appointment
+    primary_key:
+    - id
+    foreign_keys:
+    - column: doctor_id
+      target_table: doctors
+      target_column: id
+      constraint_name: fk_doctor_id
+    - column: patient_id
+      target_table: patients
+      target_column: id
+      constraint_name: fk_patient_id
+    description: Table to store appointment information
