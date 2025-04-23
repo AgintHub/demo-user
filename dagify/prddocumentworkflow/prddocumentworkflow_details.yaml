@@ -1,0 +1,170 @@
+dag_type: typed
+description: Creates a Product Requirements Document (PRD) by extracting, organizing,
+  and validating key product, user, and technical requirements from an initial user
+  input prompt.
+name: PRDDocumentWorkflow
+nodes:
+  classify_feature_priorities:
+    agent: false
+    description: Classifies each feature requirement as must-have or nice-to-have.
+    name: classify_feature_priorities
+    nodes_depended_on:
+    - extract_feature_requirements
+    nodes_dependent_on:
+    - determine_technical_constraints
+    output_structure:
+    - description: Must-have (true) or nice-to-have (false) label for each feature
+        requirement, in the same order.
+      key: is_must_have
+      type: List[bool]
+    prompt: 'For each feature requirement, classify whether it is ''must-have'' or
+      ''nice-to-have'' for the initial launch. Output one boolean per feature: true
+      for must-have, false for nice-to-have.'
+  determine_target_users:
+    agent: false
+    description: Identifies the primary intended users or user segments for the product.
+    name: determine_target_users
+    nodes_depended_on:
+    - extract_product_name
+    nodes_dependent_on:
+    - identify_user_problems
+    output_structure:
+    - description: List of target user types or segments.
+      key: target_user_segments
+      type: List[str]
+    prompt: Based on the product name, list the main target user groups or personas
+      for this product. Do not include any goals or features, just the user types.
+  determine_technical_constraints:
+    agent: false
+    description: Identifies any technical constraints or dependencies specified or
+      implied by the requirements.
+    name: determine_technical_constraints
+    nodes_depended_on:
+    - classify_feature_priorities
+    nodes_dependent_on:
+    - extract_success_metrics
+    output_structure:
+    - description: List of technical constraints or dependencies that must be considered.
+      key: technical_constraints
+      type: List[str]
+    prompt: Based on the prioritized feature requirements, identify any explicit or
+      implicit technical constraints, dependencies, or platform requirements. State
+      each constraint clearly and separately.
+  extract_feature_requirements:
+    agent: false
+    description: Extracts the elemental feature requirements from user stories.
+    name: extract_feature_requirements
+    nodes_depended_on:
+    - extract_user_stories
+    nodes_dependent_on:
+    - classify_feature_priorities
+    output_structure:
+    - description: List of discrete feature requirements derived from user stories.
+      key: feature_requirements
+      type: List[str]
+    prompt: From each user story, identify a short, concrete feature requirement necessary
+      for users to achieve their goal. List each requirement succinctly.
+  extract_primary_objective:
+    agent: false
+    description: Identifies the main objective or goal of the product as described
+      by the user.
+    name: extract_primary_objective
+    nodes_depended_on:
+    - extract_product_name
+    nodes_dependent_on:
+    - extract_success_metrics
+    output_structure:
+    - description: Main product objective or success goal.
+      key: primary_objective
+      type: str
+    prompt: Using the product name, summarize the main objective or high-level goal
+      of the product in one sentence. Focus only on the primary purpose.
+  extract_product_name:
+    agent: false
+    description: Extracts the product or feature name from the user prompt.
+    name: extract_product_name
+    nodes_depended_on: []
+    nodes_dependent_on:
+    - identify_user_problems
+    - extract_primary_objective
+    - determine_target_users
+    output_structure:
+    - description: The concise name of the product or feature.
+      key: product_name
+      type: str
+    prompt: Read the provided user prompt and extract the name of the product or feature
+      being requested. Only output the primary, concise name.
+  extract_success_metrics:
+    agent: false
+    description: Extracts measurable success criteria or key performance indicators
+      for the product.
+    name: extract_success_metrics
+    nodes_depended_on:
+    - extract_primary_objective
+    - determine_technical_constraints
+    nodes_dependent_on:
+    - summarize_prd_document
+    output_structure:
+    - description: Measurable indicators of product success.
+      key: success_metrics
+      type: List[str]
+    prompt: With the product objective and technical constraints, list up to five
+      clear, measurable success metrics or KPIs that would indicate the product is
+      successful.
+  extract_user_stories:
+    agent: false
+    description: Drafts elemental user stories to capture desired end-user behaviors.
+    name: extract_user_stories
+    nodes_depended_on:
+    - identify_user_problems
+    nodes_dependent_on:
+    - extract_feature_requirements
+    output_structure:
+    - description: User stories covering key user needs, matching the order of input
+        problems.
+      key: user_stories
+      type: List[str]
+    prompt: 'For each user problem listed, formulate a distinct user story that describes
+      how a user achieves their objective with the product. Use the format: As a [user],
+      I want to [action], so that [benefit].'
+  identify_user_problems:
+    agent: false
+    description: Lists specific user problems or pain points that the product will
+      address.
+    name: identify_user_problems
+    nodes_depended_on:
+    - extract_product_name
+    - determine_target_users
+    nodes_dependent_on:
+    - extract_user_stories
+    output_structure:
+    - description: List of the user problems or pain points the product addresses.
+      key: user_problems
+      type: List[str]
+    prompt: Using the product name and target user segments, identify the main user
+      problems or pain points this product aims to solve. List each problem as a distinct
+      entry.
+  summarize_prd_document:
+    agent: false
+    description: Produces a coherent, structured PRD summary from all extracted and
+      organized data.
+    name: summarize_prd_document
+    nodes_depended_on:
+    - extract_product_name
+    - extract_primary_objective
+    - determine_target_users
+    - identify_user_problems
+    - extract_user_stories
+    - extract_feature_requirements
+    - classify_feature_priorities
+    - determine_technical_constraints
+    - extract_success_metrics
+    nodes_dependent_on: []
+    output_structure:
+    - description: The full, structured PRD summary as plain text.
+      key: prd_summary
+      type: str
+    prompt: Using all previous outputs (product name, objective, users, problems,
+      user stories, feature requirements, priorities, technical constraints, and success
+      metrics), generate a structured Product Requirements Document summary suitable
+      for use by a team.

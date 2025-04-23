@@ -1,0 +1,132 @@
+dag_type: typed
+description: Generate a Product Requirements Document (PRD) from workflow requirements
+  by extracting core features, user stories, acceptance criteria, priorities, and
+  risks.
+name: PRDDocumentWorkflowGeneration
+nodes:
+  assess_major_risks:
+    agent: false
+    description: Enumerate key risks that may impact successful workflow implementation.
+    name: assess_major_risks
+    nodes_depended_on:
+    - extract_workflow_overview
+    - identify_project_constraints
+    nodes_dependent_on: []
+    output_structure:
+    - description: Short descriptions of major risks for the workflow/project.
+      key: risk_descriptions
+      type: List[str]
+    prompt: Based on the workflow overview and project constraints, identify and briefly
+      describe the most significant risks to successful completion (e.g., resource,
+      technical, operational, compliance, etc.). Focus on major risks only.
+  assign_feature_priorities:
+    agent: false
+    description: Assign a relative priority to each core feature based on its necessity
+      and impact.
+    name: assign_feature_priorities
+    nodes_depended_on:
+    - identify_core_features
+    nodes_dependent_on: []
+    output_structure:
+    - description: Relative priority label ('Must Have', 'Should Have', 'Nice to Have')
+        for each feature (same order as core_feature_names).
+      key: core_feature_priorities
+      type: List[str]
+    prompt: 'For each core feature identified, assign a relative priority: Must Have,
+      Should Have, or Nice to Have. Decide based on how essential each feature is
+      for the workflow''s main objective.'
+  define_stakeholder_roles:
+    agent: false
+    description: Identify and list all distinct user or stakeholder roles relevant
+      to the workflow.
+    name: define_stakeholder_roles
+    nodes_depended_on:
+    - extract_workflow_overview
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of unique user or stakeholder roles relevant to the workflow.
+      key: stakeholder_roles
+      type: List[str]
+    prompt: Review the workflow overview and requirements, and list all distinct user
+      or stakeholder roles who will interact with or are affected by the workflow.
+      List each unique role only once, without describing their actions.
+  extract_acceptance_criteria:
+    agent: false
+    description: For each user story, specify clear, testable acceptance criteria.
+    name: extract_acceptance_criteria
+    nodes_depended_on:
+    - formulate_user_stories
+    nodes_dependent_on: []
+    output_structure:
+    - description: All acceptance criteria, grouped by order to associated user stories.
+      key: acceptance_criteria_texts
+      type: List[str]
+    - description: Index of the user story each set of acceptance criteria belongs
+        to (same order as acceptance_criteria_texts).
+      key: user_story_indices
+      type: List[int]
+    prompt: For each user story provided, create 2-3 clear and testable acceptance
+      criteria that must be fulfilled for the story to be considered complete. State
+      each as a simple, unambiguous requirement.
+  extract_workflow_overview:
+    agent: false
+    description: Summarize the main purpose and objectives of the workflow from the
+      requirements.
+    name: extract_workflow_overview
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Concise summary of the workflow's purpose and business value.
+      key: workflow_overview
+      type: str
+    prompt: Carefully read the workflow requirements. Summarize in 1-2 sentences the
+      primary purpose and business value of the intended workflow. Focus only on the
+      high-level objective.
+  formulate_user_stories:
+    agent: false
+    description: Write user stories for each core feature from the perspective of
+      each appropriate stakeholder.
+    name: formulate_user_stories
+    nodes_depended_on:
+    - identify_core_features
+    - define_stakeholder_roles
+    nodes_dependent_on: []
+    output_structure:
+    - description: 'User stories, each following the format: ''As a [role], I want
+        to [action] so that [goal]''.'
+      key: user_stories
+      type: List[str]
+    prompt: 'For each core feature, generate at least one user story using the format:
+      ''As a [role], I want to [do something] so that [achieve goal]''. Use only the
+      roles and feature names previously identified.'
+  identify_core_features:
+    agent: false
+    description: List the fundamental features explicitly or implicitly required for
+      the workflow.
+    name: identify_core_features
+    nodes_depended_on:
+    - extract_workflow_overview
+    nodes_dependent_on: []
+    output_structure:
+    - description: Names or short descriptions of each core feature required for the
+        workflow.
+      key: core_feature_names
+      type: List[str]
+    prompt: Based on the workflow overview and requirements, extract a list of the
+      fundamental features that this workflow must implement. Limit your focus to
+      the core, indispensable elements; exclude nonessential details.
+  identify_project_constraints:
+    agent: false
+    description: Identify explicit or implicit project constraints (technical, time,
+      regulatory, etc.) in the requirements.
+    name: identify_project_constraints
+    nodes_depended_on:
+    - extract_workflow_overview
+    nodes_dependent_on: []
+    output_structure:
+    - description: Descriptions of all project constraints, each as a brief sentence.
+      key: constraint_descriptions
+      type: List[str]
+    prompt: List out all constraints affecting the workflow's implementation, such
+      as technical limitations, deadlines, compliance requirements, or other restrictions
+      suggested or stated in the requirements.

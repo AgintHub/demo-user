@@ -1,0 +1,29 @@
+{
+  "initialize_meeting_node": {
+    "output": {
+      "node_id": "b49dfd9c-f713-4a26-b8c2-492ea367a52e",
+      "node_label": "Senior Managers Meeting"
+    },
+    "description": "Create a new node for the meeting with senior managers"
+  },
+  "link_meeting_node_to_role_determination": {
+    "output": {
+      "edge_id": "61a9d6b9-6a1a-48af-8134-7aeff2b591e3",
+      "edge_type": "precedence"
+    },
+    "description": "Link the meeting node to the user role determination process"
+  },
+  "specify_meeting_details": {
+    "output": {
+      "meeting_date": "2025-04-23",
+      "meeting_time": "10:00",
+      "meeting_location": "Main Conference Room, 3rd Floor",
+      "attendees": [
+        "John Doe",
+        "Jane Smith",
+        "Bob Johnson"
+      ]
+    },
+    "description": "Specify details of the meeting with senior managers"
+  }
+}

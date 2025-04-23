@@ -1,0 +1,1593 @@
+dag_type: pure
+description: Decompose the process for generating a Product Requirements Document
+  (PRD) from workflow requirements into granular, type-safe, elemental steps.
+name: PRDDocumentGenerationWorkflow
+nodes:
+  compose_prd_summary:
+    agent: false
+    code_node_type: pure
+    description: Create a PRD executive summary referencing all prior outputs. Include
+      a brief note outlining the purpose and main topics for an upcoming meeting with
+      senior managers regarding the PRD.
+    implementation: code/compose_prd_summary.py
+    name: compose_prd_summary
+    nodes_depended_on:
+    - identify_core_objective
+    - list_primary_user_roles
+    - extract_key_features
+    - generate_feature_descriptions
+    nodes_dependent_on: []
+    output_structure:
+    - description: Executive summary for the PRD document, synthesizing objective,
+        users, and features, and including a note about the meeting with senior managers.
+      key: prd_summary
+      type: str
+    prd: code/prd/compose_prd_summary_prd.yaml
+    prompt: Write an executive summary for the PRD that succinctly combines the core
+      objective, user roles, key features, and their descriptions. The summary should
+      present a clear overview to an executive reader. Additionally, include a brief
+      note outlining the objective of an upcoming meeting with senior managers, specifying
+      the main topics to be discussed from the PRD (such as alignment on objective,
+      user roles, and features). Do not include metrics, constraints, or risks here.
+    shims:
+    - agent: false
+      code_node_type: virtual-pure
+      description: "This node verifies that the aggregated PRD components\u2014core\
+        \ objective, user roles, features, and feature descriptions\u2014are present\
+        \ and consistently structured before generating the final PRD summary."
+      implementation: code/compose_prd_summary/validate_prd_aggregation_inputs.py
+      name: validate_prd_aggregation_inputs
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type bool
+        key: output
+        type: bool
+      - description: Input parameter of type str
+        key: core_obj
+        type: str
+      - description: Input parameter of type str
+        key: user_roles
+        type: str
+      - description: Input parameter of type str
+        key: features
+        type: str
+      - description: Input parameter of type str
+        key: feature_desc
+        type: str
+      prd: code/compose_prd_summary/prd/validate_prd_aggregation_inputs_prd.yaml
+      prompt: 'Description: Typed node for shim validate_prd_aggregation_inputs'
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Generates a professional, succinct executive lead-in paragraph
+        for a PRD summary based on the provided core objective.
+      implementation: code/compose_prd_summary/compose_executive_leadin.py
+      name: compose_executive_leadin
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: core_objective
+        type: str
+      prd: code/compose_prd_summary/prd/compose_executive_leadin_prd.yaml
+      prompt: Given the core objective of a product requirements document (PRD), compose
+        a concise, professional executive lead-in paragraph that clearly describes
+        the workflow's main goal and context, suitable for the opening of an executive
+        summary.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Generates a well-formatted, human-readable section that describes
+        the primary user roles in the workflow based on the provided user roles input.
+      implementation: code/compose_prd_summary/render_user_roles_section.py
+      name: render_user_roles_section
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: user_roles
+        type: str
+      prd: code/compose_prd_summary/prd/render_user_roles_section_prd.yaml
+      prompt: 'Description: Typed node for shim render_user_roles_section'
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: "This node combines two lists\u2014feature names and their descriptions\u2014\
+        into a single, human-readable formatted string pairing each feature with its\
+        \ respective description."
+      implementation: code/compose_prd_summary/format_features_with_descriptions.py
+      name: format_features_with_descriptions
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: feature_names
+        type: str
+      - description: Input parameter of type str
+        key: feature_descriptions
+        type: str
+      prd: code/compose_prd_summary/prd/format_features_with_descriptions_prd.yaml
+      prompt: Given two lists, one of feature names and one of feature descriptions,
+        format them into a readable string where each feature is paired with its corresponding
+        description, suitable for inclusion in an executive summary.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Generates a concise meeting note summarizing the purpose and main
+        discussion topics for an upcoming meeting with senior managers, based on provided
+        topics.
+      implementation: code/compose_prd_summary/compose_meeting_note.py
+      name: compose_meeting_note
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: topics
+        type: str
+      prd: code/compose_prd_summary/prd/compose_meeting_note_prd.yaml
+      prompt: Compose a brief, executive-level meeting note addressed to senior managers.
+        The note should summarize the primary purpose of the meeting and clearly list
+        the main topics to be discussed. Use the list of topics provided as the discussion
+        agenda. Ensure the tone is professional and suitable for inclusion as a note
+        in a Product Requirements Document (PRD).
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node constructs a cohesive executive summary for a PRD by
+        combining a lead-in, user roles, features, and a meeting note into a unified
+        narrative.
+      implementation: code/compose_prd_summary/assemble_executive_summary.py
+      name: assemble_executive_summary
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: lead_in
+        type: str
+      - description: Input parameter of type str
+        key: user_roles_section
+        type: str
+      - description: Input parameter of type str
+        key: feature_section
+        type: str
+      - description: Input parameter of type str
+        key: meeting_note
+        type: str
+      prd: code/compose_prd_summary/prd/assemble_executive_summary_prd.yaml
+      prompt: Assemble a polished executive summary for the PRD document by integrating
+        the provided lead-in statement, a defined user roles section, a key features
+        section, and a brief note outlining the agenda and purpose for an upcoming
+        meeting with senior managers.
+      shims: []
+  extract_constraints:
+    agent: false
+    code_node_type: pure
+    description: Extract explicit technical or business constraints from the requirements,
+      and identify discussion points for a meeting with senior managers. Both sets
+      of outputs will be used as key inputs for identifying success metrics and ensuring
+      stakeholder alignment.
+    implementation: code/extract_constraints.py
+    name: extract_constraints
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of explicit technical or business constraints applicable to
+        the workflow, structured for direct use in identifying and defining success
+        metrics.
+      key: constraints
+      type: List[str]
+    - description: List of items or constraints requiring clarification, approval,
+        or input from senior managers, to be used as an agenda for a dedicated meeting.
+      key: manager_discussion_points
+      type: List[str]
+    prd: code/prd/extract_constraints_prd.yaml
+    prompt: "Read the provided requirements and list all explicit technical or business\
+      \ constraints (such as regulatory, platform limitations, deadlines, etc) that\
+      \ must be satisfied by the PRD. Omit any implied or unstated constraints. Ensure\
+      \ each listed constraint is clearly and specifically formulated so they can\
+      \ be referenced as key inputs for identifying and defining success metrics later\
+      \ in the workflow. \n\nAdditionally, after compiling the constraints, note any\
+      \ items that require clarification or approval from senior managers. Prepare\
+      \ a summary list of these discussion points to be covered in a dedicated meeting\
+      \ with senior managers as part of the workflow. \n\nOutput the explicit technical\
+      \ or business constraints first, followed by a short list of discussion items\
+      \ needing senior manager input."
+    shims:
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node standardizes and cleans raw requirements text by removing
+        extraneous formatting, normalizing structure, and preparing it for accurate
+        downstream constraint extraction.
+      implementation: code/extract_constraints/preprocess_requirements_text.py
+      name: preprocess_requirements_text
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: raw_input
+        type: str
+      prd: code/extract_constraints/prd/preprocess_requirements_text_prd.yaml
+      prompt: 'Clean, normalize, and preprocess a freeform requirements or specification
+        input string: remove extraneous formatting (such as non-UTF characters, excess
+        whitespace, repeated punctuation), standardize bullet points and sentence
+        delimiters, correct common typographic issues, collapse multiple lines, and
+        output a version of the input suitable for downstream NLP, entity extraction,
+        or rule-based constraint recognition components.'
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Extracts all explicit technical or business constraints from input
+        text using pattern-based matchers, returning each constraint as a structured
+        list of strings.
+      implementation: code/extract_constraints/extract_explicit_constraints.py
+      name: extract_explicit_constraints
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: text
+        type: str
+      - description: Input parameter of type str
+        key: matchers
+        type: str
+      prd: code/extract_constraints/prd/extract_explicit_constraints_prd.yaml
+      prompt: Extract all explicit technical or business constraints from the provided
+        requirements text, using the supplied matchers to guide identification, and
+        output each distinct constraint as a string in a list.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node filters a list of candidate constraint strings and returns
+        only those constraints that are explicit (i.e., directly and unambiguously
+        stated) within the provided input text.
+      implementation: code/extract_constraints/filter_for_explicitness.py
+      name: filter_for_explicitness
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: constraints
+        type: str
+      - description: Input parameter of type str
+        key: text
+        type: str
+      prd: code/extract_constraints/prd/filter_for_explicitness_prd.yaml
+      prompt: Given a list of candidate constraints and the original requirements
+        text, return only those constraints that are explicitly and unambiguously
+        stated in the text (i.e., those with direct textual evidence and no significant
+        ambiguity or implication). For each candidate, verify its presence and explicitness
+        in the text, and output a list of only those that qualify as explicit constraints.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node standardizes the format and performs validation on a
+        list of explicit technical or business constraints to ensure they are well-structured,
+        unambiguous, and ready for downstream use.
+      implementation: code/extract_constraints/format_and_validate_constraints.py
+      name: format_and_validate_constraints
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: constraints
+        type: str
+      prd: code/extract_constraints/prd/format_and_validate_constraints_prd.yaml
+      prompt: Given a list of explicit constraints in raw string format, output a
+        standardized and validated list of constraints, ensuring each item is unambiguous,
+        concise, and formatted for direct use in success metric definition or requirements
+        traceability.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node extracts a list of discussion points requiring senior
+        manager input or clarification from the input text using specified trigger
+        phrases.
+      implementation: code/extract_constraints/extract_manager_discussion_points.py
+      name: extract_manager_discussion_points
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: text
+        type: str
+      - description: Input parameter of type str
+        key: triggers
+        type: str
+      prd: code/extract_constraints/prd/extract_manager_discussion_points_prd.yaml
+      prompt: Given the provided requirements text and a list of discussion point
+        trigger phrases, extract and return a list of discussion points or constraints
+        that require clarification, approval, or executive input, with each item represented
+        as a concise string suitable for inclusion in a meeting agenda.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node securely logs the extracted constraints, identified discussion
+        points, and original input to provide compliance auditability and traceability
+        for future reference.
+      implementation: code/extract_constraints/log_extraction_audit.py
+      name: log_extraction_audit
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type Any
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: extracted_constraints
+        type: str
+      - description: Input parameter of type str
+        key: discussion_points
+        type: str
+      - description: Input parameter of type str
+        key: original_input
+        type: str
+      prd: code/extract_constraints/prd/log_extraction_audit_prd.yaml
+      prompt: Log the extracted constraints and manager discussion points, along with
+        the original input, into an audit system or persistent store in a manner that
+        supports compliance traceability, retrieval for future audits, and review
+        by authorized stakeholders.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Determines if the extraction configuration needs to be updated
+        based on input parameters and modifies rules or patterns for future constraint
+        extraction if required.
+      implementation: code/extract_constraints/update_extraction_config_if_needed.py
+      name: update_extraction_config_if_needed
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type Any
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: kwargs
+        type: str
+      prd: code/extract_constraints/prd/update_extraction_config_if_needed_prd.yaml
+      prompt: Check current extraction configuration and, if necessary based on incoming
+        kwargs or detected relevant changes (such as new regulatory rules or extraction
+        patterns), update or extend the system's rule sets and extraction logic for
+        future constraint identification tasks.
+      shims: []
+  extract_key_features:
+    agent: false
+    code_node_type: pure
+    description: Generate a list of key functional features required by the workflow,
+      explicitly adding a workflow node for scheduling and conducting a meeting with
+      senior managers prior to determining user roles, as per updated requirements.
+      Each feature must be a unique functional capability required by the PRD, sequenced
+      to reflect this critical ordering.
+    implementation: code/extract_key_features.py
+    name: extract_key_features
+    nodes_depended_on:
+    - identify_core_objective
+    nodes_dependent_on: []
+    output_structure:
+    - description: Names of fundamental workflow features required in the PRD, in
+        sequence starting with a node to schedule and conduct a meeting with senior
+        managers prior to any role assignment, followed by other required workflow
+        features.
+      key: feature_names
+      type: List[str]
+    prd: code/prd/extract_key_features_prd.yaml
+    prompt: Examining the requirements and core objective, extract the main features
+      that the PRD should address. Each feature should be a standalone, functional
+      capability with no overlap. Explicitly include 'Schedule and conduct a meeting
+      with senior managers as a separate workflow node that must occur prior to determining
+      user roles.' Ensure this feature is listed before any features related to role
+      determination. List the features in a strictly sequential order that reflects
+      this workflow constraint.
+    shims:
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node analyzes the provided core objective text to extract
+        a list of candidate workflow features described or implied within the objective
+        statement.
+      implementation: code/extract_key_features/extract_feature_candidates_from_objective.py
+      name: extract_feature_candidates_from_objective
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: text
+        type: str
+      prd: code/extract_key_features/prd/extract_feature_candidates_from_objective_prd.yaml
+      prompt: Extract from the supplied core objective statement all explicit or implicit
+        workflow features required for the product requirements document, listing
+        each unique feature as a separate item.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node ensures that the feature list always has 'Schedule and
+        conduct a meeting with senior managers' as the first entry, placing all other
+        features after it.
+      implementation: code/extract_key_features/ensure_meeting_node_first.py
+      name: ensure_meeting_node_first
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: features
+        type: str
+      prd: code/extract_key_features/prd/ensure_meeting_node_first_prd.yaml
+      prompt: Given a list of feature strings, move or insert the 'Schedule and conduct
+        a meeting with senior managers' feature as the first element in the list,
+        ensuring it precedes any role-determination or other workflow features, and
+        output the resulting ordered list.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Ensures that any user role determination or related features do
+        not appear before the scheduled senior manager meeting in the workflow feature
+        list, blocking or reordering such features as necessary to respect workflow
+        constraints.
+      implementation: code/extract_key_features/block_or_reorder_role_features.py
+      name: block_or_reorder_role_features
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: features
+        type: str
+      prd: code/extract_key_features/prd/block_or_reorder_role_features_prd.yaml
+      prompt: 'Description: Typed node for shim block_or_reorder_role_features'
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node processes an input list of workflow features to split
+        compound statements into atomic features, remove duplicates, and standardize
+        the phrasing for consistency.
+      implementation: code/extract_key_features/normalize_and_deduplicate_features.py
+      name: normalize_and_deduplicate_features
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: features
+        type: str
+      prd: code/extract_key_features/prd/normalize_and_deduplicate_features_prd.yaml
+      prompt: Given a list of workflow feature descriptions as input, process the
+        list to (1) split any compound or multi-part feature statements into atomic,
+        indivisible functional units, (2) eliminate any duplicate or semantically
+        redundant features, and (3) normalize the textual representation for consistency,
+        outputting a clean, ordered list of unique atomic features.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Reorders and sequences a list of workflow feature names to ensure
+        strict adherence to workflow constraints, such as enforcing that a senior
+        manager meeting occurs before user-role determination and that all features
+        are arranged according to required process flow.
+      implementation: code/extract_key_features/sequence_features_per_workflow_order.py
+      name: sequence_features_per_workflow_order
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: features
+        type: str
+      prd: code/extract_key_features/prd/sequence_features_per_workflow_order_prd.yaml
+      prompt: "Given a list of atomic, deduplicated workflow feature names (features:\
+        \ str, each a feature per line), reorder the list to satisfy all known workflow\
+        \ constraints\u2014for example, ensuring that 'Schedule and conduct a meeting\
+        \ with senior managers' is always first and that any feature related to determining\
+        \ or assigning user roles appears only after the meeting node. Output a strictly\
+        \ ordered list (one feature per line, no duplicates, no extraneous whitespace)\
+        \ that matches the intended workflow sequence, reflecting all given business\
+        \ rules."
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Validates a list of workflow feature names for correctness (atomicity,
+        uniqueness, sequencing, compliance with workflow constraints) and serializes
+        them as a clean, ordered List[str] suitable for downstream use.
+      implementation: code/extract_key_features/validate_and_serialize_feature_list.py
+      name: validate_and_serialize_feature_list
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: features
+        type: str
+      prd: code/extract_key_features/prd/validate_and_serialize_feature_list_prd.yaml
+      prompt: Validate that the input 'features' list of workflow feature strings
+        is fully normalized, atomic, unique, properly sequenced according to workflow
+        and business rules (e.g., specified meetings occur before user role determination),
+        and serialize it into a clean List[str] suitable for output or downstream
+        use, raising an error on any invalid formatting, duplicates, or ordering violations.
+      shims: []
+  generate_feature_descriptions:
+    agent: false
+    code_node_type: pure
+    description: Write a concise, one-sentence description for each feature, explicitly
+      detailing any features related to scheduling and conducting a meeting with senior
+      managers that must occur prior to determining user roles.
+    implementation: code/generate_feature_descriptions.py
+    name: generate_feature_descriptions
+    nodes_depended_on:
+    - extract_key_features
+    nodes_dependent_on: []
+    output_structure:
+    - description: Concise description for each feature, including a clear specification
+        of the meeting with senior managers as a required step prior to determining
+        user roles, aligned with feature_names.
+      key: feature_descriptions
+      type: List[str]
+    prd: code/prd/generate_feature_descriptions_prd.yaml
+    prompt: For each key feature, provide a one-sentence description that clearly
+      and concisely describes the purpose or functionality of that feature within
+      the workflow. Be sure to explain that the meeting with senior managers must
+      take place prior to any process for determining user roles, with its purpose
+      and sequencing clearly described.
+    shims:
+    - agent: false
+      code_node_type: virtual-pure
+      description: Validates that the required meeting with senior managers is scheduled
+        and conducted before any user role-related features in the workflow feature
+        list.
+      implementation: code/generate_feature_descriptions/validate_feature_order.py
+      name: validate_feature_order
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type Any
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: feature_names
+        type: str
+      prd: code/generate_feature_descriptions/prd/validate_feature_order_prd.yaml
+      prompt: Ensure that within the provided list of feature names, the feature 'schedule
+        and conduct meeting with senior managers' appears before any feature related
+        to determining or assigning user roles; if this rule is violated, raise an
+        explicit error describing the required sequencing.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Generates concise, context-aware one-sentence descriptions for
+        each workflow feature name provided, ensuring sequencing and specification
+        requirements are met for nodes such as required meetings before user role
+        determination.
+      implementation: code/generate_feature_descriptions/generate_descriptions_for_features.py
+      name: generate_descriptions_for_features
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: feature_names
+        type: str
+      - description: Input parameter of type str
+        key: sequencing_node
+        type: str
+      prd: code/generate_feature_descriptions/prd/generate_descriptions_for_features_prd.yaml
+      prompt: Given a list of feature names (feature_names) and a sequencing node
+        (sequencing_node), generate a one-sentence, concise, and unambiguous description
+        for each feature, explicitly specifying that any feature related to the 'sequencing_node'
+        (e.g., 'schedule and conduct meeting with senior managers') includes language
+        about its required placement and purpose before user role assignment. Ensure
+        that each description directly corresponds in order and intent to its feature
+        name and avoid redundancy or overlap between descriptions.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node modifies feature descriptions by appending or integrating
+        mandatory sequencing clauses and their rationale for any feature matching
+        a specified sequencing node.
+      implementation: code/generate_feature_descriptions/apply_sequencing_clauses_to_descriptions.py
+      name: apply_sequencing_clauses_to_descriptions
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type Any
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: feature_names
+        type: str
+      - description: Input parameter of type str
+        key: descriptions
+        type: str
+      - description: Input parameter of type str
+        key: sequencing_node
+        type: str
+      - description: Input parameter of type str
+        key: rationale
+        type: str
+      prd: code/generate_feature_descriptions/prd/apply_sequencing_clauses_to_descriptions_prd.yaml
+      prompt: Modify the input list of feature descriptions so that for any feature
+        in feature_names matching the sequencing_node, the corresponding feature description
+        includes a requirement specifying that this action must occur before subsequent
+        features, with the provided rationale clearly stated; return the updated list
+        of descriptions as a string.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node verifies that the mapping between a list of workflow
+        feature names and their corresponding descriptions is both one-to-one and
+        order-consistent, raising an explicit error if any mismatch or misalignment
+        is found.
+      implementation: code/generate_feature_descriptions/validate_mapping_consistency.py
+      name: validate_mapping_consistency
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type Any
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: features
+        type: str
+      - description: Input parameter of type str
+        key: descriptions
+        type: str
+      prd: code/generate_feature_descriptions/prd/validate_mapping_consistency_prd.yaml
+      prompt: 'Description: Typed node for shim validate_mapping_consistency'
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node reviews and refines a list of feature descriptions to
+        ensure each is clearly worded, uniquely mapped to its feature, and free of
+        functional overlaps or ambiguities.
+      implementation: code/generate_feature_descriptions/disambiguate_descriptions_if_needed.py
+      name: disambiguate_descriptions_if_needed
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type Any
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: feature_names
+        type: str
+      - description: Input parameter of type str
+        key: descriptions
+        type: str
+      prd: code/generate_feature_descriptions/prd/disambiguate_descriptions_if_needed_prd.yaml
+      prompt: Given a list of feature names and their corresponding descriptions,
+        review the feature descriptions for any overlaps, ambiguities, or functional
+        redundancies, and refine each description so that every feature is uniquely
+        and unambiguously described with minimal overlap or confusion between descriptions.
+      shims: []
+  identify_core_objective:
+    agent: false
+    code_node_type: pure
+    description: Extract the single core objective of the workflow based on provided
+      requirements, ensuring that extracted constraints will be available as input
+      for downstream nodes such as identification of success metrics. Additionally,
+      explicitly incorporate the requirement to add a node for a meeting with senior
+      managers prior to determining user roles as part of the workflow, ensuring this
+      sequencing is considered in defining the core objective.
+    implementation: code/identify_core_objective.py
+    name: identify_core_objective
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: The primary objective statement for the workflow as described in
+        the requirements, reflecting the need to include a meeting with senior managers
+        prior to determining user roles, and noting that constraints should be available
+        for use by dependent nodes, such as those identifying success metrics.
+      key: core_objective
+      type: str
+    prd: code/prd/identify_core_objective_prd.yaml
+    prompt: "Read the workflow requirements and extract the singular core objective\
+      \ that this PRD document should accomplish. Focus the summary on the main purpose\
+      \ in a single sentence. Explicitly state that all extracted constraints must\
+      \ be identified for reference by downstream nodes, such as when defining success\
+      \ metrics. Ensure your analysis accounts for the inclusion of a node for a meeting\
+      \ with senior managers PRIOR to determining user roles\u2014as this step must\
+      \ occur first in the workflow\u2014and that this sequencing is reflected as\
+      \ integral to the workflow objective."
+    shims:
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node analyzes the requirements text to identify and articulate
+        the primary workflow objective, integrating explicit sequencing requirements
+        and ensuring reference to constraints is made for future workflow steps.
+      implementation: code/identify_core_objective/extract_core_objective_from_requirements.py
+      name: extract_core_objective_from_requirements
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: requirements_text
+        type: str
+      prd: code/identify_core_objective/prd/extract_core_objective_from_requirements_prd.yaml
+      prompt: Given a detailed requirements text, extract and succinctly state the
+        single core objective of the specified workflow, ensuring the statement incorporates
+        any explicit sequencing requirements (such as the necessity of a senior management
+        meeting prior to user role determination) and recognizes that relevant constraints
+        must be made available for use by downstream processes such as success metric
+        identification.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Extracts from the input requirements any explicit or implicit statements
+        specifying that a meeting with senior managers must occur before the determination
+        of user roles, and returns this sequencing clause as a single string.
+      implementation: code/identify_core_objective/extract_sequencing_clause_for_meeting.py
+      name: extract_sequencing_clause_for_meeting
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: requirements_text
+        type: str
+      prd: code/identify_core_objective/prd/extract_sequencing_clause_for_meeting_prd.yaml
+      prompt: Given the input requirements_text, extract any sentence, clause, or
+        clear instruction indicating that a meeting with senior managers must be held
+        prior to assignment or determination of user roles, returning the relevant
+        extracted sequencing statement verbatim or as a concise synthesized clause.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node analyzes provided requirements text to extract references
+        to technical, business, or process constraints that should be made available
+        for downstream workflow design and decision-making.
+      implementation: code/identify_core_objective/extract_constraint_references.py
+      name: extract_constraint_references
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: requirements_text
+        type: str
+      prd: code/identify_core_objective/prd/extract_constraint_references_prd.yaml
+      prompt: 'Given the following requirements text, identify and extract all explicit
+        and implicit references to technical, business, or process constraints (e.g.,
+        budget limitations, timeline deadlines, system restrictions, compliance requirements,
+        resource availabilities, etc.), phrasing them in concise and contextually
+        accurate statements suitable for input to downstream nodes:'
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Synthesizes a final, clear, and comprehensive core objective statement
+        by integrating the base objective, required sequencing (such as mandated meeting
+        order), and relevant constraints as described in workflow requirements.
+      implementation: code/identify_core_objective/compose_final_objective_statement.py
+      name: compose_final_objective_statement
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: base_objective
+        type: str
+      - description: Input parameter of type str
+        key: sequencing
+        type: str
+      - description: Input parameter of type str
+        key: constraints
+        type: str
+      prd: code/identify_core_objective/prd/compose_final_objective_statement_prd.yaml
+      prompt: 'Given a base objective statement, a sequencing requirement (such as
+        "a meeting with senior managers must occur prior to determining user roles"),
+        and a string summarizing relevant technical or business constraints, compose
+        a single, clear, and comprehensive final objective statement that integrates
+        all three elements into a logically ordered sentence or two.
+
+
+        Output the final, human-readable objective statement as a string.'
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node validates that the given core objective output string
+        conforms to the required schema and type specifications before passing it
+        downstream in the workflow.
+      implementation: code/identify_core_objective/validate_core_objective_output_schema.py
+      name: validate_core_objective_output_schema
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type Any
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: core_objective
+        type: str
+      prd: code/identify_core_objective/prd/validate_core_objective_output_schema_prd.yaml
+      prompt: Given a core objective string, ensure that it matches the required output
+        schema (i.e., is a non-empty string) and raises an appropriate error if validation
+        fails.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node stores the output of another node in a shared context
+        using a specified key so that it is accessible for downstream nodes.
+      implementation: code/identify_core_objective/store_node_output_in_context.py
+      name: store_node_output_in_context
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type Any
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: key
+        type: str
+      - description: Input parameter of type str
+        key: value
+        type: str
+      prd: code/identify_core_objective/prd/store_node_output_in_context_prd.yaml
+      prompt: Store the provided value in the shared or global context with the given
+        key so this output can be retrieved by subsequent nodes as input.
+      shims: []
+  identify_major_risks:
+    agent: false
+    code_node_type: pure
+    description: List significant risks or uncertainties associated with the workflow,
+      explicitly considering constraints as potential sources of risk or uncertainty.
+      Before determining user roles in the workflow, plan and conduct a meeting with
+      senior managers to review, validate, and discuss the risks, ensuring executive
+      visibility and input at an early stage.
+    implementation: code/identify_major_risks.py
+    name: identify_major_risks
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Significant risks or uncertainties for delivery or adoption of
+        the workflow, informed by and linked to any identified constraints.
+      key: major_risks
+      type: List[str]
+    - description: Actionable steps for organizing and conducting a meeting with senior
+        managers to review and validate identified risks prior to determining user
+        roles.
+      key: senior_manager_meeting_steps
+      type: List[str]
+    prd: code/prd/identify_major_risks_prd.yaml
+    prompt: Identify and list any major risks, uncertainties, or dependencies that
+      could affect the successful delivery of this workflow. Focus only on those that
+      are actionable or noteworthy for a PRD. In your assessment, ensure that you
+      reference or consider any constraints previously identified or extracted, as
+      risks often arise from limitations or boundaries set by those constraints. As
+      a required preliminary activity, add a meeting with senior managers to review
+      and validate the identified risks, ensuring that leadership is aware and has
+      the opportunity to provide input or direction regarding these risks. This meeting
+      should be conducted PRIOR to determining user roles in the workflow, to guarantee
+      that any risk-related guidance can inform decisions on user responsibilities
+      and workflow structure.
+    shims:
+    - agent: false
+      code_node_type: virtual-pure
+      description: Extracts a list of constraints (as strings) from the provided input
+        string, typically aggregating any constraints identified in prior workflow
+        steps.
+      implementation: code/identify_major_risks/extract_constraints_from_inputs.py
+      name: extract_constraints_from_inputs
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: inputs
+        type: str
+      prd: code/identify_major_risks/prd/extract_constraints_from_inputs_prd.yaml
+      prompt: Given an input string that may contain references to constraints from
+        earlier workflow steps, extract and return all explicitly or implicitly stated
+        constraints as a list of strings.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Analyzes a given workflow description and its constraints to systematically
+        identify and assess significant risks using a specified risk analysis framework.
+      implementation: code/identify_major_risks/assess_risks_with_constraints.py
+      name: assess_risks_with_constraints
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[dict]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: workflow_description
+        type: str
+      - description: Input parameter of type str
+        key: constraints
+        type: str
+      - description: Input parameter of type str
+        key: framework
+        type: str
+      prd: code/identify_major_risks/prd/assess_risks_with_constraints_prd.yaml
+      prompt: Given a workflow description, a list of constraints, and a risk analysis
+        framework (such as FMEA or risk matrix), systematically assess and document
+        all significant risks or uncertainties associated with the workflow, explicitly
+        linking each risk to relevant constraints, and output a structured list of
+        identified risks.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Takes a list of identified risks and associated constraints to
+        produce structured documentation linking each risk to rationale and references
+        to specific constraints.
+      implementation: code/identify_major_risks/document_risks_with_rationale.py
+      name: document_risks_with_rationale
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[dict]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: risks
+        type: str
+      - description: Input parameter of type str
+        key: constraints
+        type: str
+      prd: code/identify_major_risks/prd/document_risks_with_rationale_prd.yaml
+      prompt: 'For each risk in the provided risks list, create a structured output
+        documenting: (1) the risk description, (2) a clear rationale explaining why
+        this is a risk, and (3) explicit references to any relevant constraints from
+        the constraints list that contribute to or are affected by this risk.'
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Systematically evaluates a list of documented risks and tags each
+        as either actionable or non-actionable, providing justification for each decision.
+      implementation: code/identify_major_risks/tag_risks_actionable.py
+      name: tag_risks_actionable
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[dict]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: risks
+        type: str
+      prd: code/identify_major_risks/prd/tag_risks_actionable_prd.yaml
+      prompt: "Given a list of risks (each as a dictionary with risk description,\
+        \ rationale, and any linked constraints), systematically evaluate each risk\
+        \ and tag whether it is 'actionable' (i.e., can be mitigated or addressed\
+        \ through concrete steps or interventions) or 'non-actionable' (i.e., inherent\
+        \ or outside the organization\u2019s control). Output the augmented list of\
+        \ risk dictionaries, each now including a key 'actionable' with a boolean\
+        \ value indicating its actionability status, along with a brief justification\
+        \ per risk explaining the tagging decision."
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Filters a list of risk objects to retain only those that are actionable
+        or critical according to the specified filtering mode.
+      implementation: code/identify_major_risks/filter_major_risks.py
+      name: filter_major_risks
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[dict]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: risks
+        type: str
+      - description: Input parameter of type str
+        key: filter_mode
+        type: str
+      prd: code/identify_major_risks/prd/filter_major_risks_prd.yaml
+      prompt: Filter the provided list of risk objects represented as dictionaries
+        according to the specified 'filter_mode', returning only those deemed 'actionable'
+        or 'critical' as appropriate. Ensure the output is a list of dictionaries
+        with all relevant fields preserved.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Formats a structured list of major risks into readable output strings
+        that concisely summarize each risk and their associated details for decision
+        makers.
+      implementation: code/identify_major_risks/format_major_risks.py
+      name: format_major_risks
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: risks
+        type: str
+      prd: code/identify_major_risks/prd/format_major_risks_prd.yaml
+      prompt: Given a set of risk objects or dictionaries, generate a human-readable,
+        well-structured string for each item that summarizes the risk, outlines its
+        rationale, and clearly links it to any relevant constraints or actionable
+        context; the output should be suitable for downstream review or executive
+        decision-making.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Generates a detailed, actionable sequence of steps required to
+        organize and conduct a senior manager meeting designed to review and validate
+        identified workflow risks before assigning user roles, using options for agenda
+        notes, calendar integration, and notification setup.
+      implementation: code/identify_major_risks/generate_senior_manager_meeting_steps.py
+      name: generate_senior_manager_meeting_steps
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: risks
+        type: str
+      - description: Input parameter of type str
+        key: constraints
+        type: str
+      - description: Input parameter of type str
+        key: agenda_notes
+        type: str
+      - description: Input parameter of type str
+        key: calendar_integration
+        type: str
+      - description: Input parameter of type str
+        key: notification_queue
+        type: str
+      prd: code/identify_major_risks/prd/generate_senior_manager_meeting_steps_prd.yaml
+      prompt: Given a list of identified risks, relevant workflow constraints, and
+        input flags for agenda notes, calendar integration, and notification queue,
+        generate a clear and actionable step-by-step set of instructions for organizing
+        and conducting a senior manager meeting to review risks before user role assignment.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node enforces that a documented senior manager review meeting
+        must occur and be confirmed complete in the workflow before any user role
+        assignment actions are allowed.
+      implementation: code/identify_major_risks/enforce_meeting_before_roles.py
+      name: enforce_meeting_before_roles
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type Any
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: meeting_steps
+        type: str
+      - description: Input parameter of type str
+        key: workflow_state
+        type: str
+      prd: code/identify_major_risks/prd/enforce_meeting_before_roles_prd.yaml
+      prompt: Ensure that all specified steps for a senior manager meeting are completed
+        and validated in the workflow state before proceeding to any user roles determination
+        or assignment activities.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node logs an auditable record associating risks, constraints,
+        and actions taken as part of the risk management process.
+      implementation: code/identify_major_risks/log_risk_audit_trail.py
+      name: log_risk_audit_trail
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type Any
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: risks
+        type: str
+      - description: Input parameter of type str
+        key: constraints
+        type: str
+      - description: Input parameter of type str
+        key: action
+        type: str
+      prd: code/identify_major_risks/prd/log_risk_audit_trail_prd.yaml
+      prompt: Record an audit trail entry capturing the current set of risks, source
+        constraints, and specified action (such as 'initial_risk_identification_meeting'),
+        ensuring that full traceability and context are preserved for all major risk
+        management decisions.
+      shims: []
+  identify_success_metrics:
+    agent: false
+    code_node_type: pure
+    description: List measurable success criteria (quantitative or qualitative) for
+      the workflow, ensuring that constraints are incorporated as inputs to defining
+      these metrics. Explicitly include a success metric for the scheduling and completion
+      of a meeting with senior managers prior to any determination of user roles,
+      aligned with the requirement to add such a node before user roles are set.
+    implementation: code/identify_success_metrics.py
+    name: identify_success_metrics
+    nodes_depended_on:
+    - identify_core_objective
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of measurable success metrics or acceptance criteria, each
+        reflecting alignment with the core objective and honoring identified constraints,
+        and including at least one explicit metric that the meeting with senior managers
+        has been scheduled and completed before user roles are determined.
+      key: success_metrics
+      type: List[str]
+    prd: code/prd/identify_success_metrics_prd.yaml
+    prompt: Based on the core objective and all relevant workflow constraints, identify
+      and enumerate the main success metrics for the workflow. Each metric should
+      be stated as a measurable goal or observable outcome directly tied to the objective
+      and compliant with the constraints. Consider how each identified constraint
+      may require additional or specific success criteria, or may restrict how the
+      workflow may be deemed successful. Ensure that you incorporate, as a distinct
+      success metric, the successful scheduling and completion of a meeting with senior
+      managers prior to determining user roles in the workflow (reflecting the explicit
+      requirement that the meeting must be an added node before user role determination).
+    shims:
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node extracts a list of explicit constraints from the parent
+        node's input string or a fallback core objective output for use by dependent
+        workflow nodes.
+      implementation: code/identify_success_metrics/extract_constraints_from_parent_input.py
+      name: extract_constraints_from_parent_input
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: inputs
+        type: str
+      - description: Input parameter of type str
+        key: fallback_objective_output
+        type: str
+      prd: code/identify_success_metrics/prd/extract_constraints_from_parent_input_prd.yaml
+      prompt: Given the input string and the fallback objective output, extract a
+        list of explicit constraints relevant to the workflow requirements for downstream
+        use as List[str].
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node translates a set of workflow constraints and an objective
+        statement into a list of specific, measurable success metrics aligned with
+        those constraints.
+      implementation: code/identify_success_metrics/map_constraints_to_metrics.py
+      name: map_constraints_to_metrics
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: constraints
+        type: str
+      - description: Input parameter of type str
+        key: objective
+        type: str
+      prd: code/identify_success_metrics/prd/map_constraints_to_metrics_prd.yaml
+      prompt: Given a set of constraints and a core objective statement, enumerate
+        one or more measurable success metrics for each constraint, ensuring each
+        metric directly reflects or enforces the constraint and is traceable back
+        to both the constraint and the core objective.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node generates a specific, measurable success metric that
+        ensures a meeting with senior managers is scheduled and completed prior to
+        determining user roles, based on the workflow's core objective and constraints.
+      implementation: code/identify_success_metrics/generate_meeting_governance_metric.py
+      name: generate_meeting_governance_metric
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: core_objective
+        type: str
+      - description: Input parameter of type str
+        key: constraints
+        type: str
+      prd: code/identify_success_metrics/prd/generate_meeting_governance_metric_prd.yaml
+      prompt: Given a core workflow objective relating to meetings with senior managers
+        and a set of workflow constraints, generate a clear, explicit, and measurable
+        governance-oriented success metric that confirms a meeting with senior managers
+        has been scheduled and completed before user roles are determined.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Structures and formats a list of success metrics according to a
+        specified reporting template such as SMART or OKR for consistent and effective
+        communication.
+      implementation: code/identify_success_metrics/structure_metrics_for_reporting.py
+      name: structure_metrics_for_reporting
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: metrics
+        type: str
+      - description: Input parameter of type str
+        key: template
+        type: str
+      prd: code/identify_success_metrics/prd/structure_metrics_for_reporting_prd.yaml
+      prompt: Format the provided list of success metrics according to the specified
+        reporting template (e.g., SMART, OKR), standardizing their structure, phrasing,
+        and relevant metadata as necessary for clear communication in reports.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This shim enriches a provided list of workflow success metrics
+        by generating both quantitative and qualitative success criteria, ensuring
+        alignment with specified constraints and the core objective.
+      implementation: code/identify_success_metrics/generate_quant_qual_metrics.py
+      name: generate_quant_qual_metrics
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: metrics
+        type: str
+      - description: Input parameter of type str
+        key: constraints
+        type: str
+      - description: Input parameter of type str
+        key: core_objective
+        type: str
+      prd: code/identify_success_metrics/prd/generate_quant_qual_metrics_prd.yaml
+      prompt: Given the current list of metrics, associated constraints, and the core
+        objective, generate a comprehensive set of success metrics that includes both
+        quantitative (measurable, numeric) and qualitative (descriptive, satisfaction-based)
+        criteria, ensuring each aligns with the stated constraints and core objective
+        of the workflow.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node enriches a list of success metrics by appending traceability
+        information that links each metric to the originating constraint or feature
+        and the specific workflow node reference.
+      implementation: code/identify_success_metrics/add_traceability_to_metrics.py
+      name: add_traceability_to_metrics
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: metrics
+        type: str
+      - description: Input parameter of type str
+        key: constraints
+        type: str
+      - description: Input parameter of type str
+        key: node_reference
+        type: str
+      prd: code/identify_success_metrics/prd/add_traceability_to_metrics_prd.yaml
+      prompt: Given a list of metrics, a description of relevant constraints, and
+        a node reference, return a new list of metrics where each item is annotated
+        or linked to its originating constraint or feature and the node_reference,
+        ensuring all metrics are traceable to their source within the workflow.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Identifies which constraints from the input list have not been
+        explicitly mapped to any of the provided success metrics.
+      implementation: code/identify_success_metrics/find_unmapped_constraints.py
+      name: find_unmapped_constraints
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: constraints
+        type: str
+      - description: Input parameter of type str
+        key: metrics
+        type: str
+      prd: code/identify_success_metrics/prd/find_unmapped_constraints_prd.yaml
+      prompt: Given a list of constraints and a list of success metrics, identify
+        and return all constraints that are not clearly addressed or mapped by any
+        of the success metrics.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node checks for any constraints that could not be mapped to
+        success metrics, and either logs the unmapped constraints or raises an error
+        depending on the context or configuration.
+      implementation: code/identify_success_metrics/log_or_raise_unmapped_constraints.py
+      name: log_or_raise_unmapped_constraints
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type Any
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: unmapped_constraints
+        type: str
+      prd: code/identify_success_metrics/prd/log_or_raise_unmapped_constraints_prd.yaml
+      prompt: Check the provided list of unmapped constraints; if the list is not
+        empty, either log detailed information about each unmapped constraint or raise
+        an exception to halt execution based on severity and context requirements.
+      shims: []
+  list_primary_user_roles:
+    agent: false
+    code_node_type: pure
+    description: Determine all primary user roles or personas that will interact with
+      the workflow. As a prerequisite, ensure that a node for a meeting with senior
+      managers is explicitly added, and then include this as a primary user interaction
+      when relevant. Capture a clear, distinct list of primary user roles, without
+      making assumptions about implied or overlapping user types.
+    implementation: code/list_primary_user_roles.py
+    name: list_primary_user_roles
+    nodes_depended_on:
+    - identify_core_objective
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of primary user roles or personas interacting with the workflow,
+        explicitly incorporating the node for a meeting with senior managers when
+        applicable.
+      key: user_roles
+      type: List[str]
+    prd: code/prd/list_primary_user_roles_prd.yaml
+    prompt: First, ensure that a node representing a meeting with senior managers
+      is included as an explicit step prior to listing user roles. Then, analyze the
+      workflow's core objective and requirements to systematically list all distinct
+      user roles or personas who will directly interact with or benefit from the workflow.
+      Explicitly include the role or interaction of a meeting with senior managers
+      if it has not already been incorporated. Focus on capturing only clear, stated
+      roles and avoid inferring or merging user types unless explicitly described.
+      Make certain the meeting with senior managers is treated as a distinct and primary
+      user interaction node.
+    shims:
+    - agent: false
+      code_node_type: virtual-pure
+      description: This shim determines and outputs the appropriate user role label
+        or identifier for a required meeting with senior managers, based on the core
+        workflow objective.
+      implementation: code/list_primary_user_roles/determine_senior_manager_meeting_role.py
+      name: determine_senior_manager_meeting_role
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: core_objective
+        type: str
+      prd: code/list_primary_user_roles/prd/determine_senior_manager_meeting_role_prd.yaml
+      prompt: Based on the workflow's core objective, generate a string that clearly
+        and specifically identifies the user role representing a senior manager meeting
+        to be incorporated into the user roles list.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This function parses the provided requirements text and context
+        to identify and return an explicit, type-safe list of user role names that
+        are directly mentioned as participants in the workflow.
+      implementation: code/list_primary_user_roles/extract_explicit_user_roles_from_requirements.py
+      name: extract_explicit_user_roles_from_requirements
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: text
+        type: str
+      - description: Input parameter of type str
+        key: context_kwargs
+        type: str
+      prd: code/list_primary_user_roles/prd/extract_explicit_user_roles_from_requirements_prd.yaml
+      prompt: Extract and return a list of explicit user role or persona names that
+        are directly mentioned in the following requirements text, focusing on unique,
+        concrete roles and ignoring implied or generic terms; use any provided context
+        to disambiguate ambiguous references. Output a Python list of strings with
+        the user role names only.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Ensures that the specified senior manager meeting role is present
+        as the first element in a list of user roles, reordering or inserting it as
+        needed.
+      implementation: code/list_primary_user_roles/ensure_senior_manager_meeting_first.py
+      name: ensure_senior_manager_meeting_first
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: senior_manager_role
+        type: str
+      - description: Input parameter of type str
+        key: candidate_roles
+        type: str
+      prd: code/list_primary_user_roles/prd/ensure_senior_manager_meeting_first_prd.yaml
+      prompt: Given a senior_manager_role (str) and a candidate_roles (List[str]),
+        output a List[str] in which the senior_manager_role appears as the first element,
+        and the remaining roles follow in their original order without duplicates.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node validates and enforces type-safety on a list of user
+        roles, ensuring all entries are unique, non-empty strings before returning
+        the cleaned List[str].
+      implementation: code/list_primary_user_roles/validate_user_roles_type_safety.py
+      name: validate_user_roles_type_safety
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: user_roles
+        type: str
+      prd: code/list_primary_user_roles/prd/validate_user_roles_type_safety_prd.yaml
+      prompt: Given a list of user_roles, ensure the list is strictly composed of
+        type-safe strings representing user roles (e.g., no duplicates, no invalid/non-string
+        entries, no empty or whitespace-only items), returning the cleaned and validated
+        list of user roles as List[str].
+      shims: []
+  prioritize_features:
+    agent: false
+    code_node_type: pure
+    description: "Assign a unique priority ranking to each key feature, ensuring that\
+      \ a feature related to a meeting with senior managers is explicitly included\u2014\
+      specifically, a node for the meeting should occur prior to determining user\
+      \ roles\u2014and given an appropriate criticality ranking."
+    implementation: code/prioritize_features.py
+    name: prioritize_features
+    nodes_depended_on:
+    - extract_key_features
+    nodes_dependent_on: []
+    output_structure:
+    - description: Priority value for each feature, parallel with feature_names (ensuring
+        a 'meeting with senior managers' node comes before user role determination
+        and is appropriately ranked).
+      key: feature_priorities
+      type: List[int]
+    prd: code/prd/prioritize_features_prd.yaml
+    prompt: Given the list of key features, ensure that a feature for a 'meeting with
+      senior managers' appears immediately before any feature related to determining
+      user roles (add or reposition it if necessary). Then, assign a unique integer
+      priority to each feature strictly based on its criticality to the core objective.
+      Rank priority so that 1 means most critical, with higher numbers for less critical
+      features. No duplicates allowed. If the 'meeting with senior managers' feature
+      is newly added or moved, carefully consider its priority relative to the other
+      features, especially its position before user role determination.
+    shims:
+    - agent: false
+      code_node_type: virtual-pure
+      description: Ensures that the feature for scheduling and conducting a meeting
+        with senior managers is included in the workflow feature list and appears
+        before any role-determination related features.
+      implementation: code/prioritize_features/enforce_meeting_precedes_roles.py
+      name: enforce_meeting_precedes_roles
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: features
+        type: str
+      prd: code/prioritize_features/prd/enforce_meeting_precedes_roles_prd.yaml
+      prompt: Given a list of workflow feature names (as strings), ensure that the
+        feature 'Schedule and conduct a meeting with senior managers' is present and
+        occurs before any feature related to user role determination within the list.
+        Return the reordered list of features.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Assigns a unique integer priority to each workflow feature in a
+        given list, ensuring prioritization is based on criticality, workflow sequence,
+        and regulatory importance.
+      implementation: code/prioritize_features/assign_unique_priorities.py
+      name: assign_unique_priorities
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[int]
+        key: output
+        type: List[int]
+      - description: Input parameter of type str
+        key: features
+        type: str
+      prd: code/prioritize_features/prd/assign_unique_priorities_prd.yaml
+      prompt: 'Assign a unique integer priority to each feature in the provided list
+        (features: str) such that the output is an ordered list of integers representing
+        each feature''s priority based on criticality, workflow order, and regulatory
+        dependency; make sure every feature has a unique, sequential priority.'
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This node verifies that the list of workflow features and the list
+        of feature priorities are aligned in length and order, ensuring every feature
+        has a unique corresponding priority.
+      implementation: code/prioritize_features/validate_alignment.py
+      name: validate_alignment
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type Any
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: features
+        type: str
+      - description: Input parameter of type str
+        key: priorities
+        type: str
+      prd: code/prioritize_features/prd/validate_alignment_prd.yaml
+      prompt: 'Verify that the input list of features and the input list of priorities
+        are strictly aligned: confirm both lists are the same length and that each
+        index in features has a corresponding entry in priorities; if not, raise a
+        validation error with a clear message.'
+      shims: []

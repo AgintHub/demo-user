@@ -1,0 +1,307 @@
+dag_type: pure
+description: Add a node for a meeting with senior managers prior to determining user
+  roles
+name: MeetingNodeAddition
+nodes:
+  initialize_meeting_node:
+    agent: false
+    code_node_type: pure
+    description: Create a new node for the meeting with senior managers
+    implementation: code/initialize_meeting_node.py
+    name: initialize_meeting_node
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Unique ID of the newly created meeting node
+      key: node_id
+      type: str
+    - description: Label of the meeting node
+      key: node_label
+      type: str
+    prd: code/prd/initialize_meeting_node_prd.yaml
+    prompt: Create a new node with a unique ID and label it as 'Senior Managers Meeting'.
+    shims:
+    - agent: false
+      code_node_type: virtual-pure
+      description: Generates a unique identifier as a string.
+      implementation: code/initialize_meeting_node/generate_uuid.py
+      name: generate_uuid
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      prd: code/initialize_meeting_node/prd/generate_uuid_prd.yaml
+      prompt: 'Description: Typed node for shim generate_uuid'
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Creates a typed node with a given label and returns its string
+        representation along with the node ID.
+      implementation: code/initialize_meeting_node/create_node_with_label.py
+      name: create_node_with_label
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: node_id
+        type: str
+      - description: Input parameter of type str
+        key: label
+        type: str
+      prd: code/initialize_meeting_node/prd/create_node_with_label_prd.yaml
+      prompt: Typed node for shim create_node_with_label
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Validates the creation of a node with a given ID and label.
+      implementation: code/initialize_meeting_node/validate_node_creation.py
+      name: validate_node_creation
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type bool
+        key: output
+        type: bool
+      - description: Input parameter of type str
+        key: node_id
+        type: str
+      - description: Input parameter of type str
+        key: label
+        type: str
+      prd: code/initialize_meeting_node/prd/validate_node_creation_prd.yaml
+      prompt: 'Description: Typed node for shim validate_node_creation'
+      shims: []
+  link_meeting_node_to_role_determination:
+    agent: false
+    code_node_type: pure
+    description: Link the meeting node to the user role determination process
+    implementation: code/link_meeting_node_to_role_determination.py
+    name: link_meeting_node_to_role_determination
+    nodes_depended_on:
+    - specify_meeting_details
+    nodes_dependent_on: []
+    output_structure:
+    - description: Unique ID of the edge linking the meeting node to the role determination
+        node
+      key: edge_id
+      type: str
+    - description: Type of the edge (e.g., 'precedence')
+      key: edge_type
+      type: str
+    prd: code/prd/link_meeting_node_to_role_determination_prd.yaml
+    prompt: Create a directed edge from the meeting node to the user role determination
+      node, indicating that the meeting must occur before roles are determined.
+    shims:
+    - agent: false
+      code_node_type: virtual-pure
+      description: Extracts relevant information from the input data to facilitate
+        linking a meeting node to a role determination process.
+      implementation: code/link_meeting_node_to_role_determination/extract_relevant_info.py
+      name: extract_relevant_info
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type dict
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: input_data
+        type: str
+      prd: code/link_meeting_node_to_role_determination/prd/extract_relevant_info_prd.yaml
+      prompt: Extract relevant information from the input data for linking a meeting
+        node to a role determination process.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Generates a unique identifier for use in edge creation between
+        nodes.
+      implementation: code/link_meeting_node_to_role_determination/generate_unique_id.py
+      name: generate_unique_id
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      prd: code/link_meeting_node_to_role_determination/prd/generate_unique_id_prd.yaml
+      prompt: 'Description: Typed node for shim generate_unique_id'
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Determines the type of edge based on the given node types.
+      implementation: code/link_meeting_node_to_role_determination/determine_edge_type.py
+      name: determine_edge_type
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: node_types
+        type: str
+      prd: code/link_meeting_node_to_role_determination/prd/determine_edge_type_prd.yaml
+      prompt: Typed node for shim determine_edge_type
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: The create_edge shim function creates a new edge in the system
+        based on the provided edge ID, edge type, and meeting details.
+      implementation: code/link_meeting_node_to_role_determination/create_edge.py
+      name: create_edge
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type Any
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: edge_id
+        type: str
+      - description: Input parameter of type str
+        key: edge_type
+        type: str
+      - description: Input parameter of type str
+        key: meeting_details
+        type: str
+      prd: code/link_meeting_node_to_role_determination/prd/create_edge_prd.yaml
+      prompt: Create a new edge with the given parameters.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: The handle_error shim function handles and processes exceptions
+        that occur during the execution of the link_meeting_node_to_role_determination
+        node, providing a robust error handling mechanism.
+      implementation: code/link_meeting_node_to_role_determination/handle_error.py
+      name: handle_error
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type Any
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: exception
+        type: str
+      prd: code/link_meeting_node_to_role_determination/prd/handle_error_prd.yaml
+      prompt: Handle the error that occurred during edge creation.
+      shims: []
+  specify_meeting_details:
+    agent: false
+    code_node_type: shim
+    description: Specify details of the meeting with senior managers
+    implementation: code/specify_meeting_details.py
+    name: specify_meeting_details
+    nodes_depended_on:
+    - initialize_meeting_node
+    nodes_dependent_on: []
+    output_structure:
+    - description: Date of the meeting in ISO format (YYYY-MM-DD)
+      key: meeting_date
+      type: str
+    - description: Time of the meeting in ISO format (HH:MM)
+      key: meeting_time
+      type: str
+    - description: Location of the meeting
+      key: meeting_location
+      type: str
+    - description: List of attendees for the meeting
+      key: attendees
+      type: List[str]
+    prd: code/prd/specify_meeting_details_prd.yaml
+    prompt: Add details to the meeting node, including date, time, location, and attendees.
+    shims:
+    - agent: false
+      code_node_type: virtual-pure
+      description: The shim function get_available_dates retrieves a list of available
+        dates for a meeting.
+      implementation: code/specify_meeting_details/get_available_dates.py
+      name: get_available_dates
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      prd: code/specify_meeting_details/prd/get_available_dates_prd.yaml
+      prompt: Get available dates for a meeting.
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: This shim function selects a meeting date from a list of proposed
+        dates based on certain criteria or user input.
+      implementation: code/specify_meeting_details/select_meeting_date.py
+      name: select_meeting_date
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: dates
+        type: str
+      prd: code/specify_meeting_details/prd/select_meeting_date_prd.yaml
+      prompt: Select a meeting date from the proposed dates
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: Schedules the meeting time based on the chosen date.
+      implementation: code/specify_meeting_details/schedule_meeting_time.py
+      name: schedule_meeting_time
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: date
+        type: str
+      prd: code/specify_meeting_details/prd/schedule_meeting_time_prd.yaml
+      prompt: Schedule meeting time for the chosen date
+      shims: []
+    - agent: false
+      code_node_type: virtual-stub
+      description: This node determines the meeting location based on the chosen date
+        and time.
+      implementation: code/specify_meeting_details/determine_meeting_location.py
+      name: determine_meeting_location
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type str
+        key: output
+        type: str
+      - description: Input parameter of type str
+        key: date
+        type: str
+      - description: Input parameter of type str
+        key: time
+        type: str
+      prd: code/specify_meeting_details/prd/determine_meeting_location_prd.yaml
+      prompt: Determine the meeting location for the chosen date and time
+      shims: []
+    - agent: false
+      code_node_type: virtual-pure
+      description: The identify_meeting_attendees shim retrieves a list of attendees
+        for a meeting based on the provided node ID.
+      implementation: code/specify_meeting_details/identify_meeting_attendees.py
+      name: identify_meeting_attendees
+      nodes_depended_on: []
+      nodes_dependent_on: []
+      output_structure:
+      - description: Output of type List[str]
+        key: output
+        type: List[str]
+      - description: Input parameter of type str
+        key: node_id
+        type: str
+      prd: code/specify_meeting_details/prd/identify_meeting_attendees_prd.yaml
+      prompt: Identify the attendees for a meeting with the given node ID.
+      shims: []
