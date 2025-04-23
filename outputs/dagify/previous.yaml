@@ -1,140 +1,56 @@
 dag_type: typed
-description: Decompose the process for generating a Product Requirements Document
-  (PRD) from workflow requirements into granular, type-safe, elemental steps.
-name: PRDDocumentGenerationWorkflow
+description: A granular execution plan to extract data from an API in a type-safe
+  and organized manner
+name: Extract Data from API
 nodes:
-  compose_prd_summary:
+  configure_api_url:
     agent: false
-    description: Create a PRD executive summary referencing all prior outputs.
-    name: compose_prd_summary
-    nodes_depended_on:
-    - identify_core_objective
-    - list_primary_user_roles
-    - extract_key_features
-    - generate_feature_descriptions
+    description: Configure the API URL based on the provided input
+    name: configure_api_url
+    nodes_depended_on: []
     nodes_dependent_on: []
     output_structure:
-    - description: Executive summary for the PRD document, synthesizing objective,
-        users, and features.
-      key: prd_summary
+    - description: The final API URL after combining base URL and query parameters
+      key: api_url
       type: str
-    prompt: Write an executive summary for the PRD that succinctly combines the core
-      objective, user roles, key features, and their descriptions. The summary should
-      present a clear overview to an executive reader. Do not include metrics, constraints,
-      or risks here.
-  extract_constraints:
+    prompt: Configure the API URL by combining the base URL and any provided query
+      parameters.
+  extract_required_fields:
     agent: false
-    description: Extract explicit technical or business constraints from the requirements.
-    name: extract_constraints
-    nodes_depended_on: []
-    nodes_dependent_on: []
-    output_structure:
-    - description: List of explicit technical or business constraints applicable to
-        the workflow.
-      key: constraints
-      type: List[str]
-    prompt: Read the provided requirements and list all explicit technical or business
-      constraints (such as regulatory, platform limitations, deadlines, etc) that
-      must be satisfied by the PRD. Omit any implied or unstated constraints.
-  extract_key_features:
-    agent: false
-    description: Generate a list of key functional features required by the workflow.
-    name: extract_key_features
+    description: Extract the required fields from the parsed data
+    name: extract_required_fields
     nodes_depended_on:
-    - identify_core_objective
+    - parse_response_body
     nodes_dependent_on: []
     output_structure:
-    - description: Names of fundamental workflow features required in the PRD.
-      key: feature_names
+    - description: A list of extracted required fields
+      key: required_fields
       type: List[str]
-    prompt: Examining the requirements and core objective, extract the main features
-      that the PRD should address. Each feature should be a standalone, functional
-      capability with no overlap.
-  generate_feature_descriptions:
+    prompt: Extract the required fields from the parsed data, maintaining type safety
+      and order.
+  parse_response_body:
     agent: false
-    description: Write a concise, one-sentence description for each feature.
-    name: generate_feature_descriptions
+    description: Parse the JSON response body into a typed list of data
+    name: parse_response_body
     nodes_depended_on:
-    - extract_key_features
+    - send_api_request
     nodes_dependent_on: []
-    output_structure:
-    - description: Concise description for each feature, aligned with feature_names.
-      key: feature_descriptions
-      type: List[str]
-    prompt: For each key feature, provide a one-sentence description that clearly
-      and concisely describes the purpose or functionality of that feature within
-      the workflow.
-  identify_core_objective:
+    output_structure: []
+    prompt: Parse the JSON response body into a typed list of data, assuming a predefined
+      schema.
+  send_api_request:
     agent: false
-    description: Extract the single core objective of the workflow based on provided
-      requirements.
-    name: identify_core_objective
-    nodes_depended_on: []
+    description: Send a GET request to the configured API URL
+    name: send_api_request
+    nodes_depended_on:
+    - configure_api_url
     nodes_dependent_on: []
     output_structure:
-    - description: The primary objective statement for the workflow as described in
-        the requirements.
-      key: core_objective
+    - description: The HTTP status code of the API response
+      key: response_status
       type: str
-    prompt: Read the workflow requirements and identify the singular core objective
-      that this PRD document should accomplish. Focus only on distilling the main
-      purpose into a single sentence.
-  identify_major_risks:
-    agent: false
-    description: List significant risks or uncertainties associated with the workflow.
-    name: identify_major_risks
-    nodes_depended_on: []
-    nodes_dependent_on: []
-    output_structure:
-    - description: Significant risks or uncertainties for delivery or adoption of
-        the workflow.
-      key: major_risks
-      type: List[str]
-    prompt: Identify and list any major risks, uncertainties, or dependencies that
-      could affect the successful delivery of this workflow. Focus only on those that
-      are actionable or noteworthy for a PRD.
-  identify_success_metrics:
-    agent: false
-    description: List measurable success criteria (quantitative or qualitative) for
-      the workflow.
-    name: identify_success_metrics
-    nodes_depended_on:
-    - identify_core_objective
-    nodes_dependent_on: []
-    output_structure:
-    - description: List of measurable success metrics or acceptance criteria.
-      key: success_metrics
-      type: List[str]
-    prompt: Based on the core objective, identify and enumerate the main success metrics
-      for the workflow. Each metric should be stated as a measurable goal or observable
-      outcome directly tied to the objective.
-  list_primary_user_roles:
-    agent: false
-    description: Determine all primary user roles or personas that will interact with
-      the workflow.
-    name: list_primary_user_roles
-    nodes_depended_on:
-    - identify_core_objective
-    nodes_dependent_on: []
-    output_structure:
-    - description: List of primary user roles or personas interacting with the workflow.
-      key: user_roles
-      type: List[str]
-    prompt: Analyze the core objective and requirements to list all distinct user
-      roles or personas who will directly interact with or benefit from this workflow.
-      Focus on explicit roles and avoid inferring unstated or overlapping user types.
-  prioritize_features:
-    agent: false
-    description: Assign a unique priority ranking to each key feature.
-    name: prioritize_features
-    nodes_depended_on:
-    - extract_key_features
-    nodes_dependent_on: []
-    output_structure:
-    - description: Priority value for each feature, parallel with feature_names.
-      key: feature_priorities
-      type: List[int]
-    prompt: Given the list of key features, assign a unique integer priority to each
-      based strictly on its criticality to the core objective. Rank priority so that
-      1 means most critical, with higher numbers for less critical features. No duplicates
-      allowed.
+    - description: The JSON body of the API response
+      key: response_body
+      type: str
+    prompt: Send a GET request to the configured API URL using the provided headers
+      and query parameters.

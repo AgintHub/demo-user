@@ -1,0 +1,77 @@
+dag_type: typed
+description: A granular execution plan for testing workflow
+name: Testing Workflow
+nodes:
+  analyze_test_results:
+    agent: false
+    description: Analyze the test results
+    name: analyze_test_results
+    nodes_depended_on:
+    - perform_test_cases
+    nodes_dependent_on: []
+    output_structure:
+    - description: Analysis results
+      key: analysis_results
+      type: str
+    prompt: Analyze the test results to determine the success or failure of the test
+      cases.
+  document_test_results:
+    agent: false
+    description: Document the test results
+    name: document_test_results
+    nodes_depended_on:
+    - analyze_test_results
+    nodes_dependent_on: []
+    output_structure:
+    - description: Document ID
+      key: document_id
+      type: str
+    - description: Document URL
+      key: document_url
+      type: str
+    prompt: Document the test results, including the analysis results and any other
+      relevant information.
+  get_testing_environment:
+    agent: false
+    description: Get the testing environment details
+    name: get_testing_environment
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Type of the testing environment
+      key: environment_type
+      type: str
+    - description: List of test cases
+      key: test_cases
+      type: List[str]
+    - description: List of test data
+      key: test_data
+      type: List[str]
+    prompt: Describe the testing environment details, including the test cases, test
+      data, and any other relevant information.
+  perform_test_cases:
+    agent: false
+    description: Perform the selected test cases
+    name: perform_test_cases
+    nodes_depended_on:
+    - select_test_cases
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of test results
+      key: test_results
+      type: List[str]
+    prompt: Perform the selected test cases using the testing data and environment
+      details.
+  select_test_cases:
+    agent: false
+    description: Select the relevant test cases
+    name: select_test_cases
+    nodes_depended_on:
+    - get_testing_environment
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of selected test cases
+      key: selected_test_cases
+      type: List[str]
+    prompt: Select the relevant test cases based on the test cases list provided in
+      the testing environment details.
