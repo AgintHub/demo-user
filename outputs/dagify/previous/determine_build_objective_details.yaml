@@ -1,56 +1,52 @@
 dag_type: plain_text
-description: A workflow to interpret and clarify the objective of what to build
+description: A workflow to interpret the objective and determine what to build
 name: determine_build_objective
 nodes:
-  clarify_objective:
+  analyze_task_description:
     agent: false
-    description: Seek clarification on the objective to ensure understanding
-    name: clarify_objective
+    description: Analyze the task description to identify key requirements
+    name: analyze_task_description
     nodes_depended_on: []
     nodes_dependent_on: []
-    prompt: Please provide more context or details about what you need to build.
-  create_build_roadmap:
+    prompt: Carefully read and analyze the task description to identify the main objective
+      and any specific requirements or constraints.
+  generate_build_plan:
     agent: false
-    description: Create a high-level roadmap for building the components
-    name: create_build_roadmap
+    description: Generate a high-level plan for building the object or achieving the
+      outcome
+    name: generate_build_plan
     nodes_depended_on:
-    - determine_build_components
+    - refine_build_object
     nodes_dependent_on: []
-    prompt: Create a high-level roadmap for building the components, including key
-      milestones and dependencies.
-  define_build_scope:
+    prompt: Based on the refined build object, generate a high-level plan for building
+      the object or achieving the outcome. Provide a list of key steps and milestones.
+  identify_build_object:
     agent: false
-    description: Define the scope of what needs to be built
-    name: define_build_scope
+    description: Determine the specific object or outcome to build based on the task
+      description
+    name: identify_build_object
     nodes_depended_on:
-    - identify_key_requirements
+    - analyze_task_description
     nodes_dependent_on: []
-    prompt: Based on the key requirements and constraints, define the scope of what
-      needs to be built.
-  determine_build_components:
+    prompt: Based on the analysis of the task description, determine the specific
+      object or outcome that needs to be built. Provide a clear and concise description
+      of the object or outcome.
+  provide_build_instructions:
     agent: false
-    description: Identify the components and sub-components that need to be built
-    name: determine_build_components
+    description: Provide detailed instructions on what to build
+    name: provide_build_instructions
     nodes_depended_on:
-    - define_build_scope
+    - generate_build_plan
     nodes_dependent_on: []
-    prompt: Break down the scope into individual components and sub-components that
-      need to be built.
-  identify_key_requirements:
+    prompt: Based on the high-level plan, provide detailed instructions on what to
+      build, including specific requirements, specifications, and any relevant details.
+  refine_build_object:
     agent: false
-    description: Extract key requirements and constraints from the objective
-    name: identify_key_requirements
+    description: Refine the build object to ensure it is clear and well-defined
+    name: refine_build_object
     nodes_depended_on:
-    - clarify_objective
+    - identify_build_object
     nodes_dependent_on: []
-    prompt: Based on the objective, list the key requirements and constraints that
-      need to be considered.
-  summarize_build_objective:
-    agent: false
-    description: Summarize the objective and scope of what needs to be built
-    name: summarize_build_objective
-    nodes_depended_on:
-    - create_build_roadmap
-    nodes_dependent_on: []
-    prompt: Summarize the objective and scope of what needs to be built, including
-      key components and milestones.
+    prompt: Review and refine the build object to ensure it is clear, well-defined,
+      and meets the requirements specified in the task description. Provide a revised
+      description of the object or outcome.
