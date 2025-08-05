@@ -4,54 +4,53 @@ name: determine_build_objective
 nodes:
   clarify_objective:
     agent: false
-    description: Seek clarification on the objective to build
+    description: Seek clarification on the objective to ensure understanding
     name: clarify_objective
     nodes_depended_on: []
     nodes_dependent_on: []
-    prompt: What do you mean by 'tell me what to build'? Provide a clear and specific
-      description of the objective.
-  finalize_build_objective:
+    prompt: Please provide more context or details about what you need to build.
+  create_build_roadmap:
     agent: false
-    description: Finalize the build objective and solution
-    name: finalize_build_objective
+    description: Create a high-level roadmap for building the components
+    name: create_build_roadmap
     nodes_depended_on:
-    - refine_build_solution
+    - determine_build_components
     nodes_dependent_on: []
-    prompt: Based on the refined solution, finalize the build objective and provide
-      a clear and concise description of what to build.
-  identify_build_requirements:
+    prompt: Create a high-level roadmap for building the components, including key
+      milestones and dependencies.
+  define_build_scope:
     agent: false
-    description: Identify the specific requirements for the build
-    name: identify_build_requirements
+    description: Define the scope of what needs to be built
+    name: define_build_scope
     nodes_depended_on:
-    - interpret_objective
+    - identify_key_requirements
     nodes_dependent_on: []
-    prompt: List the specific requirements for the build, including any relevant constraints
-      or limitations.
-  interpret_objective:
+    prompt: Based on the key requirements and constraints, define the scope of what
+      needs to be built.
+  determine_build_components:
     agent: false
-    description: Interpret the clarified objective
-    name: interpret_objective
+    description: Identify the components and sub-components that need to be built
+    name: determine_build_components
+    nodes_depended_on:
+    - define_build_scope
+    nodes_dependent_on: []
+    prompt: Break down the scope into individual components and sub-components that
+      need to be built.
+  identify_key_requirements:
+    agent: false
+    description: Extract key requirements and constraints from the objective
+    name: identify_key_requirements
     nodes_depended_on:
     - clarify_objective
     nodes_dependent_on: []
-    prompt: Based on the clarified objective, identify the key requirements and goals.
-      Provide a concise summary.
-  propose_build_solution:
+    prompt: Based on the objective, list the key requirements and constraints that
+      need to be considered.
+  summarize_build_objective:
     agent: false
-    description: Propose a solution to meet the build requirements
-    name: propose_build_solution
+    description: Summarize the objective and scope of what needs to be built
+    name: summarize_build_objective
     nodes_depended_on:
-    - identify_build_requirements
+    - create_build_roadmap
     nodes_dependent_on: []
-    prompt: Based on the identified requirements, propose a solution to meet the build
-      objective. Provide a detailed description.
-  refine_build_solution:
-    agent: false
-    description: Refine the proposed build solution
-    name: refine_build_solution
-    nodes_depended_on:
-    - propose_build_solution
-    nodes_dependent_on: []
-    prompt: Refine the proposed solution based on any additional constraints or requirements.
-      Provide a revised description.
+    prompt: Summarize the objective and scope of what needs to be built, including
+      key components and milestones.
