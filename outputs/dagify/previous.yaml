@@ -1,6 +1,6 @@
 dag_type: plain_text
-description: A workflow to interpret the objective and determine what to build
-name: determine_build_objective
+description: Directly provide instructions on what to build based on the task description
+name: provide_build_instructions
 nodes:
   analyze_task_description:
     agent: false
@@ -10,43 +10,12 @@ nodes:
     nodes_dependent_on: []
     prompt: Carefully read and analyze the task description to identify the main objective
       and any specific requirements or constraints.
-  generate_build_plan:
-    agent: false
-    description: Generate a high-level plan for building the object or achieving the
-      outcome
-    name: generate_build_plan
-    nodes_depended_on:
-    - refine_build_object
-    nodes_dependent_on: []
-    prompt: Based on the refined build object, generate a high-level plan for building
-      the object or achieving the outcome. Provide a list of key steps and milestones.
-  identify_build_object:
-    agent: false
-    description: Determine the specific object or outcome to build based on the task
-      description
-    name: identify_build_object
-    nodes_depended_on:
-    - analyze_task_description
-    nodes_dependent_on: []
-    prompt: Based on the analysis of the task description, determine the specific
-      object or outcome that needs to be built. Provide a clear and concise description
-      of the object or outcome.
   provide_build_instructions:
     agent: false
     description: Provide detailed instructions on what to build
     name: provide_build_instructions
     nodes_depended_on:
-    - generate_build_plan
+    - analyze_task_description
     nodes_dependent_on: []
-    prompt: Based on the high-level plan, provide detailed instructions on what to
+    prompt: Based on the task description, provide detailed instructions on what to
       build, including specific requirements, specifications, and any relevant details.
-  refine_build_object:
-    agent: false
-    description: Refine the build object to ensure it is clear and well-defined
-    name: refine_build_object
-    nodes_depended_on:
-    - identify_build_object
-    nodes_dependent_on: []
-    prompt: Review and refine the build object to ensure it is clear, well-defined,
-      and meets the requirements specified in the task description. Provide a revised
-      description of the object or outcome.
