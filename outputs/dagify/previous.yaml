@@ -1,30 +1,23 @@
 dag_type: plain_text
-description: Identify changes needed in the workflow
-name: identify_changes
+description: A workflow to determine what to build based on the task description.
+name: determine_what_to_build
 nodes:
-  analyze_current_workflow:
+  generate_build_plan:
     agent: false
-    description: Analyze the current workflow to understand its components
-    name: analyze_current_workflow
+    description: Based on the understanding of the task, generate a plan or description
+      of what to build.
+    name: generate_build_plan
+    nodes_depended_on:
+    - understand_task_description
+    nodes_dependent_on: []
+    prompt: Using the information from the task description, create a detailed plan
+      or description of what needs to be built.
+  understand_task_description:
+    agent: false
+    description: Read and understand the task description to identify what needs to
+      be built.
+    name: understand_task_description
     nodes_depended_on: []
     nodes_dependent_on: []
-    prompt: Carefully read and analyze the current workflow to identify its key components
-      and objectives.
-  determine_changes:
-    agent: false
-    description: Determine what changes are needed in the workflow
-    name: determine_changes
-    nodes_depended_on:
-    - analyze_current_workflow
-    nodes_dependent_on: []
-    prompt: Based on the analysis of the current workflow, determine what changes
-      are needed to comply with the new objective.
-  provide_change_instructions:
-    agent: false
-    description: Provide detailed instructions on the changes needed
-    name: provide_change_instructions
-    nodes_depended_on:
-    - determine_changes
-    nodes_dependent_on: []
-    prompt: Based on the determined changes, provide detailed instructions on what
-      needs to be changed in the workflow.
+    prompt: Carefully read the task description 'tell me what to build' and identify
+      the key elements of what needs to be constructed or created.
