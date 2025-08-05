@@ -1,21 +1,30 @@
 dag_type: plain_text
-description: Directly provide instructions on what to build based on the task description
-name: provide_build_instructions
+description: Identify changes needed in the workflow
+name: identify_changes
 nodes:
-  analyze_task_description:
+  analyze_current_workflow:
     agent: false
-    description: Analyze the task description to identify key requirements
-    name: analyze_task_description
+    description: Analyze the current workflow to understand its components
+    name: analyze_current_workflow
     nodes_depended_on: []
     nodes_dependent_on: []
-    prompt: Carefully read and analyze the task description to identify the main objective
-      and any specific requirements or constraints.
-  provide_build_instructions:
+    prompt: Carefully read and analyze the current workflow to identify its key components
+      and objectives.
+  determine_changes:
     agent: false
-    description: Provide detailed instructions on what to build
-    name: provide_build_instructions
+    description: Determine what changes are needed in the workflow
+    name: determine_changes
     nodes_depended_on:
-    - analyze_task_description
+    - analyze_current_workflow
     nodes_dependent_on: []
-    prompt: Based on the task description, provide detailed instructions on what to
-      build, including specific requirements, specifications, and any relevant details.
+    prompt: Based on the analysis of the current workflow, determine what changes
+      are needed to comply with the new objective.
+  provide_change_instructions:
+    agent: false
+    description: Provide detailed instructions on the changes needed
+    name: provide_change_instructions
+    nodes_depended_on:
+    - determine_changes
+    nodes_dependent_on: []
+    prompt: Based on the determined changes, provide detailed instructions on what
+      needs to be changed in the workflow.
