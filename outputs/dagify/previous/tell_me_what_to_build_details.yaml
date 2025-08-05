@@ -1,49 +1,58 @@
 dag_type: plain_text
-description: A workflow to determine what to build based on the objective
+description: A workflow to determine what to build based on the given objective
 name: tell_me_what_to_build
 nodes:
-  define_build_scope:
+  analyze_possible_solutions:
     agent: false
-    description: Define the scope of what needs to be built
-    name: define_build_scope
+    description: Analyze possible solutions for what can be built based on the requirements
+    name: analyze_possible_solutions
     nodes_depended_on:
     - identify_build_requirements
     nodes_dependent_on: []
-    prompt: Based on the requirements, define the scope of what needs to be built,
-      including the key features, functionalities, and deliverables.
-  determine_build_approach:
+    prompt: Considering the requirements and constraints, generate a list of possible
+      solutions for what can be built.
+  generate_build_plan:
     agent: false
-    description: Determine the approach for building what needs to be built
-    name: determine_build_approach
+    description: Generate a detailed plan for building the selected solution
+    name: generate_build_plan
     nodes_depended_on:
-    - define_build_scope
+    - select_solution
     nodes_dependent_on: []
-    prompt: Based on the scope, determine the approach for building what needs to
-      be built, including the technical approach, tools, and methodologies.
+    prompt: Create a detailed plan for building the selected solution, including any
+      necessary steps, materials, or resources.
   identify_build_requirements:
     agent: false
-    description: Determine the specific requirements for what needs to be built
+    description: Identify the specific requirements for what needs to be built
     name: identify_build_requirements
     nodes_depended_on:
     - interpret_objective
     nodes_dependent_on: []
-    prompt: Based on the interpretation of the objective, list the specific requirements
-      for what needs to be built, including functional, non-functional, and technical
-      requirements.
+    prompt: Based on the interpreted objective, list the specific requirements for
+      what needs to be built, including any relevant details or constraints.
   interpret_objective:
     agent: false
-    description: Analyze the given objective to understand what needs to be built
+    description: Interpret the given objective to understand what needs to be built
     name: interpret_objective
     nodes_depended_on: []
     nodes_dependent_on: []
-    prompt: Interpret the objective 'tell me what to build' and identify the key requirements
-      and constraints.
-  provide_build_plan:
+    prompt: Understand the objective 'tell me what to build' and identify the key
+      requirements and constraints.
+  provide_build_instructions:
     agent: false
-    description: Provide a plan for building what needs to be built
-    name: provide_build_plan
+    description: Provide clear instructions on what to build based on the generated
+      plan
+    name: provide_build_instructions
     nodes_depended_on:
-    - determine_build_approach
+    - generate_build_plan
     nodes_dependent_on: []
-    prompt: Based on the approach, provide a detailed plan for building what needs
-      to be built, including the key steps, tasks, and timelines.
+    prompt: Based on the generated plan, provide clear and concise instructions on
+      what to build, including any necessary details or specifications.
+  select_solution:
+    agent: false
+    description: Select the most suitable solution for what to build
+    name: select_solution
+    nodes_depended_on:
+    - analyze_possible_solutions
+    nodes_dependent_on: []
+    prompt: From the list of possible solutions, select the most suitable one that
+      meets the requirements and constraints.

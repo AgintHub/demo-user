@@ -2,57 +2,55 @@ dag_type: plain_text
 description: A workflow to determine what to build based on the given objective
 name: tell_me_what_to_build
 nodes:
-  analyze_possible_solutions:
+  define_solution_details:
     agent: false
-    description: Analyze possible solutions for what can be built based on the requirements
-    name: analyze_possible_solutions
-    nodes_depended_on:
-    - identify_build_requirements
-    nodes_dependent_on: []
-    prompt: Considering the requirements and constraints, generate a list of possible
-      solutions for what can be built.
-  generate_build_plan:
-    agent: false
-    description: Generate a detailed plan for building the selected solution
-    name: generate_build_plan
+    description: Define the details of the selected solution
+    name: define_solution_details
     nodes_depended_on:
     - select_solution
     nodes_dependent_on: []
-    prompt: Create a detailed plan for building the selected solution, including any
-      necessary steps, materials, or resources.
-  identify_build_requirements:
+    prompt: Define the details of the selected solution, including requirements, specifications,
+      and constraints.
+  evaluate_solutions:
     agent: false
-    description: Identify the specific requirements for what needs to be built
-    name: identify_build_requirements
+    description: Evaluate each possible solution and determine its feasibility
+    name: evaluate_solutions
+    nodes_depended_on:
+    - generate_possible_solutions
+    nodes_dependent_on: []
+    prompt: Evaluate each possible solution and determine its feasibility, pros, and
+      cons.
+  generate_possible_solutions:
+    agent: false
+    description: Generate a list of possible solutions or options for what to build
+    name: generate_possible_solutions
     nodes_depended_on:
     - interpret_objective
     nodes_dependent_on: []
-    prompt: Based on the interpreted objective, list the specific requirements for
-      what needs to be built, including any relevant details or constraints.
+    prompt: Based on the interpreted objective, generate a list of possible solutions
+      or options.
   interpret_objective:
     agent: false
     description: Interpret the given objective to understand what needs to be built
     name: interpret_objective
     nodes_depended_on: []
     nodes_dependent_on: []
-    prompt: Understand the objective 'tell me what to build' and identify the key
-      requirements and constraints.
-  provide_build_instructions:
+    prompt: Understand the objective and identify the key requirements and constraints.
+  provide_solution:
     agent: false
-    description: Provide clear instructions on what to build based on the generated
-      plan
-    name: provide_build_instructions
+    description: Provide the final solution and details of what to build
+    name: provide_solution
     nodes_depended_on:
-    - generate_build_plan
+    - define_solution_details
     nodes_dependent_on: []
-    prompt: Based on the generated plan, provide clear and concise instructions on
-      what to build, including any necessary details or specifications.
+    prompt: Provide the final solution and details of what to build, including requirements,
+      specifications, and constraints.
   select_solution:
     agent: false
-    description: Select the most suitable solution for what to build
+    description: Select the best solution based on the evaluation
     name: select_solution
     nodes_depended_on:
-    - analyze_possible_solutions
+    - evaluate_solutions
     nodes_dependent_on: []
-    prompt: From the list of possible solutions, select the most suitable one that
-      meets the requirements and constraints.
+    prompt: Based on the evaluation, select the best solution that meets the objective
+      and requirements.
