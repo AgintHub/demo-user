@@ -1,0 +1,126 @@
+dag_type: stub
+description: Generated workflow from UI.
+name: rocket_ship
+nodes:
+  define_rocket_ship:
+    agent: false
+    code_node_type: stub
+    description: Identify the key components and purposes of a rocket ship
+    implementation: code/define_rocket_ship.py
+    name: define_rocket_ship
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Name of the rocket ship
+      key: rocket_name
+      type: str
+    - description: Type of propulsion system used
+      key: propulsion_system
+      type: str
+    - description: List of cargo types and capacities
+      key: cargo_capacity
+      type: List[str]
+    - description: Type of guidance system used
+      key: guidance_system
+      type: str
+    - description: List of functionalities of the rocket ship
+      key: functionality
+      type: List[str]
+    prd: code/code_PRDs.md
+    prompt: Describe the primary components and functions of a rocket ship, including
+      its propulsion systems, guidance, and cargo capacity.
+    shims: []
+  document_rocket_ship_functions:
+    agent: false
+    code_node_type: stub
+    description: Describe the key functions and operations of a rocket ship
+    implementation: code/document_rocket_ship_functions.py
+    name: document_rocket_ship_functions
+    nodes_depended_on:
+    - define_rocket_ship
+    nodes_dependent_on: []
+    output_structure:
+    - description: Description of each function or operation
+      key: function_description
+      type: str
+    - description: Type of the function or operation (e.g., launch preparation, flight
+        control, navigation)
+      key: function_type
+      type: str
+    - description: List of key features or characteristics associated with each function
+        or operation
+      key: function_features
+      type: List[str]
+    prd: code/code_PRDs.md
+    prompt: Outline and describe the key functions and operations of a rocket ship,
+      including launch preparation, flight control, and navigation.
+    shims: []
+  list_rocket_ship_components:
+    agent: false
+    code_node_type: stub
+    description: Enumerate and describe each major component of a rocket ship
+    implementation: code/list_rocket_ship_components.py
+    name: list_rocket_ship_components
+    nodes_depended_on:
+    - define_rocket_ship
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of names of the rocket ship components
+      key: component_names
+      type: List[str]
+    prd: code/code_PRDs.md
+    prompt: List and describe each major component of a rocket ship, including examples
+      of typical components (e.g., fuel tanks, engines, control systems).
+    shims: []
+  research_rocket_ship_materials:
+    agent: false
+    code_node_type: stub
+    description: Identify and describe the materials typically used in rocket ship
+      construction
+    implementation: code/research_rocket_ship_materials.py
+    name: research_rocket_ship_materials
+    nodes_depended_on:
+    - define_rocket_ship
+    nodes_dependent_on: []
+    output_structure:
+    - description: Type of material used in rocket ship construction
+      key: material_type
+      type: str
+    - description: Description of the material used in rocket ship construction
+      key: material_description
+      type: str
+    prd: code/code_PRDs.md
+    prompt: Research and list the types of materials commonly used in rocket ship
+      construction, including metals, alloys, and composite materials.
+    shims: []
+  summarize_rocket_ship_information:
+    agent: false
+    code_node_type: stub
+    description: Combine information from previous steps into a detailed summary of
+      the rocket ship
+    implementation: code/summarize_rocket_ship_information.py
+    name: summarize_rocket_ship_information
+    nodes_depended_on:
+    - list_rocket_ship_components
+    - research_rocket_ship_materials
+    - document_rocket_ship_functions
+    nodes_dependent_on: []
+    output_structure:
+    - description: A detailed summary of the rocket ship components, materials, and
+        functions.
+      key: rocket_ship_summary
+      type: str
+    - description: A list of the rocket ship components.
+      key: components_list
+      type: List[str]
+    - description: A list of the materials used in rocket ship construction.
+      key: materials_used
+      type: List[str]
+    - description: A description of the key functions and operations of the rocket
+        ship.
+      key: functions_description
+      type: str
+    prd: code/code_PRDs.md
+    prompt: Combine information from the previous steps into a detailed summary of
+      the rocket ship, including its components, materials, and functions.
+    shims: []

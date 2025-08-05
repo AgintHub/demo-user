@@ -1,0 +1,543 @@
+dag_type: stub
+description: Generated workflow from UI.
+name: Rocket Ship Workflow
+nodes:
+  Choose Power Source:
+    agent: false
+    code_node_type: stub
+    description: Identify the optimal power source for the rocket ship.
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass Define Rocket Ship RequirementsOutput(BaseModel):\n    \\\"\\\"\\\"\
+      Pydantic model for Define Rocket Ship Requirements node outputs.\\\"\\\"\\\"\
+      \n    propulsion_type: str = Field(..., description=\\\"Type of propulsion system\
+      \ (e.g., chemical, electric)\\\")\n    guidance_method: str = Field(..., description=\\\
+      \"Method of guidance (e.g., inertial, celestial)\\\")\n    power_source: str\
+      \ = Field(..., description=\\\"Primary source of power (e.g., solar, nuclear)\\\
+      \")\n    additional_components: List[str] = Field(..., description=\\\"Additional\
+      \ essential components\\\")\n\n\nclass Choose Power SourceOutput(BaseModel):\n\
+      \    \\\"\\\"\\\"Pydantic model for Choose Power Source node outputs.\\\"\\\"\
+      \\\"\n    selected_power_source: str = Field(..., description=\\\"The chosen\
+      \ power source for the rocket ship.\\\")\n    justification: str = Field(...,\
+      \ description=\\\"A brief explanation of why this power source was chosen.\\\
+      \")\n    redundancy_details: List[str] = Field(..., description=\\\"A list of\
+      \ details regarding the redundant power systems implemented.\\\")\n\n\ndef Choose\
+      \ Power Source(Define Rocket Ship Requirements_input: Define Rocket Ship RequirementsOutput,\
+      \ **kwargs) -> Choose Power SourceOutput:\n    \\\"\\\"\\\"Identify the optimal\
+      \ power source for the rocket ship.\n\n    Args:\n        Define Rocket Ship\
+      \ Requirements_input: Input from the 'Define Rocket Ship Requirements' node.\n\
+      \        **kwargs: Additional keyword arguments.\n\n    Returns:\n        Choose\
+      \ Power SourceOutput: Object containing outputs for this node.\n    \\\"\\\"\
+      \\\"\n    # TODO: Implement this function\n\n    # Return stub output with placeholder\
+      \ values\n    return Choose Power SourceOutput(\n        selected_power_source=\\\
+      \"\\\",\n        justification=\\\"\\\",\n        redundancy_details=[],\n \
+      \   )"
+    name: Choose Power Source
+    nodes_depended_on:
+    - Define Rocket Ship Requirements
+    nodes_dependent_on: []
+    output_structure:
+    - description: The chosen power source for the rocket ship.
+      key: selected_power_source
+      type: str
+    - description: A brief explanation of why this power source was chosen.
+      key: justification
+      type: str
+    - description: A list of details regarding the redundant power systems implemented.
+      key: redundancy_details
+      type: List[str]
+    prd:
+      bullets: []
+    prompt: Select a suitable power source for the rocket ship, taking into account
+      the propulsion system's energy requirements and the need for redundant power
+      systems.
+    shims: []
+  Conduct System Checks:
+    agent: false
+    code_node_type: stub
+    description: Verify the rocket ship's systems are operational and safe for launch.
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass Coordinate Final AssemblyOutput(BaseModel):\n    \\\"\\\"\\\"Pydantic\
+      \ model for Coordinate Final Assembly node outputs.\\\"\\\"\\\"\n    assembly_status:\
+      \ str = Field(..., description=\\\"Status of the final assembly (e.g., complete,\
+      \ incomplete, etc.).\\\")\n    component_count: int = Field(..., description=\\\
+      \"Number of components integrated into the rocket ship.\\\")\n    system_check_results:\
+      \ List[str] = Field(..., description=\\\"Results of the system checks performed\
+      \ on the integrated components.\\\")\n    launch_ready: bool = Field(..., description=\\\
+      \"Whether the rocket ship is ready for launch.\\\")\n\n\nclass Conduct System\
+      \ ChecksOutput(BaseModel):\n    \\\"\\\"\\\"Pydantic model for Conduct System\
+      \ Checks node outputs.\\\"\\\"\\\"\n    system_status: str = Field(..., description=\\\
+      \"Overall status of the rocket ship's systems (e.g. 'Pass', 'Fail', 'Warning')\\\
+      \")\n    component_list: List[str] = Field(..., description=\\\"List of components\
+      \ that have been checked (e.g. 'Propulsion System', 'Guidance System', 'Power\
+      \ System')\\\")\n    warning_list: List[str] = Field(..., description=\\\"List\
+      \ of warning messages (e.g. 'Component temperature out of range', 'System pressure\
+      \ exceeds limits')\\\")\n    fail_list: List[str] = Field(..., description=\\\
+      \"List of failed components (e.g. 'Propulsion System failed', 'Power System\
+      \ not functioning')\\\")\n\n\ndef Conduct System Checks(Coordinate Final Assembly_input:\
+      \ Coordinate Final AssemblyOutput, **kwargs) -> Conduct System ChecksOutput:\n\
+      \    \\\"\\\"\\\"Verify the rocket ship's systems are operational and safe for\
+      \ launch.\n\n    Args:\n        Coordinate Final Assembly_input: Input from\
+      \ the 'Coordinate Final Assembly' node.\n        **kwargs: Additional keyword\
+      \ arguments.\n\n    Returns:\n        Conduct System ChecksOutput: Object containing\
+      \ outputs for this node.\n    \\\"\\\"\\\"\n    # TODO: Implement this function\n\
+      \n    # Return stub output with placeholder values\n    return Conduct System\
+      \ ChecksOutput(\n        system_status=\\\"\\\",\n        component_list=[],\n\
+      \        warning_list=[],\n        fail_list=[],\n    )"
+    name: Conduct System Checks
+    nodes_depended_on:
+    - Coordinate Final Assembly
+    nodes_dependent_on: []
+    output_structure:
+    - description: Overall status of the rocket ship's systems (e.g. 'Pass', 'Fail',
+        'Warning')
+      key: system_status
+      type: str
+    - description: List of components that have been checked (e.g. 'Propulsion System',
+        'Guidance System', 'Power System')
+      key: component_list
+      type: List[str]
+    - description: List of warning messages (e.g. 'Component temperature out of range',
+        'System pressure exceeds limits')
+      key: warning_list
+      type: List[str]
+    - description: List of failed components (e.g. 'Propulsion System failed', 'Power
+        System not functioning')
+      key: fail_list
+      type: List[str]
+    prd:
+      bullets: []
+    prompt: Perform a thorough system check to verify that all components are functioning
+      within specified limits and that the rocket ship is ready for launch.
+    shims: []
+  Coordinate Final Assembly:
+    agent: false
+    code_node_type: stub
+    description: Coordinate the integration of the rocket ship's various components.
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass Integrate Propulsion And Guidance SystemsOutput(BaseModel):\n    \\\
+      \"\\\"\\\"Pydantic model for Integrate Propulsion and Guidance Systems node\
+      \ outputs.\\\"\\\"\\\"\n    integration_status: str = Field(..., description=\\\
+      \"Status of the integration process (e.g., 'successful', 'failed')\\\")\n  \
+      \  synchronization_protocol: str = Field(..., description=\\\"Protocol used\
+      \ for synchronizing propulsion and guidance systems\\\")\n    control_interface_details:\
+      \ str = Field(..., description=\\\"Details about the control interface between\
+      \ propulsion and guidance systems\\\")\n    redundancy_features: List[str] =\
+      \ Field(..., description=\\\"List of redundancy features implemented in the\
+      \ integrated system\\\")\n    validation_result: bool = Field(..., description=\\\
+      \"Whether the integrated system has been validated successfully\\\")\n\n\nclass\
+      \ Implement Safety FeaturesOutput(BaseModel):\n    \\\"\\\"\\\"Pydantic model\
+      \ for Implement Safety Features node outputs.\\\"\\\"\\\"\n    safety_feature_ids:\
+      \ List[str] = Field(..., description=\\\"List of unique identifiers for each\
+      \ safety feature implemented\\\")\n    safety_feature_statuses: List[str] =\
+      \ Field(..., description=\\\"Corresponding statuses of each safety feature,\
+      \ such as 'implemented', 'pending', or 'failed'\\\")\n    overall_safety_compliance:\
+      \ str = Field(..., description=\\\"Summary of safety compliance status, e.g.,\
+      \ 'Compliant', 'Non-compliant', or 'Pending review'\\\")\n\n\nclass Coordinate\
+      \ Final AssemblyOutput(BaseModel):\n    \\\"\\\"\\\"Pydantic model for Coordinate\
+      \ Final Assembly node outputs.\\\"\\\"\\\"\n    assembly_status: str = Field(...,\
+      \ description=\\\"Status of the final assembly (e.g., complete, incomplete,\
+      \ etc.).\\\")\n    component_count: int = Field(..., description=\\\"Number\
+      \ of components integrated into the rocket ship.\\\")\n    system_check_results:\
+      \ List[str] = Field(..., description=\\\"Results of the system checks performed\
+      \ on the integrated components.\\\")\n    launch_ready: bool = Field(..., description=\\\
+      \"Whether the rocket ship is ready for launch.\\\")\n\n\ndef Coordinate Final\
+      \ Assembly(Integrate Propulsion and Guidance Systems_input: Integrate Propulsion\
+      \ And Guidance SystemsOutput, Implement Safety Features_input: Implement Safety\
+      \ FeaturesOutput, **kwargs) -> Coordinate Final AssemblyOutput:\n    \\\"\\\"\
+      \\\"Coordinate the integration of the rocket ship's various components.\n\n\
+      \    Args:\n        Integrate Propulsion and Guidance Systems_input: Input from\
+      \ the 'Integrate Propulsion and Guidance Systems' node.\n        Implement Safety\
+      \ Features_input: Input from the 'Implement Safety Features' node.\n       \
+      \ **kwargs: Additional keyword arguments.\n\n    Returns:\n        Coordinate\
+      \ Final AssemblyOutput: Object containing outputs for this node.\n    \\\"\\\
+      \"\\\"\n    # TODO: Implement this function\n\n    # Return stub output with\
+      \ placeholder values\n    return Coordinate Final AssemblyOutput(\n        assembly_status=\\\
+      \"\\\",\n        component_count=0,\n        system_check_results=[],\n    \
+      \    launch_ready=False,\n    )"
+    name: Coordinate Final Assembly
+    nodes_depended_on:
+    - Integrate Propulsion and Guidance Systems
+    - Implement Safety Features
+    nodes_dependent_on: []
+    output_structure:
+    - description: Status of the final assembly (e.g., complete, incomplete, etc.).
+      key: assembly_status
+      type: str
+    - description: Number of components integrated into the rocket ship.
+      key: component_count
+      type: int
+    - description: Results of the system checks performed on the integrated components.
+      key: system_check_results
+      type: List[str]
+    - description: Whether the rocket ship is ready for launch.
+      key: launch_ready
+      type: bool
+    prd:
+      bullets: []
+    prompt: Oversee the final assembly of the rocket ship, ensuring all components
+      are integrated correctly and operating within specified parameters.
+    shims: []
+  Define Rocket Ship Requirements:
+    agent: false
+    code_node_type: stub
+    description: Identify the fundamental components required for a rocket ship to
+      operate.
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass Define Rocket Ship RequirementsOutput(BaseModel):\n    \\\"\\\"\\\"\
+      Pydantic model for Define Rocket Ship Requirements node outputs.\\\"\\\"\\\"\
+      \n    propulsion_type: str = Field(..., description=\\\"Type of propulsion system\
+      \ (e.g., chemical, electric)\\\")\n    guidance_method: str = Field(..., description=\\\
+      \"Method of guidance (e.g., inertial, celestial)\\\")\n    power_source: str\
+      \ = Field(..., description=\\\"Primary source of power (e.g., solar, nuclear)\\\
+      \")\n    additional_components: List[str] = Field(..., description=\\\"Additional\
+      \ essential components\\\")\n\n\ndef Define Rocket Ship Requirements(general_input:\
+      \ str, **kwargs) -> Define Rocket Ship RequirementsOutput:\n    \\\"\\\"\\\"\
+      Identify the fundamental components required for a rocket ship to operate.\n\
+      \n    Args:\n        general_input: General input string for the root node.\n\
+      \        **kwargs: Additional keyword arguments.\n\n    Returns:\n        Define\
+      \ Rocket Ship RequirementsOutput: Object containing outputs for this node.\n\
+      \    \\\"\\\"\\\"\n    # TODO: Implement this function\n\n    # Return stub\
+      \ output with placeholder values\n    return Define Rocket Ship RequirementsOutput(\n\
+      \        propulsion_type=\\\"\\\",\n        guidance_method=\\\"\\\",\n    \
+      \    power_source=\\\"\\\",\n        additional_components=[],\n    )"
+    name: Define Rocket Ship Requirements
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Type of propulsion system (e.g., chemical, electric)
+      key: propulsion_type
+      type: str
+    - description: Method of guidance (e.g., inertial, celestial)
+      key: guidance_method
+      type: str
+    - description: Primary source of power (e.g., solar, nuclear)
+      key: power_source
+      type: str
+    - description: Additional essential components
+      key: additional_components
+      type: List[str]
+    prd:
+      bullets: []
+    prompt: List the essential requirements of a functioning rocket ship, focusing
+      on propulsion, guidance, and power systems.
+    shims: []
+  Design Propulsion System:
+    agent: false
+    code_node_type: stub
+    description: Develop a detailed plan for the rocket ship's propulsion system.
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass Define Rocket Ship RequirementsOutput(BaseModel):\n    \\\"\\\"\\\"\
+      Pydantic model for Define Rocket Ship Requirements node outputs.\\\"\\\"\\\"\
+      \n    propulsion_type: str = Field(..., description=\\\"Type of propulsion system\
+      \ (e.g., chemical, electric)\\\")\n    guidance_method: str = Field(..., description=\\\
+      \"Method of guidance (e.g., inertial, celestial)\\\")\n    power_source: str\
+      \ = Field(..., description=\\\"Primary source of power (e.g., solar, nuclear)\\\
+      \")\n    additional_components: List[str] = Field(..., description=\\\"Additional\
+      \ essential components\\\")\n\n\nclass Design Propulsion SystemOutput(BaseModel):\n\
+      \    \\\"\\\"\\\"Pydantic model for Design Propulsion System node outputs.\\\
+      \"\\\"\\\"\n    propulsion_description: List[str] = Field(..., description=\\\
+      \"Detailed description of the propulsion system components.\\\")\n    propulsion_specifications:\
+      \ List[str] = Field(..., description=\\\"Propulsion system specifications including\
+      \ combustion chamber, nozzle, fuel/oxidizer supply, and ignition.\\\")\n   \
+      \ system_diagram: str = Field(..., description=\\\"System diagram of the propulsion\
+      \ system.\\\")\n\n\ndef Design Propulsion System(Define Rocket Ship Requirements_input:\
+      \ Define Rocket Ship RequirementsOutput, **kwargs) -> Design Propulsion SystemOutput:\n\
+      \    \\\"\\\"\\\"Develop a detailed plan for the rocket ship's propulsion system.\n\
+      \n    Args:\n        Define Rocket Ship Requirements_input: Input from the 'Define\
+      \ Rocket Ship Requirements' node.\n        **kwargs: Additional keyword arguments.\n\
+      \n    Returns:\n        Design Propulsion SystemOutput: Object containing outputs\
+      \ for this node.\n    \\\"\\\"\\\"\n    # TODO: Implement this function\n\n\
+      \    # Return stub output with placeholder values\n    return Design Propulsion\
+      \ SystemOutput(\n        propulsion_description=[],\n        propulsion_specifications=[],\n\
+      \        system_diagram=\\\"\\\",\n    )"
+    name: Design Propulsion System
+    nodes_depended_on:
+    - Define Rocket Ship Requirements
+    nodes_dependent_on: []
+    output_structure:
+    - description: Detailed description of the propulsion system components.
+      key: propulsion_description
+      type: List[str]
+    - description: Propulsion system specifications including combustion chamber,
+        nozzle, fuel/oxidizer supply, and ignition.
+      key: propulsion_specifications
+      type: List[str]
+    - description: System diagram of the propulsion system.
+      key: system_diagram
+      type: str
+    prd:
+      bullets: []
+    prompt: Based on the identified requirements, design a propulsion system that
+      meets the necessary specifications. Focus on combustion chamber, nozzle, fuel/oxidizer
+      supply, and ignition.
+    shims: []
+  Develop Guidance System:
+    agent: false
+    code_node_type: stub
+    description: Create a plan for the rocket ship's guidance system.
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass Define Rocket Ship RequirementsOutput(BaseModel):\n    \\\"\\\"\\\"\
+      Pydantic model for Define Rocket Ship Requirements node outputs.\\\"\\\"\\\"\
+      \n    propulsion_type: str = Field(..., description=\\\"Type of propulsion system\
+      \ (e.g., chemical, electric)\\\")\n    guidance_method: str = Field(..., description=\\\
+      \"Method of guidance (e.g., inertial, celestial)\\\")\n    power_source: str\
+      \ = Field(..., description=\\\"Primary source of power (e.g., solar, nuclear)\\\
+      \")\n    additional_components: List[str] = Field(..., description=\\\"Additional\
+      \ essential components\\\")\n\n\nclass Develop Guidance SystemOutput(BaseModel):\n\
+      \    \\\"\\\"\\\"Pydantic model for Develop Guidance System node outputs.\\\"\
+      \\\"\\\"\n    control_surfaces: List[str] = Field(..., description=\\\"List\
+      \ of control surfaces designed for the rocket ship\\\")\n    navigation_sensors:\
+      \ List[str] = Field(..., description=\\\"List of navigation sensors used in\
+      \ the rocket ship's guidance system\\\")\n    autopilot_software: List[str]\
+      \ = Field(..., description=\\\"List of autopilot software components in the\
+      \ rocket ship's guidance system\\\")\n    trajectory_control: float = Field(...,\
+      \ description=\\\"Accuracy of the rocket ship's trajectory control system\\\"\
+      )\n\n\ndef Develop Guidance System(Define Rocket Ship Requirements_input: Define\
+      \ Rocket Ship RequirementsOutput, **kwargs) -> Develop Guidance SystemOutput:\n\
+      \    \\\"\\\"\\\"Create a plan for the rocket ship's guidance system.\n\n  \
+      \  Args:\n        Define Rocket Ship Requirements_input: Input from the 'Define\
+      \ Rocket Ship Requirements' node.\n        **kwargs: Additional keyword arguments.\n\
+      \n    Returns:\n        Develop Guidance SystemOutput: Object containing outputs\
+      \ for this node.\n    \\\"\\\"\\\"\n    # TODO: Implement this function\n\n\
+      \    # Return stub output with placeholder values\n    return Develop Guidance\
+      \ SystemOutput(\n        control_surfaces=[],\n        navigation_sensors=[],\n\
+      \        autopilot_software=[],\n        trajectory_control=0.0,\n    )"
+    name: Develop Guidance System
+    nodes_depended_on:
+    - Define Rocket Ship Requirements
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of control surfaces designed for the rocket ship
+      key: control_surfaces
+      type: List[str]
+    - description: List of navigation sensors used in the rocket ship's guidance system
+      key: navigation_sensors
+      type: List[str]
+    - description: List of autopilot software components in the rocket ship's guidance
+        system
+      key: autopilot_software
+      type: List[str]
+    - description: Accuracy of the rocket ship's trajectory control system
+      key: trajectory_control
+      type: float
+    prd:
+      bullets:
+      - complexity: HIGH - Requires advanced knowledge of navigation systems and software
+          development
+        impact: HIGH - This is a critical component that affects the overall performance
+          and safety of the rocket ship
+        method: Use a Kalman filter to fuse data from inertial measurement units and
+          celestial navigation sensors. Implement a state estimation algorithm to
+          ensure accurate trajectory control.
+        reason: This approach provides a high degree of accuracy and robustness, allowing
+          for precise trajectory control and adaptability to changing mission requirements.
+        text: Develop a guidance system that incorporates a combination of inertial
+          and celestial navigation methods.
+      - complexity: MEDIUM - Requires knowledge of aerodynamics, structural analysis,
+          and mechanical engineering
+        impact: MEDIUM - This component affects the overall performance and safety
+          of the rocket ship
+        method: Use computational fluid dynamics (CFD) to simulate and optimize control
+          surface design. Implement a control surface actuation system using electric
+          or hydraulic actuators.
+        reason: Control surfaces are essential for maintaining stability and control
+          during ascent, cruise, and descent phases of the mission.
+        text: Design and integrate control surfaces, such as fins and thrusters, to
+          provide stability and control during flight.
+      - complexity: HIGH - Requires advanced knowledge of software development, control
+          systems, and sensor integration
+        impact: HIGH - This component affects the overall performance and safety of
+          the rocket ship
+        method: Use a model predictive control (MPC) approach to develop the autopilot
+          software. Implement sensor fusion algorithms to integrate data from various
+          navigation sensors.
+        reason: Autopilot software is necessary for ensuring stable and efficient
+          flight control, as well as adapting to changing mission requirements.
+        text: Develop and integrate autopilot software that can interpret sensor data
+          and make adjustments to the guidance system in real-time.
+      - complexity: MEDIUM - Requires knowledge of testing and validation methodologies
+        impact: HIGH - This component affects the overall performance and safety of
+          the rocket ship
+        method: Use a combination of simulation and hardware-in-the-loop (HIL) testing
+          to validate the guidance system. Implement a test automation framework to
+          streamline the testing process.
+        reason: Verification and validation are essential to ensure the guidance system
+          meets performance and safety requirements.
+        text: Conduct thorough testing and validation of the guidance system to ensure
+          compliance with mission requirements.
+    prompt: Design a guidance system that ensures accurate navigation and trajectory
+      control. Include control surfaces, navigation sensors, and autopilot software.
+    shims: []
+  Implement Safety Features:
+    agent: false
+    code_node_type: stub
+    description: Implement necessary safety measures to protect the rocket ship and
+      its crew.
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass Choose Power SourceOutput(BaseModel):\n    \\\"\\\"\\\"Pydantic model\
+      \ for Choose Power Source node outputs.\\\"\\\"\\\"\n    selected_power_source:\
+      \ str = Field(..., description=\\\"The chosen power source for the rocket ship.\\\
+      \")\n    justification: str = Field(..., description=\\\"A brief explanation\
+      \ of why this power source was chosen.\\\")\n    redundancy_details: List[str]\
+      \ = Field(..., description=\\\"A list of details regarding the redundant power\
+      \ systems implemented.\\\")\n\n\nclass Implement Safety FeaturesOutput(BaseModel):\n\
+      \    \\\"\\\"\\\"Pydantic model for Implement Safety Features node outputs.\\\
+      \"\\\"\\\"\n    safety_feature_ids: List[str] = Field(..., description=\\\"\
+      List of unique identifiers for each safety feature implemented\\\")\n    safety_feature_statuses:\
+      \ List[str] = Field(..., description=\\\"Corresponding statuses of each safety\
+      \ feature, such as 'implemented', 'pending', or 'failed'\\\")\n    overall_safety_compliance:\
+      \ str = Field(..., description=\\\"Summary of safety compliance status, e.g.,\
+      \ 'Compliant', 'Non-compliant', or 'Pending review'\\\")\n\n\ndef Implement\
+      \ Safety Features(Choose Power Source_input: Choose Power SourceOutput, **kwargs)\
+      \ -> Implement Safety FeaturesOutput:\n    \\\"\\\"\\\"Implement necessary safety\
+      \ measures to protect the rocket ship and its crew.\n\n    Args:\n        Choose\
+      \ Power Source_input: Input from the 'Choose Power Source' node.\n        **kwargs:\
+      \ Additional keyword arguments.\n\n    Returns:\n        Implement Safety FeaturesOutput:\
+      \ Object containing outputs for this node.\n    \\\"\\\"\\\"\n    # TODO: Implement\
+      \ this function\n\n    # Return stub output with placeholder values\n    return\
+      \ Implement Safety FeaturesOutput(\n        safety_feature_ids=[],\n       \
+      \ safety_feature_statuses=[],\n        overall_safety_compliance=\\\"\\\",\n\
+      \    )"
+    name: Implement Safety Features
+    nodes_depended_on:
+    - Choose Power Source
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of unique identifiers for each safety feature implemented
+      key: safety_feature_ids
+      type: List[str]
+    - description: Corresponding statuses of each safety feature, such as 'implemented',
+        'pending', or 'failed'
+      key: safety_feature_statuses
+      type: List[str]
+    - description: Summary of safety compliance status, e.g., 'Compliant', 'Non-compliant',
+        or 'Pending review'
+      key: overall_safety_compliance
+      type: str
+    prd:
+      bullets: []
+    prompt: Develop and integrate essential safety features, including emergency shutdown
+      protocols, fire suppression systems, and pressure containment.
+    shims: []
+  Integrate Propulsion and Guidance Systems:
+    agent: false
+    code_node_type: stub
+    description: Combine the propulsion and guidance systems to ensure seamless operation.
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass Design Propulsion SystemOutput(BaseModel):\n    \\\"\\\"\\\"Pydantic\
+      \ model for Design Propulsion System node outputs.\\\"\\\"\\\"\n    propulsion_description:\
+      \ List[str] = Field(..., description=\\\"Detailed description of the propulsion\
+      \ system components.\\\")\n    propulsion_specifications: List[str] = Field(...,\
+      \ description=\\\"Propulsion system specifications including combustion chamber,\
+      \ nozzle, fuel/oxidizer supply, and ignition.\\\")\n    system_diagram: str\
+      \ = Field(..., description=\\\"System diagram of the propulsion system.\\\"\
+      )\n\n\nclass Develop Guidance SystemOutput(BaseModel):\n    \\\"\\\"\\\"Pydantic\
+      \ model for Develop Guidance System node outputs.\\\"\\\"\\\"\n    control_surfaces:\
+      \ List[str] = Field(..., description=\\\"List of control surfaces designed for\
+      \ the rocket ship\\\")\n    navigation_sensors: List[str] = Field(..., description=\\\
+      \"List of navigation sensors used in the rocket ship's guidance system\\\")\n\
+      \    autopilot_software: List[str] = Field(..., description=\\\"List of autopilot\
+      \ software components in the rocket ship's guidance system\\\")\n    trajectory_control:\
+      \ float = Field(..., description=\\\"Accuracy of the rocket ship's trajectory\
+      \ control system\\\")\n\n\nclass Integrate Propulsion And Guidance SystemsOutput(BaseModel):\n\
+      \    \\\"\\\"\\\"Pydantic model for Integrate Propulsion and Guidance Systems\
+      \ node outputs.\\\"\\\"\\\"\n    integration_status: str = Field(..., description=\\\
+      \"Status of the integration process (e.g., 'successful', 'failed')\\\")\n  \
+      \  synchronization_protocol: str = Field(..., description=\\\"Protocol used\
+      \ for synchronizing propulsion and guidance systems\\\")\n    control_interface_details:\
+      \ str = Field(..., description=\\\"Details about the control interface between\
+      \ propulsion and guidance systems\\\")\n    redundancy_features: List[str] =\
+      \ Field(..., description=\\\"List of redundancy features implemented in the\
+      \ integrated system\\\")\n    validation_result: bool = Field(..., description=\\\
+      \"Whether the integrated system has been validated successfully\\\")\n\n\ndef\
+      \ Integrate Propulsion and Guidance Systems(Design Propulsion System_input:\
+      \ Design Propulsion SystemOutput, Develop Guidance System_input: Develop Guidance\
+      \ SystemOutput, **kwargs) -> Integrate Propulsion And Guidance SystemsOutput:\n\
+      \    \\\"\\\"\\\"Combine the propulsion and guidance systems to ensure seamless\
+      \ operation.\n\n    Args:\n        Design Propulsion System_input: Input from\
+      \ the 'Design Propulsion System' node.\n        Develop Guidance System_input:\
+      \ Input from the 'Develop Guidance System' node.\n        **kwargs: Additional\
+      \ keyword arguments.\n\n    Returns:\n        Integrate Propulsion And Guidance\
+      \ SystemsOutput: Object containing outputs for this node.\n    \\\"\\\"\\\"\n\
+      \    # TODO: Implement this function\n\n    # Return stub output with placeholder\
+      \ values\n    return Integrate Propulsion And Guidance SystemsOutput(\n    \
+      \    integration_status=\\\"\\\",\n        synchronization_protocol=\\\"\\\"\
+      ,\n        control_interface_details=\\\"\\\",\n        redundancy_features=[],\n\
+      \        validation_result=False,\n    )"
+    name: Integrate Propulsion and Guidance Systems
+    nodes_depended_on:
+    - Design Propulsion System
+    - Develop Guidance System
+    nodes_dependent_on: []
+    output_structure:
+    - description: Status of the integration process (e.g., 'successful', 'failed')
+      key: integration_status
+      type: str
+    - description: Protocol used for synchronizing propulsion and guidance systems
+      key: synchronization_protocol
+      type: str
+    - description: Details about the control interface between propulsion and guidance
+        systems
+      key: control_interface_details
+      type: str
+    - description: List of redundancy features implemented in the integrated system
+      key: redundancy_features
+      type: List[str]
+    - description: Whether the integrated system has been validated successfully
+      key: validation_result
+      type: bool
+    prd:
+      bullets:
+      - complexity: MEDIUM - Requires careful planning and design, but can be achieved
+          with standard software engineering practices.
+        impact: HIGH - This will affect the overall maintainability and scalability
+          of the system.
+        method: Use a service-oriented architecture (SOA) approach to define the modules
+          and their interactions.
+        reason: A modular architecture will allow for easier troubleshooting and modification
+          of individual components without affecting the entire system.
+        text: Implement a modular architecture for the integrated system to enable
+          easy maintenance and updates.
+      - complexity: HIGH - Requires expertise in computer networking and real-time
+          systems.
+        impact: HIGH - This will directly affect the performance and safety of the
+          rocket ship.
+        method: Use a publish-subscribe pattern with a message queue to handle communication
+          between the systems.
+        reason: A well-defined synchronization protocol is crucial to prevent data
+          inconsistencies and ensure accurate control of the rocket ship.
+        text: Develop a synchronization protocol to ensure seamless communication
+          between the propulsion and guidance systems.
+      - complexity: MEDIUM - Requires understanding of the system's control requirements
+          and interface design principles.
+        impact: HIGH - This will directly affect the controllability and stability
+          of the rocket ship.
+        method: Use a finite state machine (FSM) to model the control interfaces and
+          ensure deterministic behavior.
+        reason: Control interfaces are necessary to translate high-level commands
+          into specific actions for each system.
+        text: Implement control interfaces for the propulsion and guidance systems
+          to enable coordinated control.
+      - complexity: HIGH - Requires careful design and implementation to ensure effective
+          redundancy without excessive complexity.
+        impact: HIGH - This will directly affect the safety and reliability of the
+          rocket ship.
+        method: Use a combination of hardware and software redundancy, such as duplicate
+          components and error-correcting codes.
+        reason: Redundancy features are essential to ensure the reliability and fault
+          tolerance of the integrated system.
+        text: Incorporate redundancy features to ensure continued operation in case
+          of component failure.
+      - complexity: HIGH - Requires extensive testing and validation efforts, including
+          simulation and hardware-in-the-loop testing.
+        impact: HIGH - This will directly affect the safety and performance of the
+          rocket ship.
+        method: Use a model-based testing approach with automated test case generation
+          and execution.
+        reason: Validation and testing are crucial to ensure that the integrated system
+          meets the required specifications and performs as expected.
+        text: Perform thorough validation and testing of the integrated system to
+          ensure correct operation.
+    prompt: Integrate the designed propulsion and guidance systems, focusing on synchronization,
+      control interfaces, and system redundancies.
+    shims: []

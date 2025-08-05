@@ -1,0 +1,56 @@
+dag_type: stub
+description: Generated workflow from UI.
+name: test
+nodes:
+  analyze_test_output:
+    agent: false
+    code_node_type: stub
+    description: ''
+    implementation: code/analyze_test_output.py
+    name: analyze_test_output
+    nodes_depended_on:
+    - execute_test_script
+    nodes_dependent_on: []
+    output_structure: []
+    prd: code/code_PRDs.md
+    prompt: ''
+    shims: []
+  execute_test_script:
+    agent: false
+    code_node_type: stub
+    description: ''
+    implementation: code/execute_test_script.py
+    name: execute_test_script
+    nodes_depended_on:
+    - extract_test_input
+    - validate_test_input
+    nodes_dependent_on: []
+    output_structure: []
+    prd: code/code_PRDs.md
+    prompt: ''
+    shims: []
+  extract_test_input:
+    agent: false
+    code_node_type: stub
+    description: ''
+    implementation: code/extract_test_input.py
+    name: extract_test_input
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure: []
+    prd: code/code_PRDs.md
+    prompt: ''
+    shims: []
+  validate_test_input:
+    agent: false
+    code_node_type: stub
+    description: ''
+    implementation: code/validate_test_input.py
+    name: validate_test_input
+    nodes_depended_on:
+    - extract_test_input
+    nodes_dependent_on: []
+    output_structure: []
+    prd: code/code_PRDs.md
+    prompt: ''
+    shims: []

@@ -1,0 +1,54 @@
+dag_type: spec
+description: Workflow created from UI.
+name: Generated Workflow from UI
+nodes:
+  clean_data:
+    agent: false
+    description: ''
+    name: clean_data
+    nodes_depended_on:
+    - extract_nodes
+    - extract_connections
+    nodes_dependent_on: []
+    output_structure: []
+    prompt: ''
+  extract_connections:
+    agent: false
+    description: ''
+    name: extract_connections
+    nodes_depended_on:
+    - load_data
+    nodes_dependent_on:
+    - clean_data
+    output_structure: []
+    prompt: ''
+  extract_nodes:
+    agent: false
+    description: ''
+    name: extract_nodes
+    nodes_depended_on:
+    - load_data
+    nodes_dependent_on:
+    - clean_data
+    output_structure: []
+    prompt: ''
+  load_data:
+    agent: false
+    description: ''
+    name: load_data
+    nodes_depended_on:
+    - start
+    nodes_dependent_on:
+    - extract_connections
+    - extract_nodes
+    output_structure: []
+    prompt: ''
+  start:
+    agent: false
+    description: ''
+    name: start
+    nodes_depended_on: []
+    nodes_dependent_on:
+    - load_data
+    output_structure: []
+    prompt: ''

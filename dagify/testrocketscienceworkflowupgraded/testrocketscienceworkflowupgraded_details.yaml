@@ -1,0 +1,135 @@
+dag_type: typed
+description: Executing a test for rocket science workflow with upgraded nodes
+name: TestRocketScienceWorkflowUpgraded
+nodes:
+  analyze_results:
+    agent: false
+    description: Analyze the results of the simulation and identify areas for improvement
+    name: analyze_results
+    nodes_depended_on:
+    - simulate_experiment
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of identified areas for improvement
+      key: identified_areas
+      type: List[str]
+    - description: List of key performance indicators
+      key: key_performance_indicators
+      type: List[str]
+    - description: Suggested potential improvements for future experiments
+      key: potential_improvements
+      type: str
+    prompt: Review the results of the simulation, focusing on the key performance
+      indicators. Identify areas where the experiment did not meet the expected outcomes
+      and suggest potential improvements for future experiments.
+  define_test_parameters:
+    agent: false
+    description: Identify the test parameters for the rocket science experiment
+    name: define_test_parameters
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: The type or model of the rocket used in the test
+      key: rocket_type
+      type: str
+    - description: The weight of the payload in kilograms
+      key: payload_weight_kg
+      type: float
+    - description: List of test condition descriptors, e.g., weather, wind, ambient
+        temperature
+      key: test_conditions
+      type: List[str]
+    prompt: Specify the test parameters for the rocket science experiment, including
+      the type of rocket, payload, and test conditions. Report only the test parameters
+      with their corresponding values.
+  document_experiment_report:
+    agent: false
+    description: Create a comprehensive report summarizing the experiment results
+    name: document_experiment_report
+    nodes_depended_on:
+    - analyze_results
+    nodes_dependent_on: []
+    output_structure:
+    - description: Summary of the experiment results
+      key: experiment_summary
+      type: str
+    - description: Potential improvements for future experiments
+      key: suggested_improvements
+      type: str
+    - description: List of key performance indicators
+      key: outcomes
+      type: List[str]
+    prompt: Using the insights gained from analyzing the simulation results, create
+      a comprehensive report summarizing the experiment findings. Focus on presenting
+      a clear and concise overview of the experiment's outcomes and suggestions for
+      future directions.
+  fetch_test_parameters:
+    agent: false
+    description: Fetch the test parameters for the rocket science experiment
+    name: fetch_test_parameters
+    nodes_depended_on: []
+    nodes_dependent_on:
+    - define_test_parameters
+    output_structure:
+    - description: Type of the rocket used in the experiment
+      key: rocket_type
+      type: str
+    - description: Description or category of the payload
+      key: payload
+      type: str
+    - description: List of key test condition parameters such as temperature, pressure,
+        and environment
+      key: test_conditions
+      type: List[str]
+    prompt: Using the provided test parameters, extract and report the key details,
+      such as rocket type, payload, and test conditions.
+  simulate_experiment:
+    agent: false
+    description: Simulate the rocket science experiment using the specified parameters
+      and conditions
+    name: simulate_experiment
+    nodes_depended_on:
+    - verify_test_conditions
+    nodes_dependent_on: []
+    output_structure:
+    - description: Rocket trajectory results
+      key: rocket_trajectory
+      type: str
+    - description: List of velocity results
+      key: velocity_results
+      type: List[float]
+    - description: Safety margins results
+      key: safety_margins
+      type: float
+    - description: List of simulation errors
+      key: simulation_errors
+      type: List[str]
+    - description: Whether the simulation is valid
+      key: is_simulation_valid
+      type: bool
+    prompt: Using the verified test conditions, simulate the rocket science experiment.
+      Report the results of the simulation, focusing on the key performance indicators,
+      such as rocket trajectory, velocity, and safety margins.
+  verify_test_conditions:
+    agent: false
+    description: Verify that the test conditions meet the specified requirements
+    name: verify_test_conditions
+    nodes_depended_on:
+    - fetch_test_parameters
+    nodes_dependent_on: []
+    output_structure:
+    - description: Statement indicating whether the test conditions meet the specified
+        requirements
+      key: test_conditions
+      type: str
+    - description: List of discrepancies found between the test conditions and the
+        experiment design and stated objectives
+      key: discrepancies_found
+      type: List[str]
+    - description: Whether the test conditions are valid according to the experiment
+        requirements
+      key: valid_test_conditions
+      type: bool
+    prompt: Using the test parameters fetched, verify that the test conditions meet
+      the specified requirements. Focus on checking if the conditions align with the
+      experiment design and stated objectives, and report any discrepancies.

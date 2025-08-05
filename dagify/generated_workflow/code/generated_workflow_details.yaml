@@ -1,0 +1,69 @@
+dag_type: stub
+description: ''
+name: Generated Workflow
+nodes:
+  assemble_space_ship_components:
+    agent: false
+    code_node_type: stub
+    description: ''
+    implementation: code/assemble_space_ship_components.py
+    name: assemble_space_ship_components
+    nodes_depended_on:
+    - select_propulsion_system
+    - design_life_support_systems
+    nodes_dependent_on: []
+    output_structure: []
+    prd: code/code_PRDs.md
+    prompt: ''
+    shims: []
+  calculate_space_ship_size:
+    agent: false
+    code_node_type: stub
+    description: ''
+    implementation: code/calculate_space_ship_size.py
+    name: calculate_space_ship_size
+    nodes_depended_on:
+    - define_space_ship_purpose
+    nodes_dependent_on: []
+    output_structure: []
+    prd: code/code_PRDs.md
+    prompt: ''
+    shims: []
+  define_space_ship_purpose:
+    agent: false
+    code_node_type: stub
+    description: ''
+    implementation: code/define_space_ship_purpose.py
+    name: define_space_ship_purpose
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure: []
+    prd: code/code_PRDs.md
+    prompt: ''
+    shims: []
+  design_life_support_systems:
+    agent: false
+    code_node_type: stub
+    description: ''
+    implementation: code/design_life_support_systems.py
+    name: design_life_support_systems
+    nodes_depended_on:
+    - calculate_space_ship_size
+    nodes_dependent_on: []
+    output_structure: []
+    prd: code/code_PRDs.md
+    prompt: ''
+    shims: []
+  select_propulsion_system:
+    agent: false
+    code_node_type: stub
+    description: ''
+    implementation: code/select_propulsion_system.py
+    name: select_propulsion_system
+    nodes_depended_on:
+    - calculate_space_ship_size
+    nodes_dependent_on: []
+    output_structure: []
+    prd: code/code_PRDs.md
+    prompt: ''
+    shims: []

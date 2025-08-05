@@ -1,0 +1,64 @@
+dag_type: typed
+description: This DAG defines a sequence of steps to execute and validate the task
+  'test'.
+name: TestTaskExecution
+nodes:
+  execute_task:
+    agent: false
+    description: Execute the specified task using the validated input.
+    name: execute_task
+    nodes_depended_on:
+    - input_validation
+    nodes_dependent_on: []
+    output_structure:
+    - description: Output of the task execution.
+      key: task_output
+      type: str
+    - description: Status of the task execution (success, failure, etc.).
+      key: task_status
+      type: str
+    - description: List of error messages encountered during task execution.
+      key: error_messages
+      type: List[str]
+    prompt: Execute the task 'test' using the validated input parameters. Focus only
+      on executing the task logic without any modifications.
+  input_validation:
+    agent: false
+    description: Validate the input data provided for the task.
+    name: input_validation
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Name of the task being validated
+      key: task_name
+      type: str
+    - description: Status of the task execution (e.g. success, failure)
+      key: task_status
+      type: str
+    - description: List of input errors or inconsistencies found during validation
+      key: input_errors
+      type: List[str]
+    - description: Whether the input data is valid
+      key: is_valid
+      type: bool
+    prompt: Validate the input for the task 'test'. Check if the task has the required
+      parameters and data. Report any input errors or inconsistencies.
+  output_validation:
+    agent: false
+    description: Validate the output data returned from the task execution.
+    name: output_validation
+    nodes_depended_on:
+    - execute_task
+    nodes_dependent_on: []
+    output_structure:
+    - description: Whether the validation was successful or not
+      key: is_valid
+      type: bool
+    - description: Description of any errors or inconsistencies found during validation
+      key: error_message
+      type: str
+    - description: Validation status of each expected output value
+      key: validation_results
+      type: List[bool]
+    prompt: Validate the output of the task execution. Check if the task returned
+      the expected data or encountered any errors. Report any output errors or inconsistencies.

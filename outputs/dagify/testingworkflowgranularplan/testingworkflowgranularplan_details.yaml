@@ -1,0 +1,108 @@
+dag_type: typed
+description: A detailed execution plan for conducting a testing workflow by breaking
+  down tasks into elemental, type-safe operations.
+name: TestingWorkflowGranularPlan
+nodes:
+  analyze_test_results:
+    agent: false
+    description: Analyze test results and logs to identify issues or failures.
+    name: analyze_test_results
+    nodes_depended_on:
+    - execute_test_cases
+    - collect_test_logs
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of test case IDs that failed during execution
+      key: failed_test_ids
+      type: List[str]
+    - description: Descriptions of failures for each failed test case
+      key: failure_details
+      type: List[str]
+    prompt: Analyze the list of test_results and test_logs to identify any failures
+      or issues. Focus only on generating a list of failure identifiers or descriptions.
+  collect_test_logs:
+    agent: false
+    description: Retrieve logs generated during test execution.
+    name: collect_test_logs
+    nodes_depended_on:
+    - execute_test_cases
+    nodes_dependent_on: []
+    output_structure:
+    - description: Raw log entries for each test case execution
+      key: test_logs
+      type: List[str]
+    prompt: Collect raw logs produced during the test case executions. Focus only
+      on log retrieval.
+  collect_test_specifications:
+    agent: false
+    description: Gather detailed specifications for the test cases to be executed.
+    name: collect_test_specifications
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Unique identifiers for each test case
+      key: test_case_ids
+      type: List[str]
+    - description: Descriptions for each test case, in same order as test_case_ids
+      key: test_case_descriptions
+      type: List[str]
+    prompt: List all the test case identifiers and their descriptions included in
+      the testing workflow. Focus only on listing identifiers and descriptions.
+  define_test_input_parameters:
+    agent: false
+    description: Identify and define the basic input parameters required for the testing
+      workflow.
+    name: define_test_input_parameters
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Names of the input parameters for testing
+      key: parameter_names
+      type: List[str]
+    - description: Corresponding data types for each parameter (e.g., str, int)
+      key: parameter_types
+      type: List[str]
+    prompt: List the essential input parameters needed to run the testing workflow,
+      such as test environment, test data, or configuration identifiers. Focus only
+      on identifying parameter names and their data types.
+  execute_test_cases:
+    agent: false
+    description: Run the specified test cases within the initialized environment.
+    name: execute_test_cases
+    nodes_depended_on:
+    - collect_test_specifications
+    - initialize_test_environment
+    nodes_dependent_on: []
+    output_structure:
+    - description: Summary status for each test case (e.g., pass/fail)
+      key: test_results
+      type: List[str]
+    prompt: Execute each test case identified by test_case_ids, in order, within the
+      current environment. Focus only on triggering test execution.
+  generate_test_summary_report:
+    agent: false
+    description: Create a summary report based on the test execution, results, and
+      analysis.
+    name: generate_test_summary_report
+    nodes_depended_on:
+    - analyze_test_results
+    nodes_dependent_on: []
+    output_structure:
+    - description: Formatted summary report of the testing workflow results
+      key: test_summary_report
+      type: str
+    prompt: Generate a comprehensive test report summarizing the overall status, failures,
+      and logs. Focus only on producing the report content.
+  initialize_test_environment:
+    agent: false
+    description: Set up the test environment based on input parameters.
+    name: initialize_test_environment
+    nodes_depended_on:
+    - define_test_input_parameters
+    nodes_dependent_on: []
+    output_structure:
+    - description: Status message indicating success or failure of environment setup
+      key: environment_status
+      type: str
+    prompt: Using the input parameters provided, configure and initialize the test
+      environment. Focus solely on environment setup steps.

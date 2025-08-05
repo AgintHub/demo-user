@@ -1,0 +1,30 @@
+dag_type: spec
+description: Generated workflow from UI.
+name: TestEvaluation
+nodes:
+  determine_input_type:
+    agent: false
+    description: ''
+    name: determine_input_type
+    nodes_depended_on:
+    - read_test_input
+    nodes_dependent_on: []
+    output_structure: []
+    prompt: ''
+  evaluate_test_input:
+    agent: false
+    description: ''
+    name: evaluate_test_input
+    nodes_depended_on:
+    - determine_input_type
+    nodes_dependent_on: []
+    output_structure: []
+    prompt: ''
+  read_test_input:
+    agent: false
+    description: ''
+    name: read_test_input
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure: []
+    prompt: ''

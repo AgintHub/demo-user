@@ -1,0 +1,151 @@
+dag_type: typed
+description: ''
+name: Generated Workflow
+nodes:
+  add_control_system:
+    agent: false
+    description: This node is responsible for adding a control system component after
+      the propulsion system is integrated.
+    name: add_control_system
+    nodes_depended_on:
+    - integrate_propulsion_system
+    nodes_dependent_on: []
+    output_structure:
+    - description: The name identifier of the control system.
+      key: control_system_name
+      type: str
+    - description: Type of control system (e.g., 'autopilot', 'manual').
+      key: control_system_type
+      type: str
+    - description: List of configuration parameter names for the control system.
+      key: control_parameters
+      type: List[str]
+    - description: Indicates whether the control system is active/enabled.
+      key: is_active
+      type: bool
+    prompt: 'Your task is to add a control system component based on the integrated
+      propulsion system.
+
+
+      Provide details about the control system including its type, name, and configuration
+      parameters.'
+  add_power_system:
+    agent: false
+    description: ''
+    name: add_power_system
+    nodes_depended_on:
+    - add_control_system
+    nodes_dependent_on: []
+    prompt: ''
+  assess_rocket_design:
+    agent: false
+    description: This node assesses the combined rocket design based on inputs from
+      key subsystems and configurations.
+    name: assess_rocket_design
+    nodes_depended_on:
+    - design_rocket_structure
+    - choose_propulsion_system
+    - integrate_propulsion_system
+    - add_control_system
+    - add_power_system
+    nodes_dependent_on: []
+    output_structure:
+    - description: Assessment of the rocket's structural integrity and suitability.
+      key: structure_quality
+      type: str
+    - description: Evaluation of the propulsion system performance.
+      key: propulsion_efficiency
+      type: str
+    - description: Status of control system integration and functionality.
+      key: control_system_status
+      type: str
+    - description: Assessment of power system capacity and readiness.
+      key: power_system_capacity
+      type: str
+    - description: Indicates whether the overall rocket design meets success criteria.
+      key: overall_success
+      type: bool
+    prompt: 'Evaluate the overall rocket design considering the following parameters:
+      structure, propulsion, control, and power systems.'
+  choose_propulsion_system:
+    agent: false
+    description: ''
+    name: choose_propulsion_system
+    nodes_depended_on:
+    - select_rocket_type
+    nodes_dependent_on: []
+    prompt: ''
+  define_rocket_purpose:
+    agent: false
+    description: This node defines the purpose of the rocket, which guides subsequent
+      design decisions.
+    name: define_rocket_purpose
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: A descriptive statement outlining the primary goal or mission of
+        the rocket.
+      key: rocket_purpose
+      type: str
+    - description: A numerical score indicating confidence level in the defined purpose
+        (range 0.0 to 1.0).
+      key: purpose_confidence_score
+      type: float
+    prompt: Provide a clear and concise description of the rocket's intended purpose,
+      including its primary objectives and constraints.
+  design_rocket_structure:
+    agent: false
+    description: ''
+    name: design_rocket_structure
+    nodes_depended_on:
+    - select_rocket_type
+    nodes_dependent_on: []
+    prompt: ''
+  determine_payload_capacity:
+    agent: false
+    description: ''
+    name: determine_payload_capacity
+    nodes_depended_on:
+    - select_rocket_type
+    nodes_dependent_on: []
+    prompt: ''
+  integrate_propulsion_system:
+    agent: false
+    description: This node integrates the selected propulsion system into the rocket
+      design and outputs the integration status and relevant details.
+    name: integrate_propulsion_system
+    nodes_depended_on:
+    - design_rocket_structure
+    - choose_propulsion_system
+    nodes_dependent_on: []
+    output_structure:
+    - description: Indicates whether the propulsion system was successfully integrated.
+      key: integration_success
+      type: bool
+    - description: List of components involved in the integration process.
+      key: integrated_components
+      type: List[str]
+    - description: Additional notes or comments about the integration.
+      key: comments
+      type: str
+    prompt: Please integrate the chosen propulsion system with the rocket structure,
+      and provide details about the integration process.
+  select_rocket_type:
+    agent: false
+    description: Determines the type of rocket suitable for the mission, influencing
+      structure, propulsion, and payload options.
+    name: select_rocket_type
+    nodes_depended_on:
+    - define_rocket_purpose
+    nodes_dependent_on: []
+    output_structure:
+    - description: The selected type of rocket (e.g., orbital, suborbital).
+      key: rocket_type
+      type: str
+    - description: Indicates if the selection process was successfully completed.
+      key: is_valid_selection
+      type: bool
+    - description: List of possible rocket types available for selection.
+      key: possible_types
+      type: List[str]
+    prompt: Please select the rocket type based on the defined purpose.

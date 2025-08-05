@@ -1,0 +1,109 @@
+dag_type: pure
+description: Generated workflow from UI.
+name: TaskExecutionPlan
+nodes:
+  decomposition_request:
+    agent: false
+    code_node_type: pure
+    description: Request the Elemental Thoughts decomposition of the task
+    implementation: code/decomposition_request.py
+    name: decomposition_request
+    nodes_depended_on:
+    - task_description_extraction
+    nodes_dependent_on: []
+    output_structure:
+    - description: Unique identifier for the task
+      key: task_id
+      type: str
+    - description: Description of the task
+      key: task_description
+      type: str
+    - description: List of possible decompositions for the task
+      key: decomposition_result
+      type: str
+    prd: code/code_PRDs.md
+    prompt: Using the task description and name, request the Elemental Thoughts decomposition.
+    shims: []
+  deterministic_executable_code_generation:
+    agent: false
+    code_node_type: pure
+    description: Generate executable code for each fundamental step
+    implementation: code/deterministic_executable_code_generation.py
+    name: deterministic_executable_code_generation
+    nodes_depended_on:
+    - elemental_step_extraction
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of executable code for each fundamental step
+      key: fundamental_steps
+      type: List[str]
+    - description: List of correctness indicators for each fundamental step
+      key: is_correct
+      type: List[bool]
+    prd: code/code_PRDs.md
+    prompt: Given the fundamental steps, generate executable code that can be directly
+      executed.
+    shims: []
+  elemental_step_extraction:
+    agent: false
+    code_node_type: pure
+    description: Extract the fundamental steps from the Elemental Thoughts decomposition
+    implementation: code/elemental_step_extraction.py
+    name: elemental_step_extraction
+    nodes_depended_on:
+    - decomposition_request
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of extracted fundamental steps
+      key: fundamental_steps
+      type: List[str]
+    prd: code/code_PRDs.md
+    prompt: Extract the individual fundamental steps from the Elemental Thoughts decomposition.
+    shims: []
+  execution_validation_and_verification:
+    agent: false
+    code_node_type: pure
+    description: Validate and verify the correctness of the executed code
+    implementation: code/execution_validation_and_verification.py
+    name: execution_validation_and_verification
+    nodes_depended_on:
+    - deterministic_executable_code_generation
+    nodes_dependent_on: []
+    output_structure: []
+    prd: code/code_PRDs.md
+    prompt: Execute the generated code and validate its correctness against the expected
+      outcomes.
+    shims: []
+  task_description_extraction:
+    agent: false
+    code_node_type: pure
+    description: Extract the task description from the input task name
+    implementation: code/task_description_extraction.py
+    name: task_description_extraction
+    nodes_depended_on:
+    - task_specification_check
+    nodes_dependent_on: []
+    output_structure:
+    - description: The extracted task description
+      key: task_description
+      type: str
+    prd: code/code_PRDs.md
+    prompt: Using the validated task name, extract the task description to provide
+      context.
+    shims: []
+  task_specification_check:
+    agent: false
+    code_node_type: pure
+    description: Validate that the task name matches the input task name
+    implementation: code/task_specification_check.py
+    name: task_specification_check
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Whether the task name matches the input task name
+      key: task_name_is_valid
+      type: bool
+    prd: code/code_PRDs.md
+    prompt: Verify that the input task name matches the name specified in the task
+      request.
+    shims: []

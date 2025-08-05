@@ -1,0 +1,391 @@
+dag_type: spec
+description: Generated workflow from UI.
+name: RocketShipWorkflow
+nodes:
+  ' determine_launch_vehicle_specifications':
+    agent: false
+    description: Synthesizes the calculated fuel requirements and payload configuration
+      to generate a detailed specification for the launch vehicle. This includes selection
+      and sizing of engines, tanks, structural elements, and onboard systems to ensure
+      mission requirements and safety standards are met.
+    name: ' determine_launch_vehicle_specifications'
+    nodes_depended_on:
+    - calculate_fuel_requirements
+    - design_payload_configuration
+    nodes_dependent_on: []
+    output_structure:
+    - description: The category or model of launch vehicle suitable for the mission
+        (e.g., Falcon 9, Atlas V).
+      key: vehicle_type
+      type: str
+    - description: Description of the main propulsion system selected, including engine
+        model and thrust rating.
+      key: propulsion_system
+      type: str
+    - description: Total fuel capacity required for the mission in kilograms.
+      key: fuel_capacity
+      type: float
+    - description: Maximum payload mass supported (to specified orbit) in kilograms.
+      key: payload_capacity
+      type: float
+    - description: List of primary materials used in the vehicle's structure (e.g.,
+        aluminum alloy, composite, titanium).
+      key: structure_materials
+      type: List[str]
+    - description: Specification of the avionics package, including guidance, navigation,
+        and control systems.
+      key: avionics_suite
+      type: str
+    - description: List of key safety and redundancy features incorporated into the
+        vehicle design.
+      key: safety_features
+      type: List[str]
+    prd:
+      bullets:
+      - complexity: MEDIUM - Requires a lookup/decision logic across a database of
+          vehicle classes and mission constraints.
+        impact: HIGH - Selecting the correct vehicle type has a cascading effect on
+          all subsequent design decisions and costs.
+        method: Implement decision logic using a set of rules and lookup tables mapping
+          mass, volume, and orbit to existing vehicle types.
+        reason: Matching vehicle type to fuel and payload ensures feasibility and
+          cost-efficiency, avoiding under/over-provisioned systems.
+        text: Aggregate fuel requirement and payload parameters to determine the minimum
+          vehicle class/type required.
+      - complexity: HIGH - Involves dynamic calculations and possibly iterative design
+          loops.
+        impact: HIGH - Directly affects the ability of the vehicle to lift off and
+          reach intended orbit.
+        method: Use physics-based formulas for thrust-to-weight; select engines from
+          a catalog while checking for compatibility with vehicle type.
+        reason: Ensuring adequate thrust is critical for mission success and safety
+          margins (e.g., abort scenarios).
+        text: Select appropriate propulsion system and calculate required engine count
+          or configuration based on total mass and thrust-to-weight ratio.
+      - complexity: MEDIUM - Formula-based but requires integration with other vehicle
+          parameters.
+        impact: MEDIUM - Impacts weight distribution and structural design.
+        method: Apply volumetric and mass balance equations; incorporate margin for
+          boiloff/contingency as per best practices.
+        reason: Fuel mass and volume must align with physical design and maintain
+          stress within safe limits.
+        text: Determine fuel tank sizing and total capacity, ensuring compatibility
+          with vehicle structure and safety limits.
+      - complexity: LOW - Selection from a curated list based on known industry best
+          practices.
+        impact: MEDIUM - Affects launch costs and safety.
+        method: Match material choices to anticipated stress loads; reference standard
+          materials for aerospace.
+        reason: Optimized material choices lead to lighter, stronger, and more reliable
+          vehicles.
+        text: Define structural material selection and properties to balance strength,
+          weight, and manufacturability.
+      - complexity: MEDIUM - Requires mapping avionics packages to vehicle class and
+          mission complexity.
+        impact: MEDIUM - Essential for accurate trajectory, vehicle stability, and
+          safety.
+        method: Use a catalog-based selection, mapping complexity (LEO, GEO, interplanetary)
+          to standard avionics suites.
+        reason: Reliable avionics are key for guidance, navigation, and control (GNC);
+          must meet mission profile and redundancy needs.
+        text: Specify avionics suite tailored to mission complexity and vehicle requirements.
+      - complexity: LOW - Checklist approach based on vehicle type and mission sensitivity.
+        impact: HIGH - Directly impacts risk profile and launch approvals.
+        method: Reference standard safety systems; cross-check with regulatory requirements
+          and best practices.
+        reason: Safety features ensure human/passenger and asset protection during
+          failures.
+        text: Enumerate and justify inclusion of critical safety and redundancy systems
+          (abort options, backup control, etc.).
+    prompt: Given the calculated fuel requirements and the designed payload configuration,
+      determine the optimal launch vehicle specifications. Consider constraints such
+      as payload mass, volume, destination orbit, and safety margins. Output the complete
+      specifications for the launch vehicle, including propulsion, structural design,
+      avionics, and safety systems.
+  calculate_fuel_requirements:
+    agent: false
+    description: This node calculates the fuel requirements for the launch vehicle
+      based on the defined launch parameters.
+    name: calculate_fuel_requirements
+    nodes_depended_on:
+    - define_launch_parameters
+    nodes_dependent_on: []
+    output_structure:
+    - description: The total mass of fuel required for the launch.
+      key: fuel_mass
+      type: float
+    - description: The type of fuel required for the launch.
+      key: fuel_type
+      type: str
+    prd:
+      bullets:
+      - complexity: MEDIUM - Requires careful implementation of the calculation algorithm.
+        impact: HIGH - This calculation affects the overall launch vehicle design
+          and performance.
+        method: Use a combination of numerical methods and machine learning models
+          to estimate fuel requirements.
+        reason: This approach provides the most accurate calculation of fuel requirements
+          based on the launch parameters.
+        text: Implement a fuel calculation algorithm using the defined launch parameters.
+      - complexity: LOW - Requires straightforward integration of existing components.
+        impact: MEDIUM - This integration affects the accuracy of the fuel calculation.
+        method: Use a modular architecture to integrate the fuel calculation algorithm
+          with the launch parameter definitions.
+        reason: This integration ensures that the fuel calculation is based on the
+          most up-to-date launch parameters.
+        text: Integrate the fuel calculation algorithm with the launch parameter definitions.
+      - complexity: MEDIUM - Requires careful implementation of data validation and
+          error handling mechanisms.
+        impact: HIGH - This implementation affects the overall reliability of the
+          launch vehicle design and performance.
+        method: Use a combination of data validation techniques and error handling
+          mechanisms to ensure the accuracy and reliability of the fuel calculation
+          algorithm.
+        reason: This implementation ensures that the fuel calculation algorithm produces
+          accurate and reliable results.
+        text: Implement data validation and error handling for the fuel calculation
+          algorithm.
+    prompt: Calculate the fuel requirements for the launch vehicle based on the defined
+      launch parameters.
+  define_launch_parameters:
+    agent: false
+    description: This node defines the launch parameters for the rocket ship, which
+      will be used to calculate fuel requirements and design the payload configuration.
+    name: define_launch_parameters
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: The mass of the payload in kilograms.
+      key: payload_mass
+      type: float
+    - description: The target orbit for the rocket ship (e.g. LEO, GEO, etc.).
+      key: orbit
+      type: str
+    - description: The launch window for the rocket ship (e.g. date and time range).
+      key: launch_window
+      type: str
+    prd:
+      bullets: []
+    prompt: Define the launch parameters for the rocket ship, including payload mass,
+      orbit, and launch window.
+  design_payload_configuration:
+    agent: false
+    description: This node generates the detailed configuration for the payload to
+      be launched, based on high-level launch parameters such as target orbit, launch
+      window, vehicle constraints, and mission objectives.
+    name: design_payload_configuration
+    nodes_depended_on:
+    - define_launch_parameters
+    nodes_dependent_on: []
+    output_structure:
+    - description: Total mass of the payload in kilograms.
+      key: payload_mass
+      type: float
+    - description: Total volume of the payload in cubic meters.
+      key: payload_volume
+      type: float
+    - description: Classification of the payload (e.g., communication satellite, scientific
+        instrument, cargo).
+      key: payload_type
+      type: str
+    - description: List of specific environmental requirements like temperature control,
+        radiation shielding, vibration resistance.
+      key: environmental_requirements
+      type: List[str]
+    - description: Specifications for how the payload will physically interface with
+        the launch vehicle.
+      key: structural_interface_specs
+      type: str
+    prd:
+      bullets:
+      - complexity: LOW - Parsing uses standard data mapping from well-defined fields.
+        impact: HIGH - Incorrect parsing may lead to downstream configuration or safety
+          failures.
+        method: Implement parameter validation and extraction using schema-based parsing
+          and robust error checking.
+        reason: Accurate parsing ensures that the payload configuration will not violate
+          critical launch vehicle or mission limits.
+        text: Parse launch parameters to extract payload constraints such as maximum
+          allowable mass, dimensions, and interface requirements.
+      - complexity: MEDIUM - Requires a mapping system from mission goals to payload
+          types.
+        impact: MEDIUM - Informs dependent nodes and must be correctly categorized.
+        method: Use a classification function or lookup table to map mission objectives
+          to pre-defined payload types.
+        reason: Payload type selection influences all downstream configurations including
+          environmental controls and mass budgeting.
+        text: Determine suitable payload type based on mission objectives and user
+          input parameters.
+      - complexity: MEDIUM - Requires calculation, rule validation, and possible optimization.
+        impact: HIGH - Violations cause mission failure or require entire reconfiguration.
+        method: Apply arithmetic calculations; validate against maximum thresholds
+          and, if needed, use constraint-solving algorithms.
+        reason: Physical constraints are critical for safe and successful launches.
+        text: Compute payload mass and volume, ensuring they fit within the limits
+          provided by the launch parameters and standard aerospace guidelines.
+      - complexity: LOW - Often a direct mapping from payload type to a set of default
+          requirements.
+        impact: MEDIUM - Directly affects vehicle subsystem selection and mission
+          planning.
+        method: Maintain a requirements matrix and retrieve corresponding environmental
+          needs per payload class.
+        reason: Environmental needs vary by payload type (e.g., thermal, vibration,
+          electromagnetic compatibility).
+        text: Generate list of environmental requirements necessary for the payload's
+          integrity and performance during launch and space operation.
+      - complexity: MEDIUM - May require lookup and adaptation to standard vehicle
+          interface documents.
+        impact: HIGH - Errors here cascade to integration and launch failures.
+        method: Implement spec generation using template strings or configuration
+          files matching standard interface types (e.g., EELV, ESPA).
+        reason: Accurate structural interface prevents mechanical fit and integration
+          issues.
+        text: Specify structural interface details to ensure compatibility with the
+          launch vehicle's payload attachment systems.
+    prompt: Given the defined launch parameters, generate a complete payload configuration
+      including mass, volume, payload type, environmental requirements, and structural
+      interface specifications. Ensure all configurations adhere to standard aerospace
+      constraints.
+  execute_launch_sequence:
+    agent: false
+    description: This node executes the launch sequence using the simulation results
+      from the parent node.
+    name: execute_launch_sequence
+    nodes_depended_on:
+    - simulate_launch_sequence
+    nodes_dependent_on: []
+    output_structure:
+    - description: The status of the launch sequence (e.g., 'success' or 'failure').
+      key: launch_status
+      type: str
+    - description: A list of details about the launch sequence (e.g., time of launch,
+        payload deployed).
+      key: launch_details
+      type: List[str]
+    prd:
+      bullets:
+      - complexity: MEDIUM - Requires careful implementation but uses standard patterns
+        impact: HIGH - This module is critical to the success of the launch sequence
+        method: Use a state machine to manage the launch sequence execution, with
+          clear and well-defined states and transitions.
+        reason: This approach allows for easy maintenance and updates to the launch
+          sequence execution logic
+        text: Implement a launch sequence execution module using a modular and scalable
+          approach
+      - complexity: LOW - Involves simple data parsing and integration
+        impact: MEDIUM - The simulation results inform the launch sequence execution,
+          but are not the only factor
+        method: Use a data parsing library to extract the relevant simulation results
+          and integrate them into the launch sequence execution module.
+        reason: The simulation results are essential to ensuring a successful launch
+          sequence
+        text: Integrate the simulation results from the parent node into the launch
+          sequence execution module
+      - complexity: MEDIUM - Requires careful implementation but uses standard patterns
+        impact: HIGH - Error handling and logging can significantly impact the success
+          of the launch sequence
+        method: Use a logging library to log important events and errors, and implement
+          try-except blocks to handle exceptions and errors.
+        reason: Error handling and logging are essential to ensuring the launch sequence
+          execution module is reliable and maintainable
+        text: Implement error handling and logging mechanisms to ensure robustness
+          and debuggability
+      - complexity: HIGH - Requires careful test case development and execution
+        impact: HIGH - Testing can significantly impact the success of the launch
+          sequence
+        method: Use a testing framework to develop and execute test cases, and leverage
+          simulation results to test the launch sequence execution module in a realistic
+          environment.
+        reason: Thorough testing is essential to ensuring the launch sequence execution
+          module works as expected
+        text: Test the launch sequence execution module thoroughly to ensure correctness
+          and reliability
+    prompt: Execute the launch sequence based on the simulation results.
+  simulate_launch_sequence:
+    agent: false
+    description: This node simulates the launch sequence for the rocket, modeling
+      physical processes, collecting telemetry data throughout all phases of the launch,
+      detecting anomalies, and evaluating mission success likelihood.
+    name: simulate_launch_sequence
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Time-series list of key parameters (altitude, velocity, acceleration,
+        fuel level) at each simulation timestep.
+      key: telemetry_data
+      type: List[float]
+    - description: Chronological descriptions of launch sequence events (e.g., ignition,
+        stage separation, payload deployment).
+      key: event_log
+      type: List[str]
+    - description: Descriptions of any anomalies or failure modes detected during
+        the simulation.
+      key: anomalies_detected
+      type: List[str]
+    - description: Calculated probability (0-1) that the launch sequence achieves
+        the mission's goals.
+      key: success_probability
+      type: float
+    prd:
+      bullets:
+      - complexity: LOW - Input ingestion using standard object passing or API calls.
+        impact: HIGH - Ensures the simulation models the actual mission configuration,
+          which is foundational.
+        method: Parse upstream node outputs; validate fields such as mass, thrust,
+          payload dimensions, and fuel type.
+        reason: Accurate simulation requires real launch parameters to represent physical
+          systems and constraints.
+        text: Ingest launch vehicle specs and payload configuration from upstream
+          nodes as inputs for simulation initialization.
+      - complexity: HIGH - Needs detailed physics modeling (e.g., basic 3DOF dynamics,
+          fuel burn rates, staging logic).
+        impact: HIGH - Core functionality; anything less would defeat the purpose
+          of the simulation.
+        method: Implement or integrate a numerical physics engine (e.g., using Runge-Kutta
+          integration for ODEs); define event triggers for each launch phase.
+        reason: Realistic launch simulation must account for complex, time-dependent
+          events and varying conditions throughout the mission profile.
+        text: Model the physics of the launch sequence (ignition, liftoff, ascent,
+          stage separation, payload deployment) using time-stepped simulation.
+      - complexity: MEDIUM - Requires efficient data storage and handling to avoid
+          bottlenecks.
+        impact: MEDIUM - Feeds key metrics to later stages (e.g., execution, monitoring).
+        method: Sample state vectors at each timestep; store as structured timeseries
+          (e.g., lists or arrays per property).
+        reason: Telemetry is critical for analysis, visualization, and downstream
+          decision-making.
+        text: Generate and record telemetry data at each physics timestep, including
+          altitude, velocity, acceleration, and remaining fuel.
+      - complexity: LOW - Event detection logic at preset simulation states.
+        impact: MEDIUM - Adds interpretability to complex raw telemetry.
+        method: Implement event checking and logging within the simulation loop; timestamp
+          each event.
+        reason: Users and downstream systems need actionable summaries of major sequence
+          events.
+        text: Create an event log for key sequence milestones and trigger points (e.g.,
+          ignition, maximum dynamic pressure, stage separation, fairing jettison,
+          payload deploy).
+      - complexity: MEDIUM - Requires defining thresholds and branching logic for
+          failure conditions.
+        impact: HIGH - Critical for quality assurance and risk analysis.
+        method: Monitor key variables against safe operational envelopes; log deviations
+          with context.
+        reason: Early anomaly detection supports robust test coverage and failure
+          recovery planning.
+        text: Detect and log anomalies—such as trajectory deviations, unexpected fuel
+          depletion, or subsystem failures—using rule-based checks during simulation.
+      - complexity: MEDIUM - Probabilistic assessment can use a rule-based or simple
+          statistical model.
+        impact: HIGH - Provides a concise summary for human or automated consumers.
+        method: Define success criteria (e.g., payload reached orbit with no critical
+          failures); calculate success probability as a function of passed checks
+          and known risk factors.
+        reason: Clear go/no-go or risk metrics are essential for next-step decision
+          support.
+        text: Estimate overall probability of mission success based on achieved milestones
+          and any anomalies encountered during simulation.
+    prompt: Given the launch vehicle specifications and payload configuration, simulate
+      the entire launch sequence. Capture all key events including ignition, liftoff,
+      stage separations, and payload deployment. Provide time-marked telemetry data
+      (altitude, velocity, fuel status), identify any anomalies, and summarize overall
+      mission success probability.

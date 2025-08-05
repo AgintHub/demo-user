@@ -1,0 +1,58 @@
+dag_type: typed
+description: Generated workflow from UI.
+name: TestWorkflowExecution
+nodes:
+  analyze_test_results:
+    agent: false
+    description: ''
+    name: analyze_test_results
+    nodes_depended_on:
+    - collect_test_results
+    nodes_dependent_on: []
+    prompt: ''
+  collect_test_results:
+    agent: false
+    description: ''
+    name: collect_test_results
+    nodes_depended_on:
+    - verify_workflow_completion
+    nodes_dependent_on: []
+    prompt: ''
+  configure_test_environment:
+    agent: false
+    description: ''
+    name: configure_test_environment
+    nodes_depended_on:
+    - load_test_data
+    nodes_dependent_on: []
+    prompt: ''
+  initiate_workflow:
+    agent: false
+    description: ''
+    name: initiate_workflow
+    nodes_depended_on:
+    - configure_test_environment
+    nodes_dependent_on: []
+    prompt: ''
+  load_test_data:
+    agent: false
+    description: Loads test data necessary for environment configuration.
+    name: load_test_data
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: A list of identifiers for the loaded test data items.
+      key: test_data_ids
+      type: List[str]
+    - description: Indicates whether the test data was loaded successfully.
+      key: success
+      type: bool
+    prompt: Your prompt here.
+  verify_workflow_completion:
+    agent: false
+    description: ''
+    name: verify_workflow_completion
+    nodes_depended_on:
+    - initiate_workflow
+    nodes_dependent_on: []
+    prompt: ''

@@ -1,0 +1,69 @@
+dag_type: typed
+description: Generated workflow from UI.
+name: TestWorkflow
+nodes:
+  analyze_test_results:
+    agent: false
+    description: ''
+    name: analyze_test_results
+    nodes_depended_on:
+    - monitor_test_progress
+    nodes_dependent_on: []
+    prompt: ''
+  create_test_plans:
+    agent: false
+    description: ''
+    name: create_test_plans
+    nodes_depended_on:
+    - determine_test_type
+    nodes_dependent_on: []
+    prompt: ''
+  create_test_reports:
+    agent: false
+    description: ''
+    name: create_test_reports
+    nodes_depended_on:
+    - analyze_test_results
+    nodes_dependent_on: []
+    prompt: ''
+  define_test_scope:
+    agent: false
+    description: ''
+    name: define_test_scope
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: ''
+  determine_test_type:
+    agent: false
+    description: ''
+    name: determine_test_type
+    nodes_depended_on:
+    - define_test_scope
+    nodes_dependent_on: []
+    prompt: ''
+  monitor_test_progress:
+    agent: false
+    description: ''
+    name: monitor_test_progress
+    nodes_depended_on:
+    - schedule_test_sessions
+    nodes_dependent_on: []
+    prompt: ''
+  schedule_test_sessions:
+    agent: false
+    description: Schedules test sessions based on the test plans.
+    name: schedule_test_sessions
+    nodes_depended_on:
+    - create_test_plans
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of identifiers for each scheduled test session.
+      key: session_ids
+      type: List[str]
+    - description: List of scheduled date strings for each test session.
+      key: scheduled_dates
+      type: List[str]
+    - description: Indicates if the scheduling was successfully completed.
+      key: is_successful
+      type: bool
+    prompt: Provide the list of scheduled test sessions with their details.

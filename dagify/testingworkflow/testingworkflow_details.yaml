@@ -1,0 +1,175 @@
+dag_type: typed
+description: Generated workflow from UI.
+name: TestingWorkflow
+nodes:
+  configure_test_environment:
+    agent: false
+    description: Set up the testing environment according to the requirements
+    name: configure_test_environment
+    nodes_depended_on:
+    - get_testing_requirements
+    nodes_dependent_on: []
+    output_structure:
+    - description: Indicates whether all required dependencies are successfully installed
+      key: dependencies_installed
+      type: bool
+    - description: Indicates whether the correct test data has been properly set up
+      key: test_data_ready
+      type: bool
+    - description: Indicates whether the environment configuration completed successfully
+      key: configuration_success
+      type: bool
+    prompt: Configure the testing environment as specified in the testing requirements.
+      Ensure all necessary dependencies are installed and the correct test data is
+      in place.
+  document_test_findings:
+    agent: false
+    description: Document the test findings and recommendations
+    name: document_test_findings
+    nodes_depended_on:
+    - summarize_testing_results
+    nodes_dependent_on: []
+    output_structure:
+    - description: A detailed documented summary of test findings.
+      key: documented_summary
+      type: str
+    - description: List of recommendations for future improvements.
+      key: recommendations
+      type: List[str]
+    - description: Whether the documentation is complete.
+      key: is_documentation_complete
+      type: bool
+    prompt: Document the test findings, including any issues, defects, and recommendations
+      for future improvements. Ensure the documentation includes clear explanations
+      of any technical issues and proposed solutions.
+  get_testing_requirements:
+    agent: false
+    description: Retrieve the test requirements for the workflow
+    name: get_testing_requirements
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: A list of testing requirements
+      key: testing_requirements
+      type: List[str]
+    prompt: Describe the testing requirements for the workflow, including any specific
+      test cases or features to be tested.
+  review_test_results:
+    agent: false
+    description: Review the testing results and provide a final assessment
+    name: review_test_results
+    nodes_depended_on:
+    - document_test_findings
+    nodes_dependent_on: []
+    output_structure:
+    - description: Final assessment of the workflow's quality
+      key: assessment_quality
+      type: str
+    - description: Final assessment of the workflow's performance
+      key: assessment_performance
+      type: str
+    - description: Final assessment of the workflow's scalability
+      key: assessment_scalability
+      type: str
+    - description: List of recommended improvements
+      key: recommended_improvements
+      type: str
+    - description: Outline of any necessary further testing
+      key: further_testing_outline
+      type: str
+    prompt: Review the testing results, including all test findings and recommendations.
+      Provide a final assessment of the workflow's quality, performance, and scalability,
+      and outline any necessary further testing or improvements.
+  run_integration_tests:
+    agent: false
+    description: Perform integration tests on the workflow
+    name: run_integration_tests
+    nodes_depended_on:
+    - run_unit_tests
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of test results, including pass/fail status and error messages
+      key: test_results
+      type: List[str]
+    - description: Number of tests that failed
+      key: failed_test_count
+      type: int
+    - description: Whether the integration test was successful
+      key: is_integration_test_successful
+      type: bool
+    prompt: Test the workflow's integration by running end-to-end tests that cover
+      multiple components and interactions. Report any test failures and their corresponding
+      error messages.
+  run_performance_tests:
+    agent: false
+    description: Evaluate the workflow's performance and scalability
+    name: run_performance_tests
+    nodes_depended_on:
+    - run_integration_tests
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of performance test results, including any bottlenecks or
+        limitations
+      key: performance_results
+      type: List[str]
+    - description: Score indicating the workflow's scalability, ranging from 0 to
+        1
+      key: scalability_score
+      type: float
+    - description: Whether the workflow's performance is satisfactory based on predefined
+        criteria
+      key: is_performance_satisfactory
+      type: bool
+    - description: List of identifiers for performance bottlenecks, if any
+      key: bottleneck_identifiers
+      type: List[int]
+    prompt: Assess the workflow's performance and scalability by running tests that
+      simulate various load conditions and usage scenarios. Report any performance
+      bottlenecks or scalability limitations.
+  run_unit_tests:
+    agent: false
+    description: Execute unit tests on the workflow components
+    name: run_unit_tests
+    nodes_depended_on:
+    - configure_test_environment
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of unit test results, including pass/fail status and error
+        messages
+      key: unit_test_results
+      type: List[str]
+    - description: Number of defects found during unit testing
+      key: defect_count
+      type: int
+    - description: List of error messages generated during unit testing
+      key: error_messages
+      type: List[str]
+    prompt: Run unit tests on each component of the workflow to verify individual
+      functionality and identify any defects. Report any test failures and their corresponding
+      error messages.
+  summarize_testing_results:
+    agent: false
+    description: Compile a summary of the testing results
+    name: summarize_testing_results
+    nodes_depended_on:
+    - run_performance_tests
+    nodes_dependent_on: []
+    output_structure:
+    - description: A description of the test results
+      key: test_summary
+      type: str
+    - description: A list of test failures
+      key: test_failures
+      type: List[str]
+    - description: A list of performance bottlenecks
+      key: performance_bottlenecks
+      type: List[str]
+    - description: A list of scalability limitations
+      key: scalability_limitations
+      type: List[str]
+    - description: Recommendations for future testing and potential improvements
+      key: recommendations
+      type: List[str]
+    prompt: Compile a comprehensive summary of the testing results, including all
+      test failures, performance bottlenecks, and scalability limitations. Provide
+      recommendations for future testing and potential improvements.

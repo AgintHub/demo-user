@@ -1,0 +1,97 @@
+dag_type: typed
+description: Design a space ship by determining its key characteristics, such as propulsion
+  system, cargo capacity, and life support systems
+name: SpaceShipDesignWorkflow
+nodes:
+  assemble_space_ship_components:
+    agent: false
+    description: Assemble the space ship's components, including the propulsion system,
+      life support systems, and cargo bay
+    name: assemble_space_ship_components
+    nodes_depended_on:
+    - select_propulsion_system
+    - design_life_support_systems
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of space ship components, including propulsion system, life
+        support systems, and cargo bay
+      key: space_ship_components
+      type: List[str]
+    prompt: Using the selected propulsion system and designed life support systems,
+      assemble the space ship's components. Focus on integrating the different systems
+      and ensuring functionality.
+  calculate_space_ship_size:
+    agent: false
+    description: Calculate the size of the space ship based on its purpose and required
+      cargo capacity
+    name: calculate_space_ship_size
+    nodes_depended_on:
+    - define_space_ship_purpose
+    nodes_dependent_on: []
+    output_structure:
+    - description: Length of the space ship in meters
+      key: space_ship_length
+      type: float
+    - description: Width of the space ship in meters
+      key: space_ship_width
+      type: float
+    - description: Height of the space ship in meters
+      key: space_ship_height
+      type: float
+    - description: Cargo capacity of the space ship in cubic meters
+      key: cargo_capacity
+      type: float
+    prompt: Using the space ship's purpose, calculate its required size and cargo
+      capacity. Focus on determining the space ship's dimensions and volume.
+  define_space_ship_purpose:
+    agent: false
+    description: Determine the primary purpose of the space ship, such as exploration,
+      transportation, or research
+    name: define_space_ship_purpose
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Primary purpose of the space ship
+      key: space_ship_purpose
+      type: str
+    prompt: Define the main objective of the space ship. Focus on identifying its
+      primary function and the type of missions it will undertake.
+  design_life_support_systems:
+    agent: false
+    description: Design life support systems for the space ship, including air, water,
+      and food supply
+    name: design_life_support_systems
+    nodes_depended_on:
+    - calculate_space_ship_size
+    nodes_dependent_on: []
+    output_structure:
+    - description: Required air supply for the crew in cubic meters per day
+      key: air_supply
+      type: float
+    - description: Required water supply for the crew in liters per day
+      key: water_supply
+      type: float
+    - description: Required food supply for the crew in kilograms per day
+      key: food_supply
+      type: float
+    prompt: Using the space ship's size and purpose, design life support systems.
+      Focus on determining the required air, water, and food supply for the crew.
+  select_propulsion_system:
+    agent: false
+    description: Select a suitable propulsion system for the space ship based on its
+      size and purpose
+    name: select_propulsion_system
+    nodes_depended_on:
+    - calculate_space_ship_size
+    nodes_dependent_on: []
+    output_structure:
+    - description: Type of propulsion system, such as ion engine or chemical rocket
+      key: propulsion_system_type
+      type: str
+    - description: Specifications of the propulsion system, such as thrust and specific
+        impulse
+      key: propulsion_system_specs
+      type: List[str]
+    prompt: Using the space ship's size and purpose, select a suitable propulsion
+      system. Focus on identifying the type of propulsion system and its required
+      specifications.

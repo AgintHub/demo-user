@@ -1,0 +1,99 @@
+dag_type: typed
+description: Generated workflow from UI.
+name: TestExecutionPlan
+nodes:
+  determine_test_objective:
+    agent: false
+    description: Identify the specific goal of the 'test' being executed
+    name: determine_test_objective
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Specific objective of the test
+      key: test_objective
+      type: str
+    - description: Desired outcome of the test
+      key: desired_outcome
+      type: str
+    prompt: What is the specific objective of this 'test'? Define the desired outcome
+      in clear, concise terms.
+  evaluate_test_outcomes:
+    agent: false
+    description: Run the test scenarios and assess the results based on the desired
+      outcomes
+    name: evaluate_test_outcomes
+    nodes_depended_on:
+    - formulate_test_conditions
+    - test_data_gathering
+    nodes_dependent_on: []
+    output_structure:
+    - description: Indicates whether the test passed successfully based on evaluation
+      key: test_success
+      type: bool
+    - description: List of strings summarizing the evaluation outcomes, issues, or
+        insights
+      key: test_feedback
+      type: List[str]
+    - description: List of key results or metrics obtained from test assessment
+      key: evaluated_results
+      type: List[str]
+    prompt: Execute the test conditions and evaluate the outcome to determine success
+      or failure
+  formulate_test_conditions:
+    agent: false
+    description: Create a set of scenarios or conditions to test the 'test' outcome
+    name: formulate_test_conditions
+    nodes_depended_on:
+    - determine_test_objective
+    - test_data_gathering
+    nodes_dependent_on: []
+    output_structure:
+    - description: A list of scenario descriptions or test conditions developed based
+        on the test objective and data gathering.
+      key: test_conditions_list
+      type: List[str]
+    - description: The total number of test conditions created.
+      key: number_of_conditions
+      type: int
+    - description: Indicates whether at least one valid test condition has been created.
+      key: has_valid_conditions
+      type: bool
+    prompt: Develop a series of test conditions or scenarios that would achieve the
+      desired outcomes
+  report_test_results:
+    agent: false
+    description: Summarize the test outcome and provide any relevant findings or insights.
+    name: report_test_results
+    nodes_depended_on:
+    - evaluate_test_outcomes
+    nodes_dependent_on: []
+    output_structure:
+    - description: Summary of the test outcome.
+      key: test_outcome
+      type: str
+    - description: Any relevant findings or insights from the test results.
+      key: findings_or_insights
+      type: str
+    - description: Whether further action is required due to the test results.
+      key: further_action_required
+      type: bool
+    prompt: Document the test results in a clear and concise manner.
+  test_data_gathering:
+    agent: false
+    description: Collect all necessary inputs to execute the test with desired outcomes
+    name: test_data_gathering
+    nodes_depended_on:
+    - determine_test_objective
+    nodes_dependent_on: []
+    output_structure:
+    - description: Input data for the test
+      key: test_data
+      type: str
+    - description: Conditions or scenarios for the test
+      key: test_conditions
+      type: List[str]
+    - description: Whether the data is valid
+      key: is_valid
+      type: bool
+    prompt: Using the test objective, gather any required data or inputs necessary
+      to execute the test

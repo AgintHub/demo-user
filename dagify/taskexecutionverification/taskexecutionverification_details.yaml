@@ -1,0 +1,78 @@
+dag_type: spec
+description: Generated workflow from UI.
+name: TaskExecutionVerification
+nodes:
+  define_task_requirements:
+    agent: false
+    description: Identify and list all task requirements
+    name: define_task_requirements
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of task requirements including inputs, outputs, and intermediate
+        steps
+      key: task_requirements
+      type: List[str]
+    prompt: List and describe all requirements for task execution, including inputs,
+      outputs, and any intermediate steps.
+  ensure_correct_output_format:
+    agent: false
+    description: Verify that task execution produces output in the correct format
+    name: ensure_correct_output_format
+    nodes_depended_on:
+    - define_task_requirements
+    nodes_dependent_on: []
+    output_structure:
+    - description: Whether any discrepancies were found in the output format
+      key: has_discrepancy
+      type: bool
+    - description: A description of the discrepancy found in the output format
+      key: discrepancy_description
+      type: str
+    - description: A list of corrected output values, if any discrepancies were found
+      key: corrected_output
+      type: List[str]
+    prd:
+      bullets: []
+    prompt: Using the task requirements, check that the task execution produces output
+      in the correct format. Report any discrepancies.
+  input_source_check:
+    agent: false
+    description: Verify that task inputs come from approved sources
+    name: input_source_check
+    nodes_depended_on:
+    - define_task_requirements
+    nodes_dependent_on: []
+    output_structure:
+    - description: Whether all task inputs come from approved sources
+      key: inputs_from_approved_sources
+      type: bool
+    - description: List of any deviations or exceptions found in task inputs
+      key: deviations_or_exceptions
+      type: List[str]
+    prompt: Validation
+  investigate_unexpected_results:
+    agent: false
+    description: Investigate any unexpected results during task execution
+    name: investigate_unexpected_results
+    nodes_depended_on:
+    - input_source_check
+    - ensure_correct_output_format
+    nodes_dependent_on: []
+    output_structure:
+    - description: Description of any unexpected results found during task execution
+      key: unexpected_results
+      type: str
+    - description: Analysis of the unexpected results, including potential causes
+        and implications
+      key: analysis
+      type: str
+    - description: Recommendations for future task execution optimizations
+      key: recommendations
+      type: str
+    - description: Number of issues found during task execution
+      key: issue_count
+      type: int
+    prompt: Using the validated input sources and correct output format, investigate
+      any unexpected results during task execution. Provide analysis and recommendations
+      for future optimizations.

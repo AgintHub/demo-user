@@ -1,0 +1,244 @@
+dag_type: stub
+description: Generated workflow from UI.
+name: rocket_ship
+nodes:
+  define_rocket_ship:
+    agent: false
+    code_node_type: stub
+    description: Identify the key components and purposes of a rocket ship
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass DefineRocketShipOutput(BaseModel):\n    \"\"\"Pydantic model for define_rocket_ship\
+      \ node outputs.\"\"\"\n    rocket_name: str = Field(..., description=\"Name\
+      \ of the rocket ship\")\n    propulsion_system: str = Field(..., description=\"\
+      Type of propulsion system used\")\n    cargo_capacity: List[str] = Field(...,\
+      \ description=\"List of cargo types and capacities\")\n    guidance_system:\
+      \ str = Field(..., description=\"Type of guidance system used\")\n    functionality:\
+      \ List[str] = Field(..., description=\"List of functionalities of the rocket\
+      \ ship\")\n\n\ndef define_rocket_ship(general_input: str, **kwargs) -> DefineRocketShipOutput:\n\
+      \    \"\"\"Identify the key components and purposes of a rocket ship\n\n   \
+      \ Args:\n        general_input: General input string for the root node.\n  \
+      \      **kwargs: Additional keyword arguments.\n\n    Returns:\n        DefineRocketShipOutput:\
+      \ Object containing outputs for this node.\n    \"\"\"\n    # TODO: Implement\
+      \ this function\n\n    # Return stub output with placeholder values\n    return\
+      \ DefineRocketShipOutput(\n        rocket_name=\"\",\n        propulsion_system=\"\
+      \",\n        cargo_capacity=[],\n        guidance_system=\"\",\n        functionality=[],\n\
+      \    )"
+    name: define_rocket_ship
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Name of the rocket ship
+      key: rocket_name
+      type: str
+    - description: Type of propulsion system used
+      key: propulsion_system
+      type: str
+    - description: List of cargo types and capacities
+      key: cargo_capacity
+      type: List[str]
+    - description: Type of guidance system used
+      key: guidance_system
+      type: str
+    - description: List of functionalities of the rocket ship
+      key: functionality
+      type: List[str]
+    prd:
+      bullets: []
+    prompt: Describe the primary components and functions of a rocket ship, including
+      its propulsion systems, guidance, and cargo capacity.
+    shims: []
+  document_rocket_ship_functions:
+    agent: false
+    code_node_type: stub
+    description: Describe the key functions and operations of a rocket ship
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass DefineRocketShipOutput(BaseModel):\n    \"\"\"Pydantic model for define_rocket_ship\
+      \ node outputs.\"\"\"\n    rocket_name: str = Field(..., description=\"Name\
+      \ of the rocket ship\")\n    propulsion_system: str = Field(..., description=\"\
+      Type of propulsion system used\")\n    cargo_capacity: List[str] = Field(...,\
+      \ description=\"List of cargo types and capacities\")\n    guidance_system:\
+      \ str = Field(..., description=\"Type of guidance system used\")\n    functionality:\
+      \ List[str] = Field(..., description=\"List of functionalities of the rocket\
+      \ ship\")\n\n\nclass DocumentRocketShipFunctionsOutput(BaseModel):\n    \"\"\
+      \"Pydantic model for document_rocket_ship_functions node outputs.\"\"\"\n  \
+      \  function_description: str = Field(..., description=\"Description of each\
+      \ function or operation\")\n    function_type: str = Field(..., description=\"\
+      Type of the function or operation (e.g., launch preparation, flight control,\
+      \ navigation)\")\n    function_features: List[str] = Field(..., description=\"\
+      List of key features or characteristics associated with each function or operation\"\
+      )\n\n\ndef document_rocket_ship_functions(define_rocket_ship_input: DefineRocketShipOutput,\
+      \ **kwargs) -> DocumentRocketShipFunctionsOutput:\n    \"\"\"Describe the key\
+      \ functions and operations of a rocket ship\n\n    Args:\n        define_rocket_ship_input:\
+      \ Input from the 'define_rocket_ship' node.\n        **kwargs: Additional keyword\
+      \ arguments.\n\n    Returns:\n        DocumentRocketShipFunctionsOutput: Object\
+      \ containing outputs for this node.\n    \"\"\"\n    # TODO: Implement this\
+      \ function\n\n    # Return stub output with placeholder values\n    return DocumentRocketShipFunctionsOutput(\n\
+      \        function_description=\"\",\n        function_type=\"\",\n        function_features=[],\n\
+      \    )"
+    name: document_rocket_ship_functions
+    nodes_depended_on:
+    - define_rocket_ship
+    nodes_dependent_on: []
+    output_structure:
+    - description: Description of each function or operation
+      key: function_description
+      type: str
+    - description: Type of the function or operation (e.g., launch preparation, flight
+        control, navigation)
+      key: function_type
+      type: str
+    - description: List of key features or characteristics associated with each function
+        or operation
+      key: function_features
+      type: List[str]
+    prd:
+      bullets: []
+    prompt: Outline and describe the key functions and operations of a rocket ship,
+      including launch preparation, flight control, and navigation.
+    shims: []
+  list_rocket_ship_components:
+    agent: false
+    code_node_type: stub
+    description: Enumerate and describe each major component of a rocket ship
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass DefineRocketShipOutput(BaseModel):\n    \"\"\"Pydantic model for define_rocket_ship\
+      \ node outputs.\"\"\"\n    rocket_name: str = Field(..., description=\"Name\
+      \ of the rocket ship\")\n    propulsion_system: str = Field(..., description=\"\
+      Type of propulsion system used\")\n    cargo_capacity: List[str] = Field(...,\
+      \ description=\"List of cargo types and capacities\")\n    guidance_system:\
+      \ str = Field(..., description=\"Type of guidance system used\")\n    functionality:\
+      \ List[str] = Field(..., description=\"List of functionalities of the rocket\
+      \ ship\")\n\n\nclass ListRocketShipComponentsOutput(BaseModel):\n    \"\"\"\
+      Pydantic model for list_rocket_ship_components node outputs.\"\"\"\n    component_names:\
+      \ List[str] = Field(..., description=\"List of names of the rocket ship components\"\
+      )\n\n\ndef list_rocket_ship_components(define_rocket_ship_input: DefineRocketShipOutput,\
+      \ **kwargs) -> ListRocketShipComponentsOutput:\n    \"\"\"Enumerate and describe\
+      \ each major component of a rocket ship\n\n    Args:\n        define_rocket_ship_input:\
+      \ Input from the 'define_rocket_ship' node.\n        **kwargs: Additional keyword\
+      \ arguments.\n\n    Returns:\n        ListRocketShipComponentsOutput: Object\
+      \ containing outputs for this node.\n    \"\"\"\n    # TODO: Implement this\
+      \ function\n\n    # Return stub output with placeholder values\n    return ListRocketShipComponentsOutput(\n\
+      \        component_names=[],\n    )"
+    name: list_rocket_ship_components
+    nodes_depended_on:
+    - define_rocket_ship
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of names of the rocket ship components
+      key: component_names
+      type: List[str]
+    prd:
+      bullets: []
+    prompt: List and describe each major component of a rocket ship, including examples
+      of typical components (e.g., fuel tanks, engines, control systems).
+    shims: []
+  research_rocket_ship_materials:
+    agent: false
+    code_node_type: stub
+    description: Identify and describe the materials typically used in rocket ship
+      construction
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass DefineRocketShipOutput(BaseModel):\n    \"\"\"Pydantic model for define_rocket_ship\
+      \ node outputs.\"\"\"\n    rocket_name: str = Field(..., description=\"Name\
+      \ of the rocket ship\")\n    propulsion_system: str = Field(..., description=\"\
+      Type of propulsion system used\")\n    cargo_capacity: List[str] = Field(...,\
+      \ description=\"List of cargo types and capacities\")\n    guidance_system:\
+      \ str = Field(..., description=\"Type of guidance system used\")\n    functionality:\
+      \ List[str] = Field(..., description=\"List of functionalities of the rocket\
+      \ ship\")\n\n\nclass ResearchRocketShipMaterialsOutput(BaseModel):\n    \"\"\
+      \"Pydantic model for research_rocket_ship_materials node outputs.\"\"\"\n  \
+      \  material_type: str = Field(..., description=\"Type of material used in rocket\
+      \ ship construction\")\n    material_description: str = Field(..., description=\"\
+      Description of the material used in rocket ship construction\")\n\n\ndef research_rocket_ship_materials(define_rocket_ship_input:\
+      \ DefineRocketShipOutput, **kwargs) -> ResearchRocketShipMaterialsOutput:\n\
+      \    \"\"\"Identify and describe the materials typically used in rocket ship\
+      \ construction\n\n    Args:\n        define_rocket_ship_input: Input from the\
+      \ 'define_rocket_ship' node.\n        **kwargs: Additional keyword arguments.\n\
+      \n    Returns:\n        ResearchRocketShipMaterialsOutput: Object containing\
+      \ outputs for this node.\n    \"\"\"\n    # TODO: Implement this function\n\n\
+      \    # Return stub output with placeholder values\n    return ResearchRocketShipMaterialsOutput(\n\
+      \        material_type=\"\",\n        material_description=\"\",\n    )"
+    name: research_rocket_ship_materials
+    nodes_depended_on:
+    - define_rocket_ship
+    nodes_dependent_on: []
+    output_structure:
+    - description: Type of material used in rocket ship construction
+      key: material_type
+      type: str
+    - description: Description of the material used in rocket ship construction
+      key: material_description
+      type: str
+    prd:
+      bullets: []
+    prompt: Research and list the types of materials commonly used in rocket ship
+      construction, including metals, alloys, and composite materials.
+    shims: []
+  summarize_rocket_ship_information:
+    agent: false
+    code_node_type: stub
+    description: Combine information from previous steps into a detailed summary of
+      the rocket ship
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass ListRocketShipComponentsOutput(BaseModel):\n    \"\"\"Pydantic model\
+      \ for list_rocket_ship_components node outputs.\"\"\"\n    component_names:\
+      \ List[str] = Field(..., description=\"List of names of the rocket ship components\"\
+      )\n\n\nclass ResearchRocketShipMaterialsOutput(BaseModel):\n    \"\"\"Pydantic\
+      \ model for research_rocket_ship_materials node outputs.\"\"\"\n    material_type:\
+      \ str = Field(..., description=\"Type of material used in rocket ship construction\"\
+      )\n    material_description: str = Field(..., description=\"Description of the\
+      \ material used in rocket ship construction\")\n\n\nclass DocumentRocketShipFunctionsOutput(BaseModel):\n\
+      \    \"\"\"Pydantic model for document_rocket_ship_functions node outputs.\"\
+      \"\"\n    function_description: str = Field(..., description=\"Description of\
+      \ each function or operation\")\n    function_type: str = Field(..., description=\"\
+      Type of the function or operation (e.g., launch preparation, flight control,\
+      \ navigation)\")\n    function_features: List[str] = Field(..., description=\"\
+      List of key features or characteristics associated with each function or operation\"\
+      )\n\n\nclass SummarizeRocketShipInformationOutput(BaseModel):\n    \"\"\"Pydantic\
+      \ model for summarize_rocket_ship_information node outputs.\"\"\"\n    rocket_ship_summary:\
+      \ str = Field(..., description=\"A detailed summary of the rocket ship components,\
+      \ materials, and functions.\")\n    components_list: List[str] = Field(...,\
+      \ description=\"A list of the rocket ship components.\")\n    materials_used:\
+      \ List[str] = Field(..., description=\"A list of the materials used in rocket\
+      \ ship construction.\")\n    functions_description: str = Field(..., description=\"\
+      A description of the key functions and operations of the rocket ship.\")\n\n\
+      \ndef summarize_rocket_ship_information(list_rocket_ship_components_input: ListRocketShipComponentsOutput,\
+      \ research_rocket_ship_materials_input: ResearchRocketShipMaterialsOutput, document_rocket_ship_functions_input:\
+      \ DocumentRocketShipFunctionsOutput, **kwargs) -> SummarizeRocketShipInformationOutput:\n\
+      \    \"\"\"Combine information from previous steps into a detailed summary of\
+      \ the rocket ship\n\n    Args:\n        list_rocket_ship_components_input: Input\
+      \ from the 'list_rocket_ship_components' node.\n        research_rocket_ship_materials_input:\
+      \ Input from the 'research_rocket_ship_materials' node.\n        document_rocket_ship_functions_input:\
+      \ Input from the 'document_rocket_ship_functions' node.\n        **kwargs: Additional\
+      \ keyword arguments.\n\n    Returns:\n        SummarizeRocketShipInformationOutput:\
+      \ Object containing outputs for this node.\n    \"\"\"\n    # TODO: Implement\
+      \ this function\n\n    # Return stub output with placeholder values\n    return\
+      \ SummarizeRocketShipInformationOutput(\n        rocket_ship_summary=\"\",\n\
+      \        components_list=[],\n        materials_used=[],\n        functions_description=\"\
+      \",\n    )"
+    name: summarize_rocket_ship_information
+    nodes_depended_on:
+    - list_rocket_ship_components
+    - research_rocket_ship_materials
+    - document_rocket_ship_functions
+    nodes_dependent_on: []
+    output_structure:
+    - description: A detailed summary of the rocket ship components, materials, and
+        functions.
+      key: rocket_ship_summary
+      type: str
+    - description: A list of the rocket ship components.
+      key: components_list
+      type: List[str]
+    - description: A list of the materials used in rocket ship construction.
+      key: materials_used
+      type: List[str]
+    - description: A description of the key functions and operations of the rocket
+        ship.
+      key: functions_description
+      type: str
+    prd:
+      bullets: []
+    prompt: Combine information from the previous steps into a detailed summary of
+      the rocket ship, including its components, materials, and functions.
+    shims: []

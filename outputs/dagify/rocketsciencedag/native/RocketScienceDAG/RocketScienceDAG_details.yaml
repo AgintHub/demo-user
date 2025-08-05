@@ -1,0 +1,75 @@
+dag_type: plain_text
+description: Create a granular execution plan to design a rocket science workflow
+name: RocketScienceDAG
+nodes:
+  ConductStructuralAnalysis:
+    agent: false
+    description: Conduct a structural analysis of the rocket
+    name: ConductStructuralAnalysis
+    nodes_depended_on:
+    - DesignRocketConfiguration
+    - SpecifyRocketMaterials
+    nodes_dependent_on: []
+    prompt: Perform a structural analysis of the rocket design to ensure integrity
+      and stability, including stress and strain calculations and simulations. Please
+      provide detailed results and recommendations.
+  DesignRocketConfiguration:
+    agent: false
+    description: Design the rocket configuration based on mission requirements
+    name: DesignRocketConfiguration
+    nodes_depended_on:
+    - IdentifyMissionRequirements
+    nodes_dependent_on: []
+    prompt: Based on the mission requirements, design a preliminary rocket configuration,
+      including size, shape, and propulsion systems. Please provide detailed drawings
+      and specifications.
+  IdentifyMissionRequirements:
+    agent: false
+    description: Identify the fundamental mission requirements
+    name: IdentifyMissionRequirements
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: List all the mission requirements for the rocket, including payload, orbit,
+      and destination. Please provide specific details for each requirement.
+  IntegrateRocketSystems:
+    agent: false
+    description: Integrate the rocket systems
+    name: IntegrateRocketSystems
+    nodes_depended_on:
+    - PlanRocketManufacturingProcess
+    - ConductStructuralAnalysis
+    nodes_dependent_on: []
+    prompt: Integrate the various rocket systems, including propulsion, navigation,
+      and communication, to ensure proper operation and synchronization. Please provide
+      a comprehensive system design and integration plan.
+  PerformSystemValidation:
+    agent: false
+    description: Validate the system operation
+    name: PerformSystemValidation
+    nodes_depended_on:
+    - IntegrateRocketSystems
+    nodes_dependent_on: []
+    prompt: Validate the integrated system to ensure proper operation, including testing
+      and simulation, to identify and correct any defects or issues. Please provide
+      detailed test results and recommendations.
+  PlanRocketManufacturingProcess:
+    agent: false
+    description: Plan the rocket manufacturing process
+    name: PlanRocketManufacturingProcess
+    nodes_depended_on:
+    - DesignRocketConfiguration
+    - SpecifyRocketMaterials
+    nodes_dependent_on: []
+    prompt: Develop a detailed plan for manufacturing the rocket, including processes,
+      schedules, and resource allocation. Please provide a critical path analysis
+      of the manufacturing process.
+  SpecifyRocketMaterials:
+    agent: false
+    description: Specify the materials for rocket construction
+    name: SpecifyRocketMaterials
+    nodes_depended_on:
+    - DesignRocketConfiguration
+    nodes_dependent_on: []
+    prompt: Select and specify the materials to be used in the rocket's construction,
+      including metals, composites, and electronics. Provide a detailed materials
+      list and reasons for selection.

@@ -1,0 +1,67 @@
+dag_type: typed
+description: Generated workflow from UI.
+name: TextQualityAnalysis
+nodes:
+  assess_content_relevance:
+    agent: false
+    description: Evaluates how relevant the content is, considering syntax and semantics.
+    name: assess_content_relevance
+    nodes_depended_on:
+    - evaluate_syntax_and_semantics
+    nodes_dependent_on: []
+    output_structure:
+    - description: A numerical score indicating the relevance level of the content,
+        where higher values mean more relevant.
+      key: relevance_score
+      type: float
+    - description: List of relevance labels such as ['high', 'medium', 'low'] assigned
+        based on the score.
+      key: relevance_categories
+      type: List[str]
+    - description: Boolean flags indicating various relevance aspects, e.g., [true,
+        false] for specific criteria met.
+      key: relevance_flags
+      type: List[bool]
+    prompt: Analyze the text to assess its relevance based on syntax and semantics.
+  determine_task_requirements:
+    agent: false
+    description: ''
+    name: determine_task_requirements
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: ''
+  evaluate_syntax_and_semantics:
+    agent: false
+    description: ''
+    name: evaluate_syntax_and_semantics
+    nodes_depended_on:
+    - initiate_text_analysis
+    nodes_dependent_on: []
+    prompt: ''
+  initiate_text_analysis:
+    agent: false
+    description: This node initiates the text analysis process by setting up necessary
+      parameters according to identified task requirements.
+    name: initiate_text_analysis
+    nodes_depended_on:
+    - determine_task_requirements
+    nodes_dependent_on: []
+    output_structure:
+    - description: Unique identifier for the initiated text analysis session.
+      key: analysis_id
+      type: str
+    - description: List of parameters or settings used for the text analysis.
+      key: parameters
+      type: List[str]
+    - description: Current status of the analysis initiation, e.g., 'started', 'failed'.
+      key: status
+      type: str
+    prompt: Determine the parameters for text analysis based on task requirements.
+  synthesize_quality_results:
+    agent: false
+    description: ''
+    name: synthesize_quality_results
+    nodes_depended_on:
+    - assess_content_relevance
+    nodes_dependent_on: []
+    prompt: ''

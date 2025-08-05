@@ -1,0 +1,66 @@
+dag_type: spec
+description: Execute a single test for validation and debugging
+name: Test Execution Plan
+nodes:
+  execute_test:
+    agent: false
+    description: Execute a single test for validation and debugging
+    name: execute_test
+    nodes_depended_on:
+    - validate_input
+    nodes_dependent_on: []
+    output_structure:
+    - description: Result of the test execution (e.g., passed, failed, etc.)
+      key: test_result
+      type: str
+    - description: Detailed error message if the test failed
+      key: test_error
+      type: str
+    - description: Metrics collected during the test execution (e.g., execution time,
+        memory usage, etc.)
+      key: test_metrics
+      type: float
+    prd:
+      bullets: []
+    prompt: Execute the test using the validated input data. Focus on running the
+      test and capturing any test results.
+  get_testing_input:
+    agent: false
+    description: Request input from the testing environment for validation
+    name: get_testing_input
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Input data from the testing environment for validation
+      key: input_data
+      type: str
+    - description: Type of test input data (e.g., string, integer, boolean, etc.)
+      key: input_type
+      type: str
+    - description: Description of the testing environment used for validation
+      key: testing_environment
+      type: str
+    prd:
+      bullets: []
+    prompt: Provide the input data for testing. Enter the input values for testing.
+  validate_input:
+    agent: false
+    description: Validate the input data received from the testing environment
+    name: validate_input
+    nodes_depended_on:
+    - get_testing_input
+    nodes_dependent_on: []
+    output_structure:
+    - description: Status of the input data (e.g., valid, invalid, missing, etc.)
+      key: input_status
+      type: str
+    - description: Detailed message describing the validation result
+      key: validation_message
+      type: str
+    - description: Indicates whether the input data is valid for further processing
+      key: input_data_validated
+      type: bool
+    prd:
+      bullets: []
+    prompt: Validate the input data. Check if the input data conforms to the expected
+      format and type.

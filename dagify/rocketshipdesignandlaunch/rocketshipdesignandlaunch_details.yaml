@@ -1,0 +1,68 @@
+dag_type: typed
+description: Design and launch a rocket ship
+name: RocketShipDesignAndLaunch
+nodes:
+  calculate_launch_window:
+    agent: false
+    description: Determine the launch window based on weather conditions and planetary
+      alignment
+    name: calculate_launch_window
+    nodes_depended_on:
+    - choose_rocket_design
+    nodes_dependent_on: []
+    output_structure:
+    - description: Date and time range of the optimal launch window
+      key: launch_window
+      type: str
+    prompt: Given the rocket design $rocket_design, calculate the optimal launch window
+      considering weather conditions and planetary alignment.
+  choose_rocket_design:
+    agent: false
+    description: Select a suitable rocket design based on mission requirements
+    name: choose_rocket_design
+    nodes_depended_on:
+    - determine_rocket_mission
+    nodes_dependent_on: []
+    output_structure:
+    - description: Description of the chosen rocket design
+      key: rocket_design
+      type: str
+    prompt: Given the mission objective $mission_objective, select a suitable rocket
+      design.
+  determine_rocket_mission:
+    agent: false
+    description: Identify the mission objective for the rocket ship
+    name: determine_rocket_mission
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Text description of the rocket ship mission objective
+      key: mission_objective
+      type: str
+    prompt: What is the primary mission objective of the rocket ship?
+  launch_rocket:
+    agent: false
+    description: Launch the rocket ship within the calculated launch window
+    name: launch_rocket
+    nodes_depended_on:
+    - calculate_launch_window
+    - prepare_rocket_payload
+    nodes_dependent_on: []
+    output_structure:
+    - description: Text feedback on the launch outcome
+      key: launch_status
+      type: str
+    prompt: Launch the rocket ship $rocket_design within the optimal launch window
+      $launch_window.
+  prepare_rocket_payload:
+    agent: false
+    description: Prepare the rocket payload with necessary equipment and provisions
+    name: prepare_rocket_payload
+    nodes_depended_on:
+    - choose_rocket_design
+    nodes_dependent_on: []
+    output_structure:
+    - description: Detailed configuration of the rocket payload
+      key: payload_configuration
+      type: str
+    prompt: Prepare the rocket payload for launch with necessary equipment and provisions.

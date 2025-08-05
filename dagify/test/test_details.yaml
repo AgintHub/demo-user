@@ -1,0 +1,59 @@
+dag_type: typed
+description: Generated workflow from UI.
+name: Test
+nodes:
+  analyze_test_results:
+    agent: false
+    description: ''
+    name: analyze_test_results
+    nodes_depended_on:
+    - execute_test_plan
+    nodes_dependent_on: []
+    prompt: ''
+  break_down_test:
+    agent: false
+    description: ''
+    name: break_down_test
+    nodes_depended_on:
+    - parse_test_task
+    nodes_dependent_on: []
+    prompt: ''
+  execute_test_plan:
+    agent: false
+    description: ''
+    name: execute_test_plan
+    nodes_depended_on:
+    - generate_test_plan
+    nodes_dependent_on: []
+    prompt: ''
+  generate_test_plan:
+    agent: false
+    description: ''
+    name: generate_test_plan
+    nodes_depended_on:
+    - validate_test_input
+    nodes_dependent_on: []
+    prompt: ''
+  parse_test_task:
+    agent: false
+    description: ''
+    name: parse_test_task
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: ''
+  report_test_outcome:
+    agent: false
+    description: ''
+    name: report_test_outcome
+    nodes_depended_on:
+    - analyze_test_results
+    nodes_dependent_on: []
+    prompt: ''
+  validate_test_input:
+    agent: false
+    description: ''
+    name: validate_test_input
+    nodes_depended_on:
+    - break_down_test
+    nodes_dependent_on: []
+    prompt: ''

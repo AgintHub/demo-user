@@ -1,0 +1,72 @@
+dag_type: typed
+description: Detailed execution plan for the given UI-provided workflow
+name: GeneratedWorkflowExecutionPlan
+nodes:
+  apply_new_requirements:
+    agent: false
+    description: ''
+    name: apply_new_requirements
+    nodes_depended_on:
+    - extract_connections_and_relationships
+    nodes_dependent_on:
+    - update_workflow_structure
+    prompt: ''
+  extract_connections_and_relationships:
+    agent: false
+    description: Outputs structured connection and relationship data for further processing.
+    name: extract_connections_and_relationships
+    nodes_depended_on:
+    - parse_ui_workflow
+    nodes_dependent_on:
+    - apply_new_requirements
+    output_structure:
+    - description: List of connection identifiers representing relationships between
+        nodes.
+      key: connections
+      type: List[str]
+    - description: List describing the types of relationships between nodes.
+      key: relationships
+      type: List[str]
+    prompt: Provide a structured list of connection and relationship data extracted
+      from the UI workflow, including details about node connections and their nature.
+  extract_existing_nodes:
+    agent: false
+    description: description
+    name: extract_existing_nodes
+    nodes_depended_on:
+    - parse_ui_workflow
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of existing node names
+      key: existing_node_names
+      type: List[str]
+    - description: List of existing node types corresponding to the node names
+      key: existing_node_types
+      type: List[str]
+    prompt: prompt
+  parse_ui_workflow:
+    agent: false
+    description: ''
+    name: parse_ui_workflow
+    nodes_depended_on: []
+    nodes_dependent_on:
+    - extract_connections_and_relationships
+    - extract_existing_nodes
+    prompt: ''
+  update_workflow_structure:
+    agent: false
+    description: ''
+    name: update_workflow_structure
+    nodes_depended_on:
+    - apply_new_requirements
+    nodes_dependent_on:
+    - validate_workflow_changes
+    prompt: ''
+  validate_workflow_changes:
+    agent: false
+    description: ''
+    name: validate_workflow_changes
+    nodes_depended_on:
+    - update_workflow_structure
+    nodes_dependent_on: []
+    prompt: ''

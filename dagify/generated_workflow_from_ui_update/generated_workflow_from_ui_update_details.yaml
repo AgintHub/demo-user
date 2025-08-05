@@ -1,0 +1,163 @@
+dag_type: spec
+description: A detailed execution plan for updating the workflow based on the provided
+  requirements
+name: Generated Workflow from UI Update
+nodes:
+  complete_workflow_update:
+    agent: false
+    description: Finalize the updated workflow and apply any necessary changes
+    name: complete_workflow_update
+    nodes_depended_on:
+    - review_and_verify
+    nodes_dependent_on: []
+    output_structure:
+    - description: The finalized and updated workflow in string format
+      key: finalized_workflow
+      type: str
+    - description: Whether any changes were applied to the workflow
+      key: changes_applied
+      type: bool
+    - description: The status of the workflow (e.g., 'success', 'failure', etc.)
+      key: workflow_status
+      type: str
+    prompt: Based on the review and verification, finalize the updated workflow and
+      apply any necessary changes. Ensure the workflow is accurate, complete, and
+      meets the requirements.
+  evaluate_requirements:
+    agent: false
+    description: Determine the requirements for updating the existing workflow and
+      identify necessary changes
+    name: evaluate_requirements
+    nodes_depended_on:
+    - retain_existing_nodes
+    nodes_dependent_on:
+    - update_nodes_and_connections
+    output_structure:
+    - description: Description of the updated requirements
+      key: updated_requirements
+      type: str
+    - description: List of necessary changes to the existing workflow
+      key: necessary_changes
+      type: List[str]
+    - description: Whether the updated requirements are complete
+      key: is_complete
+      type: bool
+    prd:
+      bullets:
+      - complexity: MEDIUM - Requires understanding of diffing algorithms and workflow
+          structures
+        impact: HIGH - Accurate identification of changes is crucial for correct workflow
+          updates
+        method: Use a library like difflib for computing differences between the updated
+          requirements and existing workflow
+        reason: This approach enables efficient identification of necessary changes
+        text: Implement a requirements diffing algorithm to compare the updated requirements
+          with the existing workflow
+      - complexity: LOW - Can be implemented using standard validation techniques
+        impact: HIGH - Incomplete or inconsistent requirements can lead to incorrect
+          workflow updates
+        method: Use a schema validation library to check the updated requirements
+          against a predefined schema
+        reason: Ensures that the updated requirements are accurate and can be used
+          for workflow updates
+        text: Validate the updated requirements for completeness and consistency
+      - complexity: LOW - Can be implemented using simple conditional logic
+        impact: MEDIUM - Incorrect categorization can lead to incorrect updates
+        method: Use a decision tree or a set of conditional statements to categorize
+          changes
+        reason: This categorization enables targeted updates to the workflow
+        text: Categorize necessary changes into additions, modifications, and deletions
+    prompt: Based on the updated requirements, determine which changes need to be
+      made to the existing workflow. Identify any necessary additions, modifications,
+      or deletions.
+  retain_existing_nodes:
+    agent: false
+    description: Retain all existing nodes, connections, and node names from the original
+      UI-provided workflow
+    name: retain_existing_nodes
+    nodes_depended_on: []
+    nodes_dependent_on:
+    - evaluate_requirements
+    output_structure:
+    - description: A list of nodes retained from the original workflow
+      key: original_node_list
+      type: List[str]
+    - description: A list of connections retained from the original workflow
+      key: original_node_connections
+      type: List[str]
+    - description: A list of node names retained from the original workflow
+      key: original_node_names
+      type: List[str]
+    prompt: Retain all existing nodes, connections, and node names from the original
+      workflow. Make no changes to the existing nodes or their connections.
+  review_and_verify:
+    agent: false
+    description: Review and verify the updated workflow to ensure it meets the requirements
+    name: review_and_verify
+    nodes_depended_on:
+    - update_nodes_and_connections
+    nodes_dependent_on:
+    - complete_workflow_update
+    output_structure:
+    - description: The verified and updated workflow in string format
+      key: verified_workflow
+      type: str
+    - description: Whether any issues or discrepancies were found during review
+      key: issues_found
+      type: bool
+    - description: The status of the verification (e.g., 'success', 'failure', etc.)
+      key: verification_status
+      type: str
+    prd:
+      bullets:
+      - complexity: MEDIUM - Requires careful implementation but uses standard patterns
+        impact: HIGH - This node is critical to ensuring the quality of the updated
+          workflow
+        method: Use a checklist-based approach to verify the workflow against the
+          requirements
+        reason: This ensures the accuracy and completeness of the updated workflow
+        text: Implement a thorough review process to ensure the updated workflow meets
+          the requirements
+      - complexity: LOW - Simple logging or reporting mechanism
+        impact: MEDIUM - Important for auditability and debugging
+        method: Use a standardized issue tracking template
+        reason: This allows for transparent tracking and resolution of issues
+        text: Develop a mechanism to document any issues or discrepancies found during
+          review
+      - complexity: LOW - Simple status output
+        impact: LOW - Useful for workflow management
+        method: Use a standard status code enumeration
+        reason: This provides clear feedback to downstream nodes
+        text: Implement a verification status output to indicate the result of the
+          review
+    prompt: Carefully review and verify the updated workflow to ensure all changes
+      are correct and it meets the updated requirements. Document any issues or discrepancies.
+  update_nodes_and_connections:
+    agent: false
+    description: Apply the required changes to the nodes and connections of the existing
+      workflow
+    name: update_nodes_and_connections
+    nodes_depended_on:
+    - evaluate_requirements
+    nodes_dependent_on:
+    - review_and_verify
+    output_structure:
+    - description: List of node names that have been updated
+      key: updated_nodes
+      type: List[str]
+    - description: List of connection names that have been updated
+      key: updated_connections
+      type: List[str]
+    - description: List of node names that have been removed
+      key: removed_nodes
+      type: List[str]
+    - description: List of connection names that have been removed
+      key: removed_connections
+      type: List[str]
+    - description: Whether the update was successful
+      key: is_update_successful
+      type: bool
+    prd:
+      bullets: []
+    prompt: Apply the necessary changes to the nodes and connections of the workflow
+      based on the updated requirements. Ensure all updates are accurate and consistent.

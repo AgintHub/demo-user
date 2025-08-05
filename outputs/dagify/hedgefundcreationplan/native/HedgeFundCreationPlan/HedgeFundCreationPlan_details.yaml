@@ -1,0 +1,73 @@
+dag_type: plain_text
+description: Generated workflow from UI.
+name: HedgeFundCreationPlan
+nodes:
+  define_hedge_fund_strategy:
+    agent: false
+    description: Define a specific investment strategy for the hedge fund
+    name: define_hedge_fund_strategy
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: Describe the overall investment strategy for the hedge fund, specifying
+      the main asset classes and risk management approach. Focus on the core philosophy
+      of the fund.
+  develop_operating_manual:
+    agent: false
+    description: Document the fund's policies, procedures, and risk management framework
+    name: develop_operating_manual
+    nodes_depended_on:
+    - hire_key_fund_professionals
+    nodes_dependent_on: []
+    prompt: Develop the operating manual for the hedge fund, outlining the policies,
+      procedures, and risk management framework. Focus on the organization's governance,
+      compliance, and operational policies.
+  establish_fund_constitution:
+    agent: false
+    description: Create the organizational documents and agreements for the hedge
+      fund
+    name: establish_fund_constitution
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: Develop the organizational documents and agreements for the hedge fund,
+      including the partnership agreement, operating agreement, and subscription documents.
+      Focus on the legal and compliance aspects.
+  hire_key_fund_professionals:
+    agent: false
+    description: Recruit and onboard core fund team members
+    name: hire_key_fund_professionals
+    nodes_depended_on:
+    - set_up_trading_operations
+    nodes_dependent_on: []
+    prompt: Recruit and onboard the core fund team members, including the fund manager,
+      traders, analysts, and other essential professionals. Describe the specific
+      requirements and qualifications for each role.
+  register_hedge_fund:
+    agent: false
+    description: Obtain necessary registrations and licenses for the hedge fund
+    name: register_hedge_fund
+    nodes_depended_on:
+    - develop_operating_manual
+    nodes_dependent_on: []
+    prompt: Register the hedge fund with the relevant regulatory bodies and obtain
+      necessary licenses, permits, and approvals. Describe the specific requirements
+      and the associated documentation.
+  select_ Investment_vessels:
+    agent: false
+    description: Determine the types of assets the hedge fund will invest in
+    name: select_ Investment_vessels
+    nodes_depended_on:
+    - define_hedge_fund_strategy
+    nodes_dependent_on: []
+    prompt: Identify the specific types of assets (e.g., stocks, bonds, derivatives)
+      that will be invested in, based on the defined strategy. List each type of asset
+      and its corresponding market or market segment.
+  set_up_trading_operations:
+    agent: false
+    description: Configure trading platforms, accounts, and other essential systems
+    name: set_up_trading_operations
+    nodes_depended_on:
+    - establish_fund_constitution
+    nodes_dependent_on: []
+    prompt: Set up the trading platforms, accounts, and other essential systems required
+      for the hedge fund's operations. Describe the specific configurations and integrations
+      needed for the chosen trading systems.

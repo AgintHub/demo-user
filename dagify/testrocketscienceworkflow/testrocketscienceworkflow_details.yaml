@@ -1,0 +1,55 @@
+dag_type: plain_text
+description: Executing a test for rocket science workflow
+name: TestRocketScienceWorkflow
+nodes:
+  analyze_results:
+    agent: false
+    description: Analyze the results of the simulation and identify areas for improvement
+    name: analyze_results
+    nodes_depended_on:
+    - simulate_experiment
+    nodes_dependent_on: []
+    prompt: Review the results of the simulation, focusing on the key performance
+      indicators. Identify areas where the experiment did not meet the expected outcomes
+      and suggest potential improvements for future experiments.
+  define_test_parameters:
+    agent: false
+    description: Identify the test parameters for the rocket science experiment
+    name: define_test_parameters
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: Specify the test parameters for the rocket science experiment, including
+      the type of rocket, payload, and test conditions. Report only the test parameters
+      with their corresponding values.
+  document_experiment_report:
+    agent: false
+    description: Create a comprehensive report summarizing the experiment results
+    name: document_experiment_report
+    nodes_depended_on:
+    - analyze_results
+    nodes_dependent_on: []
+    prompt: Using the insights gained from analyzing the simulation results, create
+      a comprehensive report summarizing the experiment findings. Focus on presenting
+      a clear and concise overview of the experiment's outcomes and suggestions for
+      future directions.
+  simulate_experiment:
+    agent: false
+    description: Simulate the rocket science experiment using the specified parameters
+      and conditions
+    name: simulate_experiment
+    nodes_depended_on:
+    - verify_test_conditions
+    nodes_dependent_on: []
+    prompt: Using the verified test conditions, simulate the rocket science experiment.
+      Report the results of the simulation, focusing on the key performance indicators,
+      such as rocket trajectory, velocity, and safety margins.
+  verify_test_conditions:
+    agent: false
+    description: Verify that the test conditions meet the specified requirements
+    name: verify_test_conditions
+    nodes_depended_on:
+    - define_test_parameters
+    nodes_dependent_on: []
+    prompt: Using the test parameters identified, verify that the test conditions
+      meet the specified requirements. Focus on checking if the conditions align with
+      the experiment design and stated objectives, and report any discrepancies.

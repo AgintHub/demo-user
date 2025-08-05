@@ -1,0 +1,333 @@
+dag_type: stub
+description: Create a granular execution plan to design a rocket science workflow
+name: RocketScienceDAG
+nodes:
+  ConductStructuralAnalysis:
+    agent: false
+    code_node_type: stub
+    description: Conduct a structural analysis of the rocket
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass DesignrocketconfigurationOutput(BaseModel):\n    \"\"\"Pydantic model\
+      \ for DesignRocketConfiguration node outputs.\"\"\"\n    pass # No outputs defined\
+      \ for this parent node\n\n\nclass SpecifyrocketmaterialsOutput(BaseModel):\n\
+      \    \"\"\"Pydantic model for SpecifyRocketMaterials node outputs.\"\"\"\n \
+      \   materials: List[str] = Field(..., description=\"List of materials for rocket\
+      \ construction (e.g., metals, composites, electronics)\")\n    material_descriptions:\
+      \ List[str] = Field(..., description=\"Detailed descriptions of each material\
+      \ and its properties\")\n    selection_reasons: List[str] = Field(..., description=\"\
+      Reasons for selecting each material\")\n\n\nclass ConductstructuralanalysisOutput(BaseModel):\n\
+      \    \"\"\"Pydantic model for ConductStructuralAnalysis node outputs.\"\"\"\n\
+      \    analysis_summary: str = Field(..., description=\"Summary of the structural\
+      \ analysis\")\n    stress_values: List[float] = Field(..., description=\"List\
+      \ of stress values at different points\")\n    strain_values: List[float] =\
+      \ Field(..., description=\"List of strain values at different points\")\n  \
+      \  recommendations: List[str] = Field(..., description=\"List of recommendations\
+      \ for improvements or changes\")\n\n\ndef ConductStructuralAnalysis(DesignRocketConfiguration_input:\
+      \ DesignrocketconfigurationOutput, SpecifyRocketMaterials_input: SpecifyrocketmaterialsOutput,\
+      \ **kwargs) -> ConductstructuralanalysisOutput:\n    \"\"\"Conduct a structural\
+      \ analysis of the rocket\n\n    Args:\n        DesignRocketConfiguration_input:\
+      \ Input from the 'DesignRocketConfiguration' node.\n        SpecifyRocketMaterials_input:\
+      \ Input from the 'SpecifyRocketMaterials' node.\n        **kwargs: Additional\
+      \ keyword arguments.\n\n    Returns:\n        ConductstructuralanalysisOutput:\
+      \ Object containing outputs for this node.\n    \"\"\"\n    # TODO: Implement\
+      \ this function\n\n    # Return stub output with placeholder values\n    return\
+      \ ConductstructuralanalysisOutput(\n        analysis_summary=\"\",\n       \
+      \ stress_values=[],\n        strain_values=[],\n        recommendations=[],\n\
+      \    )"
+    name: ConductStructuralAnalysis
+    nodes_depended_on:
+    - DesignRocketConfiguration
+    - SpecifyRocketMaterials
+    nodes_dependent_on: []
+    output_structure:
+    - description: Summary of the structural analysis
+      key: analysis_summary
+      type: str
+    - description: List of stress values at different points
+      key: stress_values
+      type: List[float]
+    - description: List of strain values at different points
+      key: strain_values
+      type: List[float]
+    - description: List of recommendations for improvements or changes
+      key: recommendations
+      type: List[str]
+    prd:
+      bullets: []
+    prompt: Perform a structural analysis of the rocket design to ensure integrity
+      and stability, including stress and strain calculations and simulations. Please
+      provide detailed results and recommendations.
+    shims: []
+  DesignRocketConfiguration:
+    agent: false
+    code_node_type: stub
+    description: Design the rocket configuration based on mission requirements
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass IdentifymissionrequirementsOutput(BaseModel):\n    \"\"\"Pydantic\
+      \ model for IdentifyMissionRequirements node outputs.\"\"\"\n    type: str =\
+      \ Field(..., description=\"Type of the mission requirement\")\n    description:\
+      \ str = Field(..., description=\"Brief description of the mission requirement\"\
+      )\n    details: List[str] = Field(..., description=\"List of specific details\
+      \ for this type of requirement\")\n    details.values: List[str] = Field(...,\
+      \ description=\"List of specific detail values\")\n    details.units: List[str]\
+      \ = Field(..., description=\"List of specific detail units\")\n\n\ndef DesignRocketConfiguration(IdentifyMissionRequirements_input:\
+      \ IdentifymissionrequirementsOutput, **kwargs) -> None:\n    \"\"\"Design the\
+      \ rocket configuration based on mission requirements\n\n    Args:\n        IdentifyMissionRequirements_input:\
+      \ Input from the 'IdentifyMissionRequirements' node.\n        **kwargs: Additional\
+      \ keyword arguments.\n\n    Returns:\n        None: This node does not produce\
+      \ explicit outputs.\n    \"\"\"\n    # TODO: Implement this function\n    return\
+      \ None"
+    name: DesignRocketConfiguration
+    nodes_depended_on:
+    - IdentifyMissionRequirements
+    nodes_dependent_on: []
+    output_structure: []
+    prd:
+      bullets: []
+    prompt: Based on the mission requirements, design a preliminary rocket configuration,
+      including size, shape, and propulsion systems. Please provide detailed drawings
+      and specifications.
+    shims: []
+  IdentifyMissionRequirements:
+    agent: false
+    code_node_type: stub
+    description: Identify the fundamental mission requirements
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass IdentifymissionrequirementsOutput(BaseModel):\n    \"\"\"Pydantic\
+      \ model for IdentifyMissionRequirements node outputs.\"\"\"\n    type: str =\
+      \ Field(..., description=\"Type of the mission requirement\")\n    description:\
+      \ str = Field(..., description=\"Brief description of the mission requirement\"\
+      )\n    details: List[str] = Field(..., description=\"List of specific details\
+      \ for this type of requirement\")\n    details.values: List[str] = Field(...,\
+      \ description=\"List of specific detail values\")\n    details.units: List[str]\
+      \ = Field(..., description=\"List of specific detail units\")\n\n\ndef IdentifyMissionRequirements(general_input:\
+      \ str, **kwargs) -> IdentifymissionrequirementsOutput:\n    \"\"\"Identify the\
+      \ fundamental mission requirements\n\n    Args:\n        general_input: General\
+      \ input string for the root node.\n        **kwargs: Additional keyword arguments.\n\
+      \n    Returns:\n        IdentifymissionrequirementsOutput: Object containing\
+      \ outputs for this node.\n    \"\"\"\n    # TODO: Implement this function\n\n\
+      \    # Return stub output with placeholder values\n    return IdentifymissionrequirementsOutput(\n\
+      \        type=\"\",\n        description=\"\",\n        details=[],\n      \
+      \  details.values=[],\n        details.units=[],\n    )"
+    name: IdentifyMissionRequirements
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Type of the mission requirement
+      key: type
+      type: str
+    - description: Brief description of the mission requirement
+      key: description
+      type: str
+    - description: List of specific details for this type of requirement
+      key: details
+      type: List[str]
+    - description: List of specific detail values
+      key: details.values
+      type: List[str]
+    - description: List of specific detail units
+      key: details.units
+      type: List[str]
+    prd:
+      bullets: []
+    prompt: List all the mission requirements for the rocket, including payload, orbit,
+      and destination. Please provide specific details for each requirement.
+    shims: []
+  IntegrateRocketSystems:
+    agent: false
+    code_node_type: stub
+    description: Integrate the rocket systems
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass PlanrocketmanufacturingprocessOutput(BaseModel):\n    \"\"\"Pydantic\
+      \ model for PlanRocketManufacturingProcess node outputs.\"\"\"\n    manufacturing_processes:\
+      \ List[str] = Field(..., description=\"List of manufacturing processes involved\"\
+      )\n    production_schedule: List[str] = Field(..., description=\"Schedule of\
+      \ production, potentially including start and end dates for each process\")\n\
+      \    resource_allocation: List[str] = Field(..., description=\"List of resources\
+      \ allocated for each process\")\n    resource_quantities: List[int] = Field(...,\
+      \ description=\"Quantities of each resource allocated\")\n    critical_path:\
+      \ List[str] = Field(..., description=\"Critical path analysis represented as\
+      \ a list of key tasks\")\n    is_plan_valid: bool = Field(..., description=\"\
+      Whether the manufacturing plan is valid and feasible\")\n\n\nclass ConductstructuralanalysisOutput(BaseModel):\n\
+      \    \"\"\"Pydantic model for ConductStructuralAnalysis node outputs.\"\"\"\n\
+      \    analysis_summary: str = Field(..., description=\"Summary of the structural\
+      \ analysis\")\n    stress_values: List[float] = Field(..., description=\"List\
+      \ of stress values at different points\")\n    strain_values: List[float] =\
+      \ Field(..., description=\"List of strain values at different points\")\n  \
+      \  recommendations: List[str] = Field(..., description=\"List of recommendations\
+      \ for improvements or changes\")\n\n\ndef IntegrateRocketSystems(PlanRocketManufacturingProcess_input:\
+      \ PlanrocketmanufacturingprocessOutput, ConductStructuralAnalysis_input: ConductstructuralanalysisOutput,\
+      \ **kwargs) -> None:\n    \"\"\"Integrate the rocket systems\n\n    Args:\n\
+      \        PlanRocketManufacturingProcess_input: Input from the 'PlanRocketManufacturingProcess'\
+      \ node.\n        ConductStructuralAnalysis_input: Input from the 'ConductStructuralAnalysis'\
+      \ node.\n        **kwargs: Additional keyword arguments.\n\n    Returns:\n \
+      \       None: This node does not produce explicit outputs.\n    \"\"\"\n   \
+      \ # TODO: Implement this function\n    return None"
+    name: IntegrateRocketSystems
+    nodes_depended_on:
+    - PlanRocketManufacturingProcess
+    - ConductStructuralAnalysis
+    nodes_dependent_on: []
+    output_structure: []
+    prd:
+      bullets: []
+    prompt: Integrate the various rocket systems, including propulsion, navigation,
+      and communication, to ensure proper operation and synchronization. Please provide
+      a comprehensive system design and integration plan.
+    shims: []
+  PerformSystemValidation:
+    agent: false
+    code_node_type: stub
+    description: Validate the system operation
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass IntegraterocketsystemsOutput(BaseModel):\n    \"\"\"Pydantic model\
+      \ for IntegrateRocketSystems node outputs.\"\"\"\n    pass # No outputs defined\
+      \ for this parent node\n\n\nclass PerformsystemvalidationOutput(BaseModel):\n\
+      \    \"\"\"Pydantic model for PerformSystemValidation node outputs.\"\"\"\n\
+      \    validation_result: bool = Field(..., description=\"Whether the system validation\
+      \ was successful\")\n    test_results: List[str] = Field(..., description=\"\
+      Detailed test results\")\n    recommendations: List[str] = Field(..., description=\"\
+      List of recommendations for improvement\")\n    defects_found: int = Field(...,\
+      \ description=\"Number of defects found during validation\")\n\n\ndef PerformSystemValidation(IntegrateRocketSystems_input:\
+      \ IntegraterocketsystemsOutput, **kwargs) -> PerformsystemvalidationOutput:\n\
+      \    \"\"\"Validate the system operation\n\n    Args:\n        IntegrateRocketSystems_input:\
+      \ Input from the 'IntegrateRocketSystems' node.\n        **kwargs: Additional\
+      \ keyword arguments.\n\n    Returns:\n        PerformsystemvalidationOutput:\
+      \ Object containing outputs for this node.\n    \"\"\"\n    # TODO: Implement\
+      \ this function\n\n    # Return stub output with placeholder values\n    return\
+      \ PerformsystemvalidationOutput(\n        validation_result=False,\n       \
+      \ test_results=[],\n        recommendations=[],\n        defects_found=0,\n\
+      \    )"
+    name: PerformSystemValidation
+    nodes_depended_on:
+    - IntegrateRocketSystems
+    nodes_dependent_on: []
+    output_structure:
+    - description: Whether the system validation was successful
+      key: validation_result
+      type: bool
+    - description: Detailed test results
+      key: test_results
+      type: List[str]
+    - description: List of recommendations for improvement
+      key: recommendations
+      type: List[str]
+    - description: Number of defects found during validation
+      key: defects_found
+      type: int
+    prd:
+      bullets: []
+    prompt: Validate the integrated system to ensure proper operation, including testing
+      and simulation, to identify and correct any defects or issues. Please provide
+      detailed test results and recommendations.
+    shims: []
+  PlanRocketManufacturingProcess:
+    agent: false
+    code_node_type: stub
+    description: Plan the rocket manufacturing process
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass DesignrocketconfigurationOutput(BaseModel):\n    \"\"\"Pydantic model\
+      \ for DesignRocketConfiguration node outputs.\"\"\"\n    pass # No outputs defined\
+      \ for this parent node\n\n\nclass SpecifyrocketmaterialsOutput(BaseModel):\n\
+      \    \"\"\"Pydantic model for SpecifyRocketMaterials node outputs.\"\"\"\n \
+      \   materials: List[str] = Field(..., description=\"List of materials for rocket\
+      \ construction (e.g., metals, composites, electronics)\")\n    material_descriptions:\
+      \ List[str] = Field(..., description=\"Detailed descriptions of each material\
+      \ and its properties\")\n    selection_reasons: List[str] = Field(..., description=\"\
+      Reasons for selecting each material\")\n\n\nclass PlanrocketmanufacturingprocessOutput(BaseModel):\n\
+      \    \"\"\"Pydantic model for PlanRocketManufacturingProcess node outputs.\"\
+      \"\"\n    manufacturing_processes: List[str] = Field(..., description=\"List\
+      \ of manufacturing processes involved\")\n    production_schedule: List[str]\
+      \ = Field(..., description=\"Schedule of production, potentially including start\
+      \ and end dates for each process\")\n    resource_allocation: List[str] = Field(...,\
+      \ description=\"List of resources allocated for each process\")\n    resource_quantities:\
+      \ List[int] = Field(..., description=\"Quantities of each resource allocated\"\
+      )\n    critical_path: List[str] = Field(..., description=\"Critical path analysis\
+      \ represented as a list of key tasks\")\n    is_plan_valid: bool = Field(...,\
+      \ description=\"Whether the manufacturing plan is valid and feasible\")\n\n\n\
+      def PlanRocketManufacturingProcess(DesignRocketConfiguration_input: DesignrocketconfigurationOutput,\
+      \ SpecifyRocketMaterials_input: SpecifyrocketmaterialsOutput, **kwargs) -> PlanrocketmanufacturingprocessOutput:\n\
+      \    \"\"\"Plan the rocket manufacturing process\n\n    Args:\n        DesignRocketConfiguration_input:\
+      \ Input from the 'DesignRocketConfiguration' node.\n        SpecifyRocketMaterials_input:\
+      \ Input from the 'SpecifyRocketMaterials' node.\n        **kwargs: Additional\
+      \ keyword arguments.\n\n    Returns:\n        PlanrocketmanufacturingprocessOutput:\
+      \ Object containing outputs for this node.\n    \"\"\"\n    # TODO: Implement\
+      \ this function\n\n    # Return stub output with placeholder values\n    return\
+      \ PlanrocketmanufacturingprocessOutput(\n        manufacturing_processes=[],\n\
+      \        production_schedule=[],\n        resource_allocation=[],\n        resource_quantities=[],\n\
+      \        critical_path=[],\n        is_plan_valid=False,\n    )"
+    name: PlanRocketManufacturingProcess
+    nodes_depended_on:
+    - DesignRocketConfiguration
+    - SpecifyRocketMaterials
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of manufacturing processes involved
+      key: manufacturing_processes
+      type: List[str]
+    - description: Schedule of production, potentially including start and end dates
+        for each process
+      key: production_schedule
+      type: List[str]
+    - description: List of resources allocated for each process
+      key: resource_allocation
+      type: List[str]
+    - description: Quantities of each resource allocated
+      key: resource_quantities
+      type: List[int]
+    - description: Critical path analysis represented as a list of key tasks
+      key: critical_path
+      type: List[str]
+    - description: Whether the manufacturing plan is valid and feasible
+      key: is_plan_valid
+      type: bool
+    prd:
+      bullets: []
+    prompt: Develop a detailed plan for manufacturing the rocket, including processes,
+      schedules, and resource allocation. Please provide a critical path analysis
+      of the manufacturing process.
+    shims: []
+  SpecifyRocketMaterials:
+    agent: false
+    code_node_type: stub
+    description: Specify the materials for rocket construction
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass DesignrocketconfigurationOutput(BaseModel):\n    \"\"\"Pydantic model\
+      \ for DesignRocketConfiguration node outputs.\"\"\"\n    pass # No outputs defined\
+      \ for this parent node\n\n\nclass SpecifyrocketmaterialsOutput(BaseModel):\n\
+      \    \"\"\"Pydantic model for SpecifyRocketMaterials node outputs.\"\"\"\n \
+      \   materials: List[str] = Field(..., description=\"List of materials for rocket\
+      \ construction (e.g., metals, composites, electronics)\")\n    material_descriptions:\
+      \ List[str] = Field(..., description=\"Detailed descriptions of each material\
+      \ and its properties\")\n    selection_reasons: List[str] = Field(..., description=\"\
+      Reasons for selecting each material\")\n\n\ndef SpecifyRocketMaterials(DesignRocketConfiguration_input:\
+      \ DesignrocketconfigurationOutput, **kwargs) -> SpecifyrocketmaterialsOutput:\n\
+      \    \"\"\"Specify the materials for rocket construction\n\n    Args:\n    \
+      \    DesignRocketConfiguration_input: Input from the 'DesignRocketConfiguration'\
+      \ node.\n        **kwargs: Additional keyword arguments.\n\n    Returns:\n \
+      \       SpecifyrocketmaterialsOutput: Object containing outputs for this node.\n\
+      \    \"\"\"\n    # TODO: Implement this function\n\n    # Return stub output\
+      \ with placeholder values\n    return SpecifyrocketmaterialsOutput(\n      \
+      \  materials=[],\n        material_descriptions=[],\n        selection_reasons=[],\n\
+      \    )"
+    name: SpecifyRocketMaterials
+    nodes_depended_on:
+    - DesignRocketConfiguration
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of materials for rocket construction (e.g., metals, composites,
+        electronics)
+      key: materials
+      type: List[str]
+    - description: Detailed descriptions of each material and its properties
+      key: material_descriptions
+      type: List[str]
+    - description: Reasons for selecting each material
+      key: selection_reasons
+      type: List[str]
+    prd:
+      bullets: []
+    prompt: Select and specify the materials to be used in the rocket's construction,
+      including metals, composites, and electronics. Provide a detailed materials
+      list and reasons for selection.
+    shims: []

@@ -1,0 +1,89 @@
+dag_type: plain_text
+description: Design and build a rocket ship for space travel
+name: RocketShipDesign
+nodes:
+  add_control_system:
+    agent: false
+    description: Install a control system for guidance and navigation
+    name: add_control_system
+    nodes_depended_on:
+    - integrate_propulsion_system
+    nodes_dependent_on: []
+    prompt: Install a control system, including sensors, actuators, and software,
+      for guidance and navigation.
+  add_power_system:
+    agent: false
+    description: Install a power system for the rocket's systems
+    name: add_power_system
+    nodes_depended_on:
+    - add_control_system
+    nodes_dependent_on: []
+    prompt: Install a power system, including batteries, solar panels, or fuel cells,
+      to supply power to the rocket's systems.
+  assess_rocket_design:
+    agent: false
+    description: Evaluate the rocket's design and performance
+    name: assess_rocket_design
+    nodes_depended_on:
+    - design_rocket_structure
+    - choose_propulsion_system
+    - integrate_propulsion_system
+    - add_control_system
+    - add_power_system
+    nodes_dependent_on: []
+    prompt: Evaluate the rocket's design, including its structure, propulsion, control,
+      and power systems, to ensure it meets the required performance and safety standards.
+  choose_propulsion_system:
+    agent: false
+    description: Select a propulsion system based on the rocket type
+    name: choose_propulsion_system
+    nodes_depended_on:
+    - select_rocket_type
+    nodes_dependent_on: []
+    prompt: Select a propulsion system (e.g., solid rocket booster, liquid fuel engine,
+      electric propulsion) suitable for the rocket type.
+  define_rocket_purpose:
+    agent: false
+    description: Determine the primary purpose of the rocket
+    name: define_rocket_purpose
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: What is the intended use of the rocket (e.g., satellite deployment, space
+      exploration, crew transport)?
+  design_rocket_structure:
+    agent: false
+    description: Design the rocket's structural components
+    name: design_rocket_structure
+    nodes_depended_on:
+    - select_rocket_type
+    nodes_dependent_on: []
+    prompt: Design the structural components of the rocket, including the fuselage,
+      fins, and payload fairing.
+  determine_payload_capacity:
+    agent: false
+    description: Determine the maximum payload capacity for the rocket
+    name: determine_payload_capacity
+    nodes_depended_on:
+    - select_rocket_type
+    nodes_dependent_on: []
+    prompt: What is the maximum payload capacity for the selected rocket type (e.g.,
+      mass, volume)?
+  integrate_propulsion_system:
+    agent: false
+    description: Integrate the propulsion system with the rocket's structure
+    name: integrate_propulsion_system
+    nodes_depended_on:
+    - design_rocket_structure
+    - choose_propulsion_system
+    nodes_dependent_on: []
+    prompt: Integrate the selected propulsion system with the rocket's structural
+      components.
+  select_rocket_type:
+    agent: false
+    description: Choose a rocket type based on the purpose
+    name: select_rocket_type
+    nodes_depended_on:
+    - define_rocket_purpose
+    nodes_dependent_on: []
+    prompt: Based on the purpose, select a rocket type (e.g., launch vehicle, orbital
+      insertion, entry vehicle).

@@ -1,0 +1,253 @@
+dag_type: pure
+description: Generated workflow from UI.
+name: TaskExecutionPlan
+nodes:
+  decomposition_request:
+    agent: false
+    code_node_type: pure
+    description: Request the Elemental Thoughts decomposition of the task
+    implementation: "from pydantic import BaseModel, Field\n\n\nclass TaskDescriptionExtractionOutput(BaseModel):\n\
+      \    \"\"\"Pydantic model for task_description_extraction node outputs.\"\"\"\
+      \n    task_description: str = Field(..., description=\"The extracted task description\"\
+      )\n\n\nclass DecompositionRequestOutput(BaseModel):\n    \"\"\"Pydantic model\
+      \ for decomposition_request node outputs.\"\"\"\n    task_id: str = Field(...,\
+      \ description=\"Unique identifier for the task\")\n    task_description: str\
+      \ = Field(..., description=\"Description of the task\")\n    decomposition_result:\
+      \ str = Field(..., description=\"List of possible decompositions for the task\"\
+      )\n\n\ndef decomposition_request(task_description_extraction_input: TaskDescriptionExtractionOutput,\
+      \ **kwargs) -> DecompositionRequestOutput:\n    \"\"\"Request the Elemental\
+      \ Thoughts decomposition of the task\n\n    Args:\n        task_description_extraction_input:\
+      \ Input from the 'task_description_extraction' node.\n        **kwargs: Additional\
+      \ keyword arguments.\n\n    Returns:\n        DecompositionRequestOutput: Object\
+      \ containing outputs for this node.\n    \"\"\"\n    # Generate unique task\
+      \ ID\n    task_id: str = __generate_task_id()\n    \n    # Extract task description\
+      \ from input\n    task_description: str = task_description_extraction_input.task_description\n\
+      \    \n    # Request decomposition from service\n    decomposition_result: str\
+      \ = __request_task_decomposition(\n        task_description=task_description,\n\
+      \        task_id=task_id\n    )\n    \n    # Validate and format the decomposition\
+      \ results\n    formatted_result: str = __format_decomposition_result(decomposition_result)\n\
+      \n    return DecompositionRequestOutput(\n        task_id=task_id,\n       \
+      \ task_description=task_description,\n        decomposition_result=formatted_result\n\
+      \    )"
+    name: decomposition_request
+    nodes_depended_on:
+    - task_description_extraction
+    nodes_dependent_on: []
+    output_structure:
+    - description: Unique identifier for the task
+      key: task_id
+      type: str
+    - description: Description of the task
+      key: task_description
+      type: str
+    - description: List of possible decompositions for the task
+      key: decomposition_result
+      type: str
+    prd:
+      bullets: []
+    prompt: Using the task description and name, request the Elemental Thoughts decomposition.
+    shims: []
+  deterministic_executable_code_generation:
+    agent: false
+    code_node_type: pure
+    description: Generate executable code for each fundamental step
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass ElementalStepExtractionOutput(BaseModel):\n    \"\"\"Pydantic model\
+      \ for elemental_step_extraction node outputs.\"\"\"\n    fundamental_steps:\
+      \ List[str] = Field(..., description=\"List of extracted fundamental steps\"\
+      )\n\n\nclass DeterministicExecutableCodeGenerationOutput(BaseModel):\n    \"\
+      \"\"Pydantic model for deterministic_executable_code_generation node outputs.\"\
+      \"\"\n    fundamental_steps: List[str] = Field(..., description=\"List of executable\
+      \ code for each fundamental step\")\n    is_correct: List[bool] = Field(...,\
+      \ description=\"List of correctness indicators for each fundamental step\")\n\
+      \n\ndef deterministic_executable_code_generation(elemental_step_extraction_input:\
+      \ ElementalStepExtractionOutput, **kwargs) -> DeterministicExecutableCodeGenerationOutput:\n\
+      \    \"\"\"Generate executable code for each fundamental step\n\n    Args:\n\
+      \        elemental_step_extraction_input: Input from the 'elemental_step_extraction'\
+      \ node.\n        **kwargs: Additional keyword arguments.\n\n    Returns:\n \
+      \       DeterministicExecutableCodeGenerationOutput: Object containing outputs\
+      \ for this node.\n    \"\"\"\n    executable_steps: List[str] = []\n    correctness_flags:\
+      \ List[bool] = []\n\n    for step in elemental_step_extraction_input.fundamental_steps:\n\
+      \        # Generate executable code for each fundamental step\n        code:\
+      \ str = __generate_executable_code(step=step)\n        executable_steps.append(code)\n\
+      \n        # Validate the generated code\n        is_valid: bool = __validate_code_correctness(code=code,\
+      \ original_step=step)\n        correctness_flags.append(is_valid)\n\n    return\
+      \ DeterministicExecutableCodeGenerationOutput(\n        fundamental_steps=executable_steps,\n\
+      \        is_correct=correctness_flags\n    )"
+    name: deterministic_executable_code_generation
+    nodes_depended_on:
+    - elemental_step_extraction
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of executable code for each fundamental step
+      key: fundamental_steps
+      type: List[str]
+    - description: List of correctness indicators for each fundamental step
+      key: is_correct
+      type: List[bool]
+    prd:
+      bullets: []
+    prompt: Given the fundamental steps, generate executable code that can be directly
+      executed.
+    shims: []
+  elemental_step_extraction:
+    agent: false
+    code_node_type: pure
+    description: Extract the fundamental steps from the Elemental Thoughts decomposition
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass DecompositionRequestOutput(BaseModel):\n    \"\"\"Pydantic model for\
+      \ decomposition_request node outputs.\"\"\"\n    task_id: str = Field(..., description=\"\
+      Unique identifier for the task\")\n    task_description: str = Field(..., description=\"\
+      Description of the task\")\n    decomposition_result: str = Field(..., description=\"\
+      List of possible decompositions for the task\")\n\n\nclass ElementalStepExtractionOutput(BaseModel):\n\
+      \    \"\"\"Pydantic model for elemental_step_extraction node outputs.\"\"\"\n\
+      \    fundamental_steps: List[str] = Field(..., description=\"List of extracted\
+      \ fundamental steps\")\n\n\ndef elemental_step_extraction(decomposition_request_input:\
+      \ DecompositionRequestOutput, **kwargs) -> ElementalStepExtractionOutput:\n\
+      \    \"\"\"Extract the fundamental steps from the Elemental Thoughts decomposition\n\
+      \n    Args:\n        decomposition_request_input: Input from the 'decomposition_request'\
+      \ node.\n        **kwargs: Additional keyword arguments.\n\n    Returns:\n \
+      \       ElementalStepExtractionOutput: Object containing outputs for this node.\n\
+      \    \"\"\"\n    # Parse and clean the decomposition result\n    cleaned_decomp:\
+      \ str = __clean_decomposition_text(\n        text=decomposition_request_input.decomposition_result\n\
+      \    )\n    \n    # Extract individual steps from the cleaned decomposition\n\
+      \    raw_steps: List[str] = __extract_steps_from_text(text=cleaned_decomp)\n\
+      \    \n    # Process and normalize the extracted steps\n    normalized_steps:\
+      \ List[str] = __normalize_steps(steps=raw_steps)\n    \n    # Validate and filter\
+      \ the steps\n    validated_steps: List[str] = __validate_fundamental_steps(steps=normalized_steps)\n\
+      \n    return ElementalStepExtractionOutput(\n        fundamental_steps=validated_steps\n\
+      \    )"
+    name: elemental_step_extraction
+    nodes_depended_on:
+    - decomposition_request
+    nodes_dependent_on: []
+    output_structure:
+    - description: List of extracted fundamental steps
+      key: fundamental_steps
+      type: List[str]
+    prd:
+      bullets: []
+    prompt: Extract the individual fundamental steps from the Elemental Thoughts decomposition.
+    shims: []
+  execution_validation_and_verification:
+    agent: false
+    code_node_type: pure
+    description: Validate and verify the correctness of the executed code
+    implementation: "from pydantic import BaseModel, Field\nfrom typing import List\n\
+      \n\nclass DeterministicExecutableCodeGenerationOutput(BaseModel):\n    \"\"\"\
+      Pydantic model for deterministic_executable_code_generation node outputs.\"\"\
+      \"\n    fundamental_steps: List[str] = Field(..., description=\"List of executable\
+      \ code for each fundamental step\")\n    is_correct: List[bool] = Field(...,\
+      \ description=\"List of correctness indicators for each fundamental step\")\n\
+      \n\ndef execution_validation_and_verification(deterministic_executable_code_generation_input:\
+      \ DeterministicExecutableCodeGenerationOutput, **kwargs) -> None:\n    \"\"\"\
+      Validate and verify the correctness of the executed code\n\n    Args:\n    \
+      \    deterministic_executable_code_generation_input: Input from the 'deterministic_executable_code_generation'\
+      \ node.\n        **kwargs: Additional keyword arguments.\n\n    Returns:\n \
+      \       None: This node does not produce explicit outputs.\n    \"\"\"\n   \
+      \ # Validate each fundamental step\n    for step_idx, (code_step, is_correct)\
+      \ in enumerate(zip(\n            deterministic_executable_code_generation_input.fundamental_steps,\n\
+      \            deterministic_executable_code_generation_input.is_correct\n   \
+      \ )):\n        # Execute the code in a safe environment and validate results\n\
+      \        execution_result: bool = __execute_code_safely(code=code_step)\n  \
+      \      validation_result: bool = __validate_execution_results(result=execution_result,\
+      \ expected=is_correct)\n        \n        # Log validation results\n       \
+      \ __log_validation_results(step=step_idx, code=code_step, is_valid=validation_result)\n\
+      \        \n        # Handle any validation failures\n        if not validation_result:\n\
+      \            __handle_validation_failure(step=step_idx, code=code_step)\n  \
+      \  \n    # Final verification of overall execution\n    __verify_complete_execution(steps=deterministic_executable_code_generation_input.fundamental_steps)\n\
+      \    \n    return None"
+    name: execution_validation_and_verification
+    nodes_depended_on:
+    - deterministic_executable_code_generation
+    nodes_dependent_on: []
+    output_structure: []
+    prd:
+      bullets: []
+    prompt: Execute the generated code and validate its correctness against the expected
+      outcomes.
+    shims: []
+  task_description_extraction:
+    agent: false
+    code_node_type: pure
+    description: Extract the task description from the input task name
+    implementation: "from pydantic import BaseModel, Field\n\n\nclass TaskSpecificationCheckOutput(BaseModel):\n\
+      \    \"\"\"Pydantic model for task_specification_check node outputs.\"\"\"\n\
+      \    task_name_is_valid: bool = Field(..., description=\"Whether the task name\
+      \ matches the input task name\")\n\n\nclass TaskDescriptionExtractionOutput(BaseModel):\n\
+      \    \"\"\"Pydantic model for task_description_extraction node outputs.\"\"\"\
+      \n    task_description: str = Field(..., description=\"The extracted task description\"\
+      )\n\n\ndef task_description_extraction(task_specification_check_input: TaskSpecificationCheckOutput,\
+      \ **kwargs) -> TaskDescriptionExtractionOutput:\n    \"\"\"Extract the task\
+      \ description from the input task name\n\n    Args:\n        task_specification_check_input:\
+      \ Input from the 'task_specification_check' node.\n        **kwargs: Additional\
+      \ keyword arguments.\n\n    Returns:\n        TaskDescriptionExtractionOutput:\
+      \ Object containing outputs for this node.\n    \"\"\"\n    # Validate input\
+      \ task name is valid before proceeding\n    if not task_specification_check_input.task_name_is_valid:\n\
+      \        raise ValueError(\"Cannot extract description from invalid task name\"\
+      )\n\n    # Get the raw task description from kwargs\n    raw_text: str = __extract_raw_task_text(kwargs=kwargs)\n\
+      \n    # Clean and normalize the task description\n    normalized_text: str =\
+      \ __normalize_task_text(text=raw_text)\n\n    # Extract the relevant task description\
+      \ portions\n    task_description: str = __extract_task_description(text=normalized_text)\n\
+      \n    # Format the final description\n    formatted_description: str = __format_description(description=task_description)\n\
+      \n    return TaskDescriptionExtractionOutput(\n        task_description=formatted_description\n\
+      \    )"
+    name: task_description_extraction
+    nodes_depended_on:
+    - task_specification_check
+    nodes_dependent_on: []
+    output_structure:
+    - description: The extracted task description
+      key: task_description
+      type: str
+    prd:
+      bullets: []
+    prompt: Using the validated task name, extract the task description to provide
+      context.
+    shims: []
+  task_specification_check:
+    agent: false
+    code_node_type: pure
+    description: Validate that the task name matches the input task name
+    implementation: "from pydantic import BaseModel, Field\n\n\nclass TaskSpecificationCheckOutput(BaseModel):\n\
+      \    \"\"\"Pydantic model for task_specification_check node outputs.\"\"\"\n\
+      \    task_name_is_valid: bool = Field(..., description=\"Whether the task name\
+      \ matches the input task name\")\n\n\ndef task_specification_check(general_input:\
+      \ str, **kwargs) -> TaskSpecificationCheckOutput:\n    \"\"\"Validate that the\
+      \ task name matches the input task name\n\n    Args:\n        general_input:\
+      \ General input string for the root node.\n        **kwargs: Additional keyword\
+      \ arguments.\n\n    Returns:\n        TaskSpecificationCheckOutput: Object containing\
+      \ outputs for this node.\n    \"\"\"\n    # Get the expected task name from\
+      \ configuration or kwargs\n    expected_task_name: str = __get_expected_task_name(kwargs=kwargs)\n\
+      \    \n    # Validate the input task name against expected\n    is_valid: bool\
+      \ = __validate_task_name(\n        input_name=general_input,\n        expected_name=expected_task_name\n\
+      \    )\n    \n    # Return validation result\n    return TaskSpecificationCheckOutput(\n\
+      \        task_name_is_valid=is_valid\n    )"
+    name: task_specification_check
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    output_structure:
+    - description: Whether the task name matches the input task name
+      key: task_name_is_valid
+      type: bool
+    prd:
+      bullets:
+      - complexity: LOW - This step requires minimal implementation and uses standard
+          validation algorithms.
+        impact: LOW - This is a simple validation step that does not have a significant
+          impact on the system.
+        method: Use the `str ==` operator to compare the input task name to the name
+          specified in the task request.
+        reason: This is a basic validation step that ensures the task name is correct.
+        text: Validate input task name
+      - complexity: LOW - This step requires minimal implementation and uses standard
+          output mechanisms.
+        impact: LOW - This is a simple output step that does not affect the system
+          significantly.
+        method: Use a `return` statement to output the result of the comparison.
+        reason: This is a straightforward output step that provides the validation
+          result.
+        text: Output result
+    prompt: Verify that the input task name matches the name specified in the task
+      request.
+    shims: []

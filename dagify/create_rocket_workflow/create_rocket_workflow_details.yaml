@@ -1,0 +1,88 @@
+dag_type: plain_text
+description: Break down the task of creating a rocket workflow into a series of elemental
+  steps
+name: create_rocket_workflow
+nodes:
+  calculate_propulsion_performance:
+    agent: false
+    description: Determine the propulsion system's efficiency and power output
+    name: calculate_propulsion_performance
+    nodes_depended_on:
+    - select_rocket_type
+    nodes_dependent_on: []
+    prompt: Using the selected rocket design, calculate the propulsion performance
+      metrics, including efficiency and power output. Ensure that these calculations
+      are accurate and based on actual system specifications.
+  conduct_rocket_tests:
+    agent: false
+    description: Perform thorough testing of the rocket to ensure performance and
+      safety
+    name: conduct_rocket_tests
+    nodes_depended_on:
+    - integrate_rocket_components
+    nodes_dependent_on: []
+    prompt: Prepare and execute rigorous testing regimen to verify the rocket's performance,
+      safety, and compliance with established regulations. Report on any issues or
+      needed adjustments that arise during this phase.
+  define_rocket_requirements:
+    agent: false
+    description: Identify the functional requirements for the rocket, including payload
+      capacity, fuel efficiency, and launch vehicle capability
+    name: define_rocket_requirements
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: Specify the key functional requirements for the rocket to be designed,
+      including payload capacity, fuel efficiency, and launch vehicle capability.
+      Focus only on clearly articulating the requirements.
+  design_missile Guidance_system:
+    agent: false
+    description: Develop the guidance and control systems for navigation and stabilization
+    name: design_missile Guidance_system
+    nodes_depended_on:
+    - select_rocket_type
+    nodes_dependent_on: []
+    prompt: Develop a comprehensive design for the guidance and control systems, including
+      navigation, stabilization, and any necessary interface with the payload. Focus
+      on creating a robust and reliable system.
+  determine_payload_structure:
+    agent: false
+    description: Design the payload structure to fit the selected rocket's capacity
+      and requirements
+    name: determine_payload_structure
+    nodes_depended_on:
+    - select_rocket_type
+    nodes_dependent_on: []
+    prompt: Create a detailed design for the payload structure that meets the requirements
+      of the selected rocket. Include specific dimensions, material choices, and any
+      necessary certifications.
+  document_rocket_workflow:
+    agent: false
+    description: Record and document the entire rocket design and development process
+    name: document_rocket_workflow
+    nodes_depended_on:
+    - conduct_rocket_tests
+    nodes_dependent_on: []
+    prompt: Create detailed documentation covering each step of the rocket development
+      process, including requirements gathering, design selection, component integration,
+      and testing. Include schematics, diagrams, and relevant data sheets.
+  integrate_rocket_components:
+    agent: false
+    description: Assemble and integrate all designed components into a complete rocket
+    name: integrate_rocket_components
+    nodes_depended_on:
+    - determine_payload_structure
+    - design_missile Guidance_system
+    - calculate_propulsion_performance
+    nodes_dependent_on: []
+    prompt: Combine the designs of all rocket components, ensuring proper integration
+      and interface between them. Verify that each system operates as intended by
+      reviewing test cases and simulation results.
+  select_rocket_type:
+    agent: false
+    description: Choose a basic rocket design that meets the established requirements
+    name: select_rocket_type
+    nodes_depended_on:
+    - define_rocket_requirements
+    nodes_dependent_on: []
+    prompt: Using the functional requirements as input, select a basic rocket design
+      that best meets these needs. Provide a concise description of the selected design.
