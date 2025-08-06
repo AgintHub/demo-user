@@ -1,6 +1,6 @@
 dag_type: plain_text
-description: A workflow to determine what to build based on the given objective
-name: tell_me_what_to_build
+description: Modified workflow to include testing
+name: test_workflow
 nodes:
   evaluate_build_options:
     agent: false
@@ -36,8 +36,7 @@ nodes:
     name: interpret_objective
     nodes_depended_on: []
     nodes_dependent_on: []
-    prompt: Interpret the objective 'tell me what to build' and identify the key requirements
-      and constraints.
+    prompt: Interpret the objective 'test' and identify the key requirements and constraints.
   provide_build_plan:
     agent: false
     description: Provide a detailed plan for what needs to be built
@@ -47,3 +46,12 @@ nodes:
     nodes_dependent_on: []
     prompt: Based on the selected build option, provide a detailed plan for what needs
       to be built, including any relevant specifications or requirements.
+  test_build_plan:
+    agent: false
+    description: Test the build plan to ensure it meets the requirements
+    name: test_build_plan
+    nodes_depended_on:
+    - provide_build_plan
+    nodes_dependent_on: []
+    prompt: Verify that the provided build plan meets all the specified requirements
+      and constraints.
