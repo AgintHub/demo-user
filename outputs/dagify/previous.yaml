@@ -1,57 +1,68 @@
 dag_type: plain_text
-description: Modified workflow to include testing
-name: test_workflow
+description: A workflow to determine and describe a specific construction project
+  based on the objective 'tell me what to build'.
+name: tell_me_what_to_build
 nodes:
-  evaluate_build_options:
+  define_project_scope:
     agent: false
-    description: Evaluate the potential build options and select the most suitable
-      one
-    name: evaluate_build_options
+    description: Define the scope of the project to be built.
+    name: define_project_scope
     nodes_depended_on:
-    - generate_build_options
+    - identify_project_purpose
     nodes_dependent_on: []
-    prompt: Evaluate the list of potential build options and select the most suitable
-      one based on the requirements and constraints.
-  generate_build_options:
+    prompt: Based on the project purpose, define the scope of the project. What are
+      the key features and deliverables?
+  finalize_project_specification:
     agent: false
-    description: Generate a list of potential options for what can be built
-    name: generate_build_options
+    description: Finalize the project specification based on the plan.
+    name: finalize_project_specification
     nodes_depended_on:
-    - identify_build_requirements
+    - outline_project_plan
     nodes_dependent_on: []
-    prompt: Using the requirements and constraints identified, generate a list of
-      potential options for what can be built.
-  identify_build_requirements:
+    prompt: Based on the project plan, finalize the project specification. What are
+      the key requirements, features, and deliverables?
+  generate_project_description:
     agent: false
-    description: Determine the specific requirements for what needs to be built
-    name: identify_build_requirements
+    description: Generate a detailed description of the project to be built.
+    name: generate_project_description
+    nodes_depended_on:
+    - research_project_requirements
+    nodes_dependent_on: []
+    prompt: Based on the research and requirements, generate a detailed description
+      of the project. What are the key features, deliverables, and timelines?
+  identify_project_purpose:
+    agent: false
+    description: Determine the purpose of the project to be built.
+    name: identify_project_purpose
     nodes_depended_on:
     - interpret_objective
     nodes_dependent_on: []
-    prompt: Based on the interpretation of the objective, list the specific requirements
-      for what needs to be built, including any relevant constraints or considerations.
+    prompt: Based on the objective, determine the purpose of the project. What is
+      the project intended to achieve?
   interpret_objective:
     agent: false
-    description: Analyze the given objective to understand what needs to be built
+    description: Interpret the objective 'tell me what to build' to understand the
+      task requirements.
     name: interpret_objective
     nodes_depended_on: []
     nodes_dependent_on: []
-    prompt: Interpret the objective 'test' and identify the key requirements and constraints.
-  provide_build_plan:
-    agent: false
-    description: Provide a detailed plan for what needs to be built
-    name: provide_build_plan
-    nodes_depended_on:
-    - evaluate_build_options
-    nodes_dependent_on: []
-    prompt: Based on the selected build option, provide a detailed plan for what needs
-      to be built, including any relevant specifications or requirements.
-  test_build_plan:
-    agent: false
-    description: Test the build plan to ensure it meets the requirements
-    name: test_build_plan
-    nodes_depended_on:
-    - provide_build_plan
-    nodes_dependent_on: []
-    prompt: Verify that the provided build plan meets all the specified requirements
+    prompt: Understand the task objective 'tell me what to build'. Identify key requirements
       and constraints.
+  outline_project_plan:
+    agent: false
+    description: Create a high-level plan for the project.
+    name: outline_project_plan
+    nodes_depended_on:
+    - generate_project_description
+    nodes_dependent_on: []
+    prompt: Based on the project description, create a high-level plan for the project.
+      What are the key milestones, deadlines, and resource requirements?
+  research_project_requirements:
+    agent: false
+    description: Research and gather requirements for the project.
+    name: research_project_requirements
+    nodes_depended_on:
+    - define_project_scope
+    nodes_dependent_on: []
+    prompt: Conduct research to gather requirements for the project. Identify key
+      stakeholders, resources, and constraints.
