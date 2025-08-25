@@ -1,6 +1,6 @@
 dag_type: plain_text
-description: A highly concurrent workflow to design, procure, assemble, and validate
-  a functional car through atomic, independent tasks.
+description: A complete workflow for designing, assembling, and delivering a functional
+  car, starting from purpose definition through to final validation and handover.
 name: build_a_car
 nodes:
   assemble_body_panels:
@@ -61,7 +61,8 @@ nodes:
       CAN bus). Output a bullet list of 6 key components.
   define_vehicle_purpose:
     agent: false
-    description: Specify the intended use of the car (e.g., commuting, racing, off-road).
+    description: Establish the primary use case and operational environment for the
+      vehicle.
     name: define_vehicle_purpose
     nodes_depended_on: []
     nodes_dependent_on: []
@@ -103,7 +104,7 @@ nodes:
       values where applicable.'
   design_chassis_frame:
     agent: false
-    description: Develop structural frame layout of the car.
+    description: Develop the structural frame layout of the car.
     name: design_chassis_frame
     nodes_depended_on:
     - determine_vehicle_segment
@@ -167,7 +168,7 @@ nodes:
       on the vehicle's intended use. Include 4 technical components.
   determine_vehicle_segment:
     agent: false
-    description: Classify the car into a size/class category (e.g., sedan, SUV, hatchback).
+    description: Classify the car into a size or class category based on usage requirements.
     name: determine_vehicle_segment
     nodes_depended_on:
     - define_vehicle_purpose
@@ -345,8 +346,7 @@ nodes:
       voltage, and vibration. Report successful operation or any anomalies.
   select_powertrain_type:
     agent: false
-    description: Choose the type of power source (e.g., internal combustion, electric,
-      hybrid).
+    description: Choose the type of power source based on the vehicle's intended use.
     name: select_powertrain_type
     nodes_depended_on:
     - define_vehicle_purpose
@@ -414,7 +414,7 @@ nodes:
       Justify choice based on vehicle purpose and weight.
   specify_engine_requirements:
     agent: false
-    description: Define performance and technical parameters for the engine.
+    description: Define performance and technical parameters for the engine or motor.
     name: specify_engine_requirements
     nodes_depended_on:
     - select_powertrain_type
