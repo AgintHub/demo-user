@@ -1,489 +1,359 @@
 dag_type: plain_text
-description: A highly concurrent, step-by-step execution plan to design, engineer,
-  and assemble a functional rocket ship, broken into elemental tasks across structural,
-  propulsion, avionics, and systems domains.
-name: build_rocket_ship
+description: A concurrent, atomic workflow for designing, sourcing, assembling, and
+  testing a functional car, broken into elemental, independently executable steps.
+name: build_a_car
 nodes:
-  assemble_avionics_modules:
+  assemble_body_to_chassis:
     agent: false
-    description: Build and test flight computer, sensors, and radios
-    name: assemble_avionics_modules
+    description: Attach manufactured body panels to the chassis frame.
+    name: assemble_body_to_chassis
     nodes_depended_on:
-    - design_avionics_architecture
-    - design_guidance_navigation_and_control_system
-    - design_telemetry_and_communications_system
-    - design_power_system
+    - manufacture_body_panels
+    - fabricate_chassis_frame
     nodes_dependent_on: []
-    prompt: Integrate flight computer, IMU, GPS, power regulators, and radios into
-      flight-ready boxes. Conduct EMI, thermal, and vibration testing.
-  assemble_core_rocket_blueprint:
+    prompt: Attach body panels to the chassis using bolts, adhesives, or welds as
+      designed. Ensure alignment and sealing. Output fit and finish report.
+  assemble_interior_components:
     agent: false
-    description: Integrate propulsion, structure, and vehicle shape into master design
-    name: assemble_core_rocket_blueprint
+    description: Build and fit cabin elements such as dashboard, seats, and trim.
+    name: assemble_interior_components
     nodes_depended_on:
-    - design_aerodynamic_body_shape
-    - integrate_propellant_tanks
-    - design_main_engine_assembly
-    - design_interstage_adapter
-    - design_stage_separation_system
-    - define_payload_comparment_dimensions
-    - design_thermal_protection_system
+    - source_interior_materials
     nodes_dependent_on: []
-    prompt: Combine all structural and propulsion designs into a single integrated
-      blueprint. Show major subsystems, interfaces, and center of mass estimates.
-  assemble_payload_fairing_or_capsule:
+    prompt: Assemble interior components including dashboard, seats, console, and
+      trim. Ensure ergonomic fit and comfort. Output checklist of completed assemblies.
+  conduct_safety_and_emissions_certification:
     agent: false
-    description: Build and test payload enclosure
-    name: assemble_payload_fairing_or_capsule
+    description: Pass official tests for safety and emissions compliance.
+    name: conduct_safety_and_emissions_certification
     nodes_depended_on:
-    - define_payload_comparment_dimensions
-    - design_thermal_protection_system
+    - perform_dynamic_function_tests
     nodes_dependent_on: []
-    prompt: Fabricate fairing or capsule using appropriate materials. Include separation
-      mechanism and environmental seals. Perform jettison test.
-  assemble_propulsion_subsystem:
+    prompt: Submit vehicle for standardized safety crash testing and emissions certification.
+      Document results and compliance status based on regulatory standards.
+  define_car_purpose_and_specifications:
     agent: false
-    description: Integrate engine, tanks, feed lines, and turbopumps
-    name: assemble_propulsion_subsystem
-    nodes_depended_on:
-    - manufacture_fuel_tank_components
-    - conduct_main_engine_ground_test
-    - design_main_engine_assembly
-    nodes_dependent_on: []
-    prompt: Connect engine, tanks, valves, and plumbing into a functional propulsion
-      module. Perform leak and pressure tests at nominal and burst conditions.
-  assemble_stage_one_structure:
-    agent: false
-    description: Construct first stage airframe and integrate subsystems
-    name: assemble_stage_one_structure
-    nodes_depended_on:
-    - assemble_core_rocket_blueprint
-    - assemble_propulsion_subsystem
-    nodes_dependent_on: []
-    prompt: Build core stage one structure using designed materials. Install tanks,
-      engine, and base electronics. Verify alignment and mass balance.
-  assemble_upper_stage:
-    agent: false
-    description: Construct and equip upper stage (if applicable)
-    name: assemble_upper_stage
-    nodes_depended_on:
-    - design_second_stage_propulsion
-    - design_upper_stage_guidance_interfaces
-    - determine_stage_count
-    nodes_dependent_on: []
-    prompt: Assemble upper stage structure, engine, avionics, and interstage. Perform
-      fit check with lower stage and fairing.
-  calculate_total_delta_v:
-    agent: false
-    description: Compute total velocity change required for mission execution
-    name: calculate_total_delta_v
-    nodes_depended_on:
-    - select_orbit_and_trajectory
-    nodes_dependent_on: []
-    prompt: Using trajectory data, calculate the total delta-v budget required for
-      ascent, orbital insertion, maneuvers, and descent if applicable. Present result
-      in m/s with breakdown by phase.
-  choose_propulsion_type:
-    agent: false
-    description: Select primary propulsion system type
-    name: choose_propulsion_type
-    nodes_depended_on:
-    - calculate_total_delta_v
-    - define_mission_requirements
-    nodes_dependent_on: []
-    prompt: Choose between liquid, solid, hybrid, or electric propulsion based on
-      mission needs. Justify selection with three key factors such as thrust-to-weight,
-      ISP, and reusability.
-  conduct_full_system_integration_test:
-    agent: false
-    description: Test entire rocket as a unified system
-    name: conduct_full_system_integration_test
-    nodes_depended_on:
-    - integrate_all_stages_and_payload
-    nodes_dependent_on: []
-    prompt: Run avionics boot, comms link, GNC simulation, and stage separation dry
-      runs. Power all systems simultaneously and verify no interference.
-  conduct_main_engine_ground_test:
-    agent: false
-    description: Perform actual ignition and burn test of main engine
-    name: conduct_main_engine_ground_test
-    nodes_depended_on:
-    - design_test_stand_for_main_engine
-    - design_main_engine_assembly
-    nodes_dependent_on: []
-    prompt: Execute hot-fire test of main engine at sea level or altitude chamber.
-      Record combustion stability, thrust, ISP, and nozzle erosion.
-  confirm_mission_success:
-    agent: false
-    description: Validate that rocket achieved mission objectives
-    name: confirm_mission_success
-    nodes_depended_on:
-    - execute_rocket_launch
-    nodes_dependent_on: []
-    prompt: Analyze telemetry to confirm proper staging, orbit insertion, payload
-      deployment, and system shutdown. Declare success or failure with root cause
-      if applicable.
-  define_mission_requirements:
-    agent: false
-    description: Specify the primary mission parameters for the rocket ship
-    name: define_mission_requirements
+    description: Establish the intended use, performance targets, and core technical
+      specs of the car.
+    name: define_car_purpose_and_specifications
     nodes_depended_on: []
     nodes_dependent_on: []
-    prompt: Define the mission objectives including payload mass, target orbit or
-      trajectory, launch location, expected duration, and reusability needs. List
-      only quantifiable requirements in bullet form.
-  define_payload_comparment_dimensions:
+    prompt: Define the car's primary purpose (e.g., city commuting, off-road, high
+      performance), and specify target performance metrics including top speed, range
+      (electric) or fuel efficiency (gas), seating capacity, and cargo volume. Output
+      only facts and numbers.
+  deliver_completed_car:
     agent: false
-    description: Determine size and shape of payload enclosure
-    name: define_payload_comparment_dimensions
+    description: Release the final vehicle for use or delivery.
+    name: deliver_completed_car
     nodes_depended_on:
-    - define_mission_requirements
+    - conduct_safety_and_emissions_certification
     nodes_dependent_on: []
-    prompt: Based on payload mass and volume, specify fairing or capsule interior
-      dimensions, deployment mechanism, and environmental protection (thermal, vibration).
-  design_aerodynamic_body_shape:
+    prompt: Finalize documentation, conduct pre-delivery inspection, and deliver the
+      completed car. Confirm all systems are operational and compliant.
+  design_braking_system:
     agent: false
-    description: Define external shape for minimal drag and stability
-    name: design_aerodynamic_body_shape
+    description: Specify brake components and configuration for stopping power.
+    name: design_braking_system
     nodes_depended_on:
-    - define_mission_requirements
+    - define_car_purpose_and_specifications
     nodes_dependent_on: []
-    prompt: Design outer profile (cylindrical body, ogive nose, fins) considering
-      transonic stability, drag, and structural load. List length, diameter, and fin
-      area if applicable.
-  design_avionics_architecture:
+    prompt: Design the braking system including rotor size, caliper type, brake assist,
+      and ABS integration. Specify force distribution between front and rear. Output
+      technical specs only.
+  design_chassis_frame:
     agent: false
-    description: Define core avionics system layout and computing stack
-    name: design_avionics_architecture
+    description: Define the structural skeleton that supports all components.
+    name: design_chassis_frame
     nodes_depended_on:
-    - define_mission_requirements
+    - define_car_purpose_and_specifications
     nodes_dependent_on: []
-    prompt: Specify flight computer type, redundancy level (e.g., triple modular),
-      data buses (MIL-STD-1553, CAN), power distribution, and sensor interfaces.
-  design_combustion_chamber:
+    prompt: Design the chassis frame geometry and material composition to support
+      the intended load, powertrain, and safety standards. Output material thickness,
+      joint types, and structural load points.
+  design_electrical_architecture:
     agent: false
-    description: Design geometry and material of the main combustion chamber
-    name: design_combustion_chamber
+    description: Define wiring harness, voltage systems, and control networks.
+    name: design_electrical_architecture
     nodes_depended_on:
-    - choose_propulsion_type
+    - define_car_purpose_and_specifications
     nodes_dependent_on: []
-    prompt: Specify combustion chamber pressure, volume, throat diameter, and expansion
-      ratio. Select material (e.g., copper alloy, niobium) and cooling method (regenerative,
-      film).
-  design_flight_software_core:
+    prompt: Design the electrical architecture including 12V system, high-voltage
+      system (if applicable), CAN bus layout, fuse box, and major connection points.
+      Output a block diagram and voltage specs.
+  design_exterior_geometry:
     agent: false
-    description: Write fundamental logic for flight computer operation
-    name: design_flight_software_core
+    description: Create the 3D shape and body lines of the car's exterior.
+    name: design_exterior_geometry
     nodes_depended_on:
-    - design_guidance_navigation_and_control_system
+    - define_car_purpose_and_specifications
     nodes_dependent_on: []
-    prompt: 'Outline core software modules: boot sequence, sensor fusion, control
-      actuation, telemetry reporting, and abort logic. List programming language and
-      real-time OS.'
-  design_fuel_composition:
+    prompt: Design the exterior geometry of the car using aerodynamic and aesthetic
+      principles appropriate for its purpose. Output precise dimensions, surface curvature,
+      and materials for body panels. Do not include interior or mechanical design.
+  design_interior_layout:
     agent: false
-    description: Specify chemical composition of propellants
-    name: design_fuel_composition
+    description: Layout the cabin space, seating, dashboard, and user controls.
+    name: design_interior_layout
     nodes_depended_on:
-    - choose_propulsion_type
+    - define_car_purpose_and_specifications
     nodes_dependent_on: []
-    prompt: Define fuel and oxidizer types (e.g., LOX/RP-1, LOX/LH2, solid composite)
-      based on propulsion choice. List physical and combustion properties including
-      specific impulse and density.
-  design_guidance_navigation_and_control_system:
+    prompt: Design the interior layout including seating arrangement, ergonomic placement
+      of controls, dashboard design, and storage. Reference the seating capacity and
+      comfort goals from the car purpose. Output 3D dimensions and material choices.
+  design_steering_mechanism:
     agent: false
-    description: Develop algorithms and hardware for flight stability and trajectory
-      tracking
-    name: design_guidance_navigation_and_control_system
+    description: Define steering assembly for control and responsiveness.
+    name: design_steering_mechanism
     nodes_depended_on:
-    - design_avionics_architecture
-    - design_thrust_vector_control_system
+    - define_car_purpose_and_specifications
     nodes_dependent_on: []
-    prompt: 'Define GNC components: IMU, GPS, star tracker, reaction wheels, or thrusters.
-      Specify control loop update rate, Kalman filter use, and failure modes.'
-  design_interstage_adapter:
+    prompt: Design the steering system (e.g., rack-and-pinion, steer-by-wire), including
+      gear ratio, turning radius, and feedback characteristics. Output mechanical
+      specs and control interface.
+  design_suspension_system:
     agent: false
-    description: Create mechanical and structural interface between stages
-    name: design_interstage_adapter
+    description: Create front and rear suspension geometry and components.
+    name: design_suspension_system
     nodes_depended_on:
-    - determine_stage_count
-    - integrate_propellant_tanks
+    - define_car_purpose_and_specifications
     nodes_dependent_on: []
-    prompt: Design physical connection between stages including load paths, separation
-      mechanisms, and routing for wiring and plumbing.
-  design_main_engine_assembly:
+    prompt: Design the suspension system including type (e.g., MacPherson strut, multi-link),
+      spring rates, damping coefficients, and travel. Match to vehicle weight and
+      intended driving conditions.
+  develop_software_control_modules:
     agent: false
-    description: Assemble specifications for the main propulsion engine
-    name: design_main_engine_assembly
+    description: Write low-level software for powertrain, braking, and driving systems.
+    name: develop_software_control_modules
     nodes_depended_on:
-    - select_main_engine_type
-    - design_nozzle_geometry
-    - design_combustion_chamber
+    - engineer_powertrain_components
+    - design_braking_system
+    - design_steering_mechanism
+    - design_electrical_architecture
     nodes_dependent_on: []
-    prompt: Integrate combustion chamber, nozzle, turbopumps, and injectors into a
-      coherent engine design. List thrust, ISP, mixture ratio, and gimbal range if
-      applicable.
-  design_main_stage_fuel_tank:
+    prompt: Develop software control modules (firmware) for motor/engine control,
+      brake-by-wire, steering assistance, and battery management. Output pseudocode
+      and interface specifications.
+  engineer_powertrain_components:
     agent: false
-    description: Construct detailed design for fuel storage tank
-    name: design_main_stage_fuel_tank
+    description: Specify technical details of engine, motor, battery, transmission,
+      or drivetrain.
+    name: engineer_powertrain_components
     nodes_depended_on:
-    - size_main_fuel_tanks
-    - select_structural_materials
+    - select_powertrain_type
     nodes_dependent_on: []
-    prompt: Specify internal and external configuration of fuel tank, including baffles,
-      feed lines, insulation, and anti-slosh features. Match material and integration
-      with oxidizer tank.
-  design_main_stage_oxidizer_tank:
+    prompt: Define exact components required for the selected powertrain (e.g., electric
+      motor specs, battery capacity and chemistry, internal combustion engine displacement).
+      Output technical parameters and interface requirements.
+  fabricate_chassis_frame:
     agent: false
-    description: Construct detailed design for oxidizer storage tank
-    name: design_main_stage_oxidizer_tank
+    description: Construct the car's main structural frame.
+    name: fabricate_chassis_frame
     nodes_depended_on:
-    - size_main_fuel_tanks
-    - select_structural_materials
+    - source_chassis_materials
     nodes_dependent_on: []
-    prompt: Specify internal and external configuration of oxidizer tank, including
-      bulkheads, feed lines, pressure regulation, and insulation. Use selected structural
-      material.
-  design_nozzle_geometry:
+    prompt: Fabricate the chassis frame using welding, bolting, or bonding as specified.
+      Conduct dimensional and stress verification. Output structural integrity report.
+  install_braking_system:
     agent: false
-    description: Design the shape and structure of the rocket nozzle
-    name: design_nozzle_geometry
+    description: Mount brake calipers, rotors, lines, and ABS hardware.
+    name: install_braking_system
     nodes_depended_on:
-    - design_combustion_chamber
+    - source_braking_components
+    - fabricate_chassis_frame
     nodes_dependent_on: []
-    prompt: Design nozzle contour (e.g., bell, aerospike), exit diameter, expansion
-      ratio, and material. Account for ambient pressure at launch and altitude compensation
-      if needed.
-  design_power_system:
+    prompt: Install all braking system parts including calipers, rotors, and hydraulic
+      lines. Bleed system and verify ABS function. Output test results.
+  install_electrical_system:
     agent: false
-    description: Design electrical power generation and distribution
-    name: design_power_system
+    description: Mount wiring harness, ECUs, and power distribution units.
+    name: install_electrical_system
     nodes_depended_on:
-    - define_mission_requirements
+    - source_electrical_components
+    - fabricate_chassis_frame
     nodes_dependent_on: []
-    prompt: Specify power source (batteries, fuel cells, solar for upper stage), voltage
-      rails, distribution wiring, and fault tolerance. Include total capacity in watt-hours.
-  design_quality_control_protocol:
+    prompt: Install the full electrical system including wiring, ECUs, fuse boxes,
+      and connectors. Perform continuity and insulation checks. Output diagnostic
+      log.
+  install_interior_assembly:
     agent: false
-    description: Define inspection and testing procedures for all components
-    name: design_quality_control_protocol
-    nodes_depended_on: []
-    nodes_dependent_on: []
-    prompt: 'List required quality checks: NDT for welds, pressure testing, dimensional
-      accuracy, and material certification. Assign pass/fail criteria for each.'
-  design_second_stage_propulsion:
-    agent: false
-    description: Design propulsion system for second stage (if applicable)
-    name: design_second_stage_propulsion
+    description: Mount complete interior into the body structure.
+    name: install_interior_assembly
     nodes_depended_on:
-    - determine_stage_count
-    - choose_propulsion_type
+    - assemble_interior_components
+    - assemble_body_to_chassis
     nodes_dependent_on: []
-    prompt: If more than one stage is needed, design second stage engine and tank
-      system. Optimize for vacuum performance and restart capability.
-  design_stage_separation_system:
+    prompt: Install the assembled interior (seats, dash, console, trim) into the body.
+      Secure and connect controls, HVAC, and electronics. Output checklist.
+  install_powertrain:
     agent: false
-    description: Define mechanism for staging (if multi-stage rocket)
-    name: design_stage_separation_system
+    description: Mount engine, motor, battery, or transmission onto chassis.
+    name: install_powertrain
     nodes_depended_on:
-    - define_mission_requirements
+    - source_powertrain_components
+    - fabricate_chassis_frame
     nodes_dependent_on: []
-    prompt: Specify separation method (explosive bolts, pneumatic pushers, staging
-      rings) and timing sequence. Include load tolerance and reliability targets.
-  design_telemetry_and_communications_system:
+    prompt: Install the powertrain components onto the chassis with proper alignment
+      and mounting. Secure all connections. Output installation log and torque verification.
+  install_steering_system:
     agent: false
-    description: Define radio systems for tracking and data downlink
-    name: design_telemetry_and_communications_system
+    description: Mount steering column, rack, and related actuators.
+    name: install_steering_system
     nodes_depended_on:
-    - define_mission_requirements
-    - design_power_system
+    - source_steering_components
+    - fabricate_chassis_frame
     nodes_dependent_on: []
-    prompt: Specify frequency bands (S-band, X-band), antenna types, data rates, ground
-      station compatibility, and encryption if applicable.
-  design_test_stand_for_main_engine:
+    prompt: Install steering system components and connect to front wheels. Verify
+      turning radius and feedback response. Output calibration data.
+  install_suspension_system:
     agent: false
-    description: Design facility to test main engine under controlled conditions
-    name: design_test_stand_for_main_engine
+    description: Mount front and rear suspension assemblies.
+    name: install_suspension_system
     nodes_depended_on:
-    - design_main_engine_assembly
+    - source_suspension_components
+    - fabricate_chassis_frame
     nodes_dependent_on: []
-    prompt: 'Specify test stand requirements: thrust anchoring, propellant feed, flame
-      deflector, data acquisition, and safety distance. Include automation for ignition
-      and shutdown.'
-  design_thermal_protection_system:
+    prompt: Install suspension components at designated mounting points on the chassis.
+      Align geometry and verify range of motion. Output setup report.
+  install_wheels_and_tires:
     agent: false
-    description: Design heat shielding for atmospheric reentry or engine zones
-    name: design_thermal_protection_system
+    description: Mount wheels and tires to the suspension hubs.
+    name: install_wheels_and_tires
     nodes_depended_on:
-    - define_mission_requirements
+    - install_suspension_system
     nodes_dependent_on: []
-    prompt: Specify materials and layout for thermal protection (e.g., ablative tiles,
-      TUFROC, radiative coatings) on nose cone, base, and reentry surfaces.
-  design_thrust_vector_control_system:
+    prompt: Mount appropriate wheels and tires to suspension hubs. Torque lug nuts
+      to spec and balance wheels. Output tire pressure and alignment record.
+  integrate_software_control_modules:
     agent: false
-    description: Create mechanism for steering via engine or aerodynamic control
-    name: design_thrust_vector_control_system
+    description: Load and configure firmware on vehicle control units.
+    name: integrate_software_control_modules
     nodes_depended_on:
-    - design_main_engine_assembly
+    - develop_software_control_modules
+    - install_electrical_system
     nodes_dependent_on: []
-    prompt: Specify method of thrust vector control (gimbaled engine, vernier thrusters,
-      jet vanes). Define actuation force, response time, and redundancy level.
-  design_upper_stage_guidance_interfaces:
+    prompt: Flash control software onto ECUs for powertrain, braking, steering, and
+      battery. Perform handshake and initialization tests. Output integration verification.
+  manufacture_body_panels:
     agent: false
-    description: Prepare interfaces for avionics and control in upper stage
-    name: design_upper_stage_guidance_interfaces
+    description: Stamp, mold, or fabricate exterior body parts.
+    name: manufacture_body_panels
     nodes_depended_on:
-    - design_second_stage_propulsion
+    - source_materials_for_body_production
     nodes_dependent_on: []
-    prompt: Define how avionics, power, and telemetry will connect to the upper stage.
-      List required connectors, data rates, and environmental specs.
-  determine_stage_count:
+    prompt: Manufacture body panels using stamping, molding, or CNC fabrication as
+      appropriate. Follow the exterior geometry design. Output quality verification
+      data for each panel.
+  perform_dynamic_function_tests:
     agent: false
-    description: Decide number of rocket stages based on mission and delta-v
-    name: determine_stage_count
+    description: Test vehicle movement, braking, steering, and power delivery.
+    name: perform_dynamic_function_tests
     nodes_depended_on:
-    - calculate_total_delta_v
-    - define_mission_requirements
+    - perform_system_integration_tests
     nodes_dependent_on: []
-    prompt: Determine optimal number of stages (1, 2, or 3) based on payload, delta-v,
-      and structural efficiency. Provide justification with mass ratio estimates.
-  erect_rocket_on_launch_pad:
+    prompt: 'Conduct dynamic function tests: engine/motor start, gear shifts, acceleration,
+      braking response, and steering control in a safe test environment. Record performance
+      data.'
+  perform_system_integration_tests:
     agent: false
-    description: Raise rocket to vertical position on launch mount
-    name: erect_rocket_on_launch_pad
+    description: Verify mechanical and electrical systems work together.
+    name: perform_system_integration_tests
     nodes_depended_on:
-    - transport_to_launch_site
+    - install_powertrain
+    - install_braking_system
+    - install_steering_system
+    - install_electrical_system
+    - integrate_software_control_modules
+    - install_wheels_and_tires
     nodes_dependent_on: []
-    prompt: Use crane or erector system to lift rocket onto launch pad. Align with
-      flame trench, umbilicals, and hold-down clamps.
-  execute_rocket_launch:
+    prompt: 'Run system integration tests: power on vehicle, initialize all ECUs,
+      verify CAN communication, test lights, horn, HVAC, and display functions. Log
+      any faults.'
+  select_powertrain_type:
     agent: false
-    description: Initiate countdown and liftoff sequence
-    name: execute_rocket_launch
+    description: Choose between internal combustion engine, electric, hybrid, or hydrogen
+      powertrain.
+    name: select_powertrain_type
     nodes_depended_on:
-    - perform_final_launch_prechecks
+    - define_car_purpose_and_specifications
     nodes_dependent_on: []
-    prompt: Trigger automated countdown, ignite main engine, release hold-downs, and
-      achieve liftoff. Monitor trajectory and stage separation in real time.
-  generate_cfd_analysis_for_aerodynamics:
+    prompt: Based on the car's purpose and specs, select the most appropriate powertrain
+      type (e.g., battery electric, turbocharged gasoline). Justify in one sentence.
+  source_braking_components:
     agent: false
-    description: Simulate airflow and pressure across rocket body
-    name: generate_cfd_analysis_for_aerodynamics
+    description: Obtain brake calipers, rotors, lines, and ABS units.
+    name: source_braking_components
     nodes_depended_on:
-    - design_aerodynamic_body_shape
+    - design_braking_system
     nodes_dependent_on: []
-    prompt: Run computational fluid dynamics simulation across Mach 0 to 10. Report
-      drag coefficient, pressure distribution, and boundary layer behavior.
-  integrate_all_stages_and_payload:
+    prompt: Procure braking system components including calipers, rotors, brake lines,
+      and ABS module. Verify compatibility with the designed specifications.
+  source_chassis_materials:
     agent: false
-    description: Stack all stages and attach payload fairing
-    name: integrate_all_stages_and_payload
+    description: Procure metals or composites for chassis construction.
+    name: source_chassis_materials
     nodes_depended_on:
-    - assemble_stage_one_structure
-    - assemble_upper_stage
-    - assemble_payload_fairing_or_capsule
-    - integrate_vehicle_avionics
+    - design_chassis_frame
     nodes_dependent_on: []
-    prompt: Vertically stack stages, connect plumbing and wiring, and mount fairing
-      with simulated payload. Conduct end-to-end systems check.
-  integrate_propellant_tanks:
+    prompt: Procure high-strength steel, aluminum, or composite materials required
+      for the chassis frame. Specify dimensions, thickness, and welding/joining method
+      requirements.
+  source_electrical_components:
     agent: false
-    description: Design intertank structure and common bulkhead (if applicable)
-    name: integrate_propellant_tanks
+    description: Procure wiring, connectors, ECUs, and battery systems.
+    name: source_electrical_components
     nodes_depended_on:
-    - design_main_stage_oxidizer_tank
-    - design_main_stage_fuel_tank
+    - design_electrical_architecture
     nodes_dependent_on: []
-    prompt: Design intertank segment or common bulkhead between fuel and oxidizer
-      tanks. Include load transfer, access points, and integration with avionics tunnels.
-  integrate_vehicle_avionics:
+    prompt: Source electrical components such as wiring harnesses, ECUs, fuses, sensors,
+      and high-voltage connectors. Match to voltage and signal requirements from the
+      electrical design.
+  source_interior_materials:
     agent: false
-    description: Mount and connect avionics throughout the rocket body
-    name: integrate_vehicle_avionics
+    description: Procure materials for seats, dash, upholstery, and trim.
+    name: source_interior_materials
     nodes_depended_on:
-    - assemble_avionics_modules
-    - assemble_core_rocket_blueprint
+    - design_interior_layout
     nodes_dependent_on: []
-    prompt: Install avionics bays, wire harnesses, and antennas at designated points.
-      Confirm signal integrity and grounding across all channels.
-  manufacture_fuel_tank_components:
+    prompt: Identify and source appropriate materials (e.g., leather, synthetic fabric,
+      plastic grades) for interior components based on the design. List quantities
+      and supplier specs.
+  source_materials_for_body_production:
     agent: false
-    description: Fabricate parts for fuel and oxidizer tanks
-    name: manufacture_fuel_tank_components
+    description: Identify and procure materials for exterior body panels.
+    name: source_materials_for_body_production
     nodes_depended_on:
-    - design_main_stage_fuel_tank
-    - design_main_stage_oxidizer_tank
-    - design_quality_control_protocol
+    - design_exterior_geometry
     nodes_dependent_on: []
-    prompt: Produce tank domes, cylinders, and rings using selected material. Follow
-      approved processes for welding, forming, and inspection.
-  perform_final_launch_prechecks:
+    prompt: List required materials (e.g., aluminum alloy, carbon fiber) for manufacturing
+      the body panels. Specify grade, thickness, and quantity based on the exterior
+      geometry design.
+  source_powertrain_components:
     agent: false
-    description: Execute pre-launch checklist and fueling procedures
-    name: perform_final_launch_prechecks
+    description: Procure engine, motor, battery, transmission, or related parts.
+    name: source_powertrain_components
     nodes_depended_on:
-    - erect_rocket_on_launch_pad
+    - engineer_powertrain_components
     nodes_dependent_on: []
-    prompt: 'Verify all systems: avionics health, tank pressures, weather, range safety.
-      Initiate fueling sequence and confirm stable loading.'
-  run_finite_element_analysis_on_structure:
+    prompt: Identify suppliers and procure the necessary powertrain components (e.g.,
+      electric motor, battery cells, gearbox). Output list of parts, quantities, and
+      delivery timelines.
+  source_steering_components:
     agent: false
-    description: Stress-test structural integrity under expected loads
-    name: run_finite_element_analysis_on_structure
+    description: Obtain steering column, rack, actuators, and sensors.
+    name: source_steering_components
     nodes_depended_on:
-    - select_structural_materials
+    - design_steering_mechanism
     nodes_dependent_on: []
-    prompt: Apply launch acceleration, vibration, and pressure loads in FEA model.
-      Identify stress concentrations and confirm safety margins >1.4.
-  select_main_engine_type:
+    prompt: Source mechanical and electronic components for the steering system, including
+      rack, motor (if electric), sensors, and column. Match to design specs.
+  source_suspension_components:
     agent: false
-    description: Choose engine cycle and configuration (e.g., gas generator, staged
-      combustion)
-    name: select_main_engine_type
+    description: Procure shocks, springs, control arms, and related hardware.
+    name: source_suspension_components
     nodes_depended_on:
-    - design_combustion_chamber
-    - choose_propulsion_type
+    - design_suspension_system
     nodes_dependent_on: []
-    prompt: Select engine cycle type based on performance and complexity trade-offs.
-      List key components and operating pressures for fuel and oxidizer pumps.
-  select_orbit_and_trajectory:
-    agent: false
-    description: Determine orbital path or flight trajectory based on mission goals
-    name: select_orbit_and_trajectory
-    nodes_depended_on:
-    - define_mission_requirements
-    nodes_dependent_on: []
-    prompt: Based on the mission requirements, specify the target orbit (e.g., LEO,
-      GTO, escape) or trajectory (e.g., suborbital, interplanetary) and list necessary
-      velocity, inclination, and insertion parameters.
-  select_structural_materials:
-    agent: false
-    description: Choose frame and skin materials for the rocket body
-    name: select_structural_materials
-    nodes_depended_on:
-    - design_aerodynamic_body_shape
-    nodes_dependent_on: []
-    prompt: Select primary materials (e.g., aluminum-lithium, carbon fiber, titanium)
-      for fuselage, tanks, and supports. Justify based on strength-to-weight, thermal,
-      and cost factors.
-  size_main_fuel_tanks:
-    agent: false
-    description: Calculate volume and dimensions of primary propellant tanks
-    name: size_main_fuel_tanks
-    nodes_depended_on:
-    - design_fuel_composition
-    - calculate_total_delta_v
-    nodes_dependent_on: []
-    prompt: Using propellant mass requirements and density, compute tank volumes,
-      wall thickness, and approximate cylindrical dimensions. Include margin for ullage
-      and slosh.
-  transport_to_launch_site:
-    agent: false
-    description: Move rocket to launch complex safely
-    name: transport_to_launch_site
-    nodes_depended_on:
-    - conduct_full_system_integration_test
-    nodes_dependent_on: []
-    prompt: Plan transport route, select vehicle (crawler, ship, truck), and secure
-      rocket for transit. Include environmental and vibration controls.
+    prompt: Source suspension components such as shocks, springs, ball joints, and
+      control arms that meet the design specs. List part numbers, tolerances, and
+      vendor details.
