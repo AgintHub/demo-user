@@ -1,6 +1,6 @@
 dag_type: plain_text
-description: A highly concurrent, parallel workflow to design, procure, assemble,
-  and validate a functional car through elemental decomposition of tasks.
+description: A directed acyclic workflow to design, manufacture, assemble, and test
+  a functional car from initial specifications to final delivery.
 name: build_car
 nodes:
   assemble_electrical_system:
