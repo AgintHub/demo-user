@@ -1,6 +1,6 @@
 dag_type: plain_text
-description: A complete workflow to design, assemble, and validate a functional car
-  from concept to delivery.
+description: A workflow to design, assemble, and validate a functional car from initial
+  purpose definition through final delivery.
 name: build_a_car
 nodes:
   assemble_body_panels:
