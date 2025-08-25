@@ -1,7 +1,6 @@
 dag_type: plain_text
-description: A highly concurrent, atomic workflow to build a car by decomposing the
-  process into elemental, self-contained tasks that can be executed independently
-  and in parallel where possible.
+description: A structured workflow to design, prototype, and validate a complete car
+  for production readiness.
 name: build_a_car
 nodes:
   assemble_virtual_prototype:
