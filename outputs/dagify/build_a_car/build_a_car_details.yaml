@@ -1,458 +1,411 @@
 dag_type: plain_text
-description: A step-by-step workflow to design, assemble, and validate a functional
-  car from initial purpose definition to final delivery.
+description: A highly concurrent, step-by-step workflow to design, manufacture, assemble,
+  and test a functional car, decomposed into elemental tasks with clear dependencies
+  and maximal parallelism.
 name: build_a_car
 nodes:
-  assemble_body_panels:
+  assemble_body_with_chassis:
     agent: false
-    description: Fabricate and attach exterior panels (doors, hood, fenders).
-    name: assemble_body_panels
+    description: Join exterior body panels to the chassis to form the car shell.
+    name: assemble_body_with_chassis
     nodes_depended_on:
-    - design_exterior_styling
-    - manufacture_chassis
+    - manufacture_exterior_body_panels
+    - install_powertrain_into_chassis
     nodes_dependent_on: []
-    prompt: Produce body panels from specified materials and attach to the chassis.
-      Confirm fit gap and finish quality. Output completion status.
+    prompt: 'Attach body panels to the chassis using fasteners or adhesives. Output:
+      completed body-in-white with gap/flushness inspection results.'
+  assemble_electrical_system_harness:
+    agent: false
+    description: Build the wiring harness and integrate ECUs, sensors, and connectors.
+    name: assemble_electrical_system_harness
+    nodes_depended_on:
+    - develop_electrical_architecture
+    - design_interior_layout
+    nodes_dependent_on: []
+    prompt: 'Assemble the full electrical wiring harness. Output: wiring bundle with
+      labeled connectors and continuity test results.'
   assemble_powertrain:
     agent: false
-    description: Build and integrate engine or electric motor and transmission.
+    description: Build and test the engine, motor, transmission, and driveline as
+      a unit.
     name: assemble_powertrain
     nodes_depended_on:
-    - specify_engine_requirements
-    - select_transmission_type
-    - source_engine_manufacturer
-    - design_battery_system
+    - develop_powertrain_architecture
+    - simulate_powertrain_efficiency
     nodes_dependent_on: []
-    prompt: Assemble the engine or motor with transmission and drivetrain components.
-      Confirm mechanical coupling and alignment. Output only completion status.
-  calculate_weight_distribution:
+    prompt: 'Assemble the complete powertrain and perform bench testing. Output: test
+      results including torque curve, efficiency, and cooling validation.'
+  conduct_functional_system_tests:
     agent: false
-    description: Determine mass balance across the vehicle.
-    name: calculate_weight_distribution
+    description: Test all subsystems including lights, HVAC, infotainment, and driver
+      aids.
+    name: conduct_functional_system_tests
     nodes_depended_on:
-    - generate_3d_vehicle_model
-    - specify_engine_requirements
-    - design_battery_system
-    nodes_dependent_on: []
-    prompt: Calculate total vehicle weight and front/rear weight distribution. Report
-      values in kg and percentage. Identify if optimization is needed for handling.
-  conduct_full_system_diagnostic:
-    agent: false
-    description: Run comprehensive diagnostic scan on all vehicle systems.
-    name: conduct_full_system_diagnostic
-    nodes_depended_on:
-    - run_engine_or_motor_test
-    - test_braking_functionality
-    - test_suspension_and_steering
+    - perform_initial_power_on
     - install_interior_components
-    - install_electrical_system
     nodes_dependent_on: []
-    prompt: Initiate full diagnostic scan via OBD-II or equivalent. List all active
-      error codes and system statuses. Report only factual results, no interpretation.
-  create_electrical_architecture:
-    agent: false
-    description: Design the car's core electrical system layout.
-    name: create_electrical_architecture
-    nodes_depended_on:
-    - select_powertrain_type
-    nodes_dependent_on: []
-    prompt: Define the electrical architecture including main voltage bus (e.g., 12V,
-      48V, 400V), fuse box locations, ECU layout, and communication protocols (e.g.,
-      CAN bus). Output a bullet list of 6 key components.
+    prompt: 'Run functional tests on all electrical and mechanical systems. Output:
+      pass/fail matrix for each system with notes.'
   define_vehicle_purpose:
     agent: false
-    description: Establish the primary use case and operational environment for the
-      vehicle.
+    description: Specify the intended use and category of the car (e.g., sedan, SUV,
+      electric commuter).
     name: define_vehicle_purpose
     nodes_depended_on: []
     nodes_dependent_on: []
-    prompt: List the primary purpose and target environment for the car (e.g., urban
-      commuting, highway long-range, off-road terrain). Provide 3–5 key usage requirements
-      such as passenger count, cargo capacity, and driving conditions.
-  deliver_functional_car:
+    prompt: Define the primary purpose of the car (e.g., urban commuting, off-road,
+      high performance). List only the vehicle type, target environment, and key operational
+      goals in bullet form.
+  deliver_final_car:
     agent: false
-    description: Hand over the completed, validated car.
-    name: deliver_functional_car
+    description: Release the completed and verified car for use or delivery.
+    name: deliver_final_car
     nodes_depended_on:
-    - perform_on_road_dynamometer_test
-    - submit_final_car_documentation
-    - simulate_crash_safety
-    - install_interior_components
+    - generate_final_vehicle_dossier
     nodes_dependent_on: []
-    prompt: Confirm all systems are operational, safety checks passed, and documentation
-      complete. Deliver the car for final acceptance. Output only delivery confirmation.
-  design_battery_system:
-    agent: false
-    description: Create specifications for the battery pack in electric or hybrid
-      vehicles.
-    name: design_battery_system
-    nodes_depended_on:
-    - select_powertrain_type
-    nodes_dependent_on: []
-    prompt: Specify battery system requirements including capacity (kWh), voltage,
-      cooling method, and expected charge cycles for electric or hybrid vehicles.
-      Provide only technical values and design choices.
+    prompt: 'Prepare the vehicle for delivery: final cleaning, documentation, and
+      certification. Output: delivery confirmation and vehicle handover report.'
   design_braking_system:
     agent: false
-    description: Define the braking components and configuration.
+    description: Specify brake types, calipers, rotors, and brake assist systems.
     name: design_braking_system
     nodes_depended_on:
-    - determine_vehicle_segment
+    - set_performance_specifications
+    - engineer_chassis_frame
     nodes_dependent_on: []
-    prompt: 'List braking system components: disc/drum type, ABS inclusion, brake
-      diameter, and assist mechanism (e.g., vacuum, electric). Include specification
-      values where applicable.'
-  design_chassis_frame:
+    prompt: Design the braking system with appropriate components for vehicle weight
+      and performance. Include disc size, caliper type, ABS integration, and thermal
+      capacity. List all components and ratings.
+  design_cooling_thermal_system:
     agent: false
-    description: Develop the structural frame layout of the car.
-    name: design_chassis_frame
+    description: Plan cooling for engine, battery, or power electronics.
+    name: design_cooling_thermal_system
     nodes_depended_on:
-    - determine_vehicle_segment
-    nodes_dependent_on: []
-    prompt: Define the chassis frame design including material (e.g., steel, aluminum),
-      structural type (e.g., unibody, ladder frame), and key load-bearing zones. Output
-      only technical description.
-  design_cooling_system:
-    agent: false
-    description: Create the engine or battery cooling system design.
-    name: design_cooling_system
-    nodes_depended_on:
-    - specify_engine_requirements
-    - design_battery_system
-    nodes_dependent_on: []
-    prompt: 'Specify cooling system components: radiator type, coolant flow path,
-      fans, and heat exchangers. Include material choices and capacity values. Exclude
-      layout assembly instructions.'
-  design_drivetrain_layout:
-    agent: false
-    description: Specify power delivery configuration (FWD, RWD, AWD).
-    name: design_drivetrain_layout
-    nodes_depended_on:
-    - define_vehicle_purpose
     - select_powertrain_type
+    - develop_powertrain_architecture
     nodes_dependent_on: []
-    prompt: Define drivetrain layout (e.g., front-wheel drive, all-wheel drive) and
-      component arrangement (e.g., gearbox location, differentials). Include 4 mechanical
-      components.
+    prompt: 'Design the cooling system including radiators, coolant paths, fans, and
+      thermal management controls. Output: component list and heat dissipation targets.'
   design_exterior_styling:
     agent: false
-    description: Create the visual outer appearance of the car.
+    description: Create the visual design and aerodynamic profile of the car's exterior.
     name: design_exterior_styling
     nodes_depended_on:
-    - determine_vehicle_segment
+    - define_vehicle_purpose
     nodes_dependent_on: []
-    prompt: Generate a description of the car's exterior styling, including silhouette,
-      headlight design, grille (or absence), and aerodynamic features. Focus on form,
-      aesthetics, and brand alignment. No engineering details.
+    prompt: 'Design the exterior styling of the car focusing on form, brand identity,
+      and aerodynamics. Output: a written description of shape, proportions, lighting,
+      and materials.'
   design_interior_layout:
     agent: false
-    description: Define the arrangement and design of the cabin space.
+    description: Plan the cabin space, seating, dashboard, and human-machine interface.
     name: design_interior_layout
     nodes_depended_on:
-    - determine_vehicle_segment
     - define_vehicle_purpose
+    - set_performance_specifications
     nodes_dependent_on: []
-    prompt: Describe the interior layout including seating configuration, dashboard
-      design, center console, and driver visibility. Include material choices for
-      seats and trim based on target usage.
+    prompt: 'Design the interior layout including seating arrangement, dashboard layout,
+      infotainment system placement, and ergonomics. Output: a labeled sketch description
+      or room-by-room breakdown.'
+  design_steering_system:
+    agent: false
+    description: Define the steering mechanism (e.g., rack-and-pinion, electric power
+      assist).
+    name: design_steering_system
+    nodes_depended_on:
+    - engineer_chassis_frame
+    - set_performance_specifications
+    nodes_dependent_on: []
+    prompt: 'Design the steering system to meet responsiveness and safety needs. Output:
+      type, assist mechanism (if any), and turning radius specification.'
   design_suspension_system:
     agent: false
-    description: Engineer front and rear suspension systems.
+    description: Create front and rear suspension systems for ride comfort and handling.
     name: design_suspension_system
     nodes_depended_on:
-    - define_vehicle_purpose
-    - determine_vehicle_segment
+    - engineer_chassis_frame
+    - set_performance_specifications
     nodes_dependent_on: []
-    prompt: Specify suspension types (e.g., MacPherson strut, double wishbone) and
-      tuning parameters (e.g., spring rate, damping) for front and rear axles based
-      on the vehicle's intended use. Include 4 technical components.
-  determine_vehicle_segment:
+    prompt: 'Design the suspension system including type (e.g., MacPherson strut,
+      multi-link), damping characteristics, and travel. Output: component list and
+      tuning goals.'
+  develop_electrical_architecture:
     agent: false
-    description: Classify the car into a size or class category based on usage requirements.
-    name: determine_vehicle_segment
-    nodes_depended_on:
-    - define_vehicle_purpose
-    nodes_dependent_on: []
-    prompt: Select a vehicle segment (e.g., compact sedan, mid-size SUV) based on
-      usage requirements. List 3 key physical or capacity traits that define this
-      segment.
-  estimate_range_or_fuel_efficiency:
-    agent: false
-    description: Predict range (electric) or fuel economy (ICE).
-    name: estimate_range_or_fuel_efficiency
+    description: Design the vehicle's electrical system including wiring, ECU, and
+      sensors.
+    name: develop_electrical_architecture
     nodes_depended_on:
     - select_powertrain_type
-    - model_aerodynamics
-    - calculate_weight_distribution
+    - design_interior_layout
     nodes_dependent_on: []
-    prompt: Estimate city/highway range or fuel efficiency (MPG or kWh/100km) using
-      aerodynamic, weight, and powertrain data. Provide one number per mode.
-  generate_3d_vehicle_model:
+    prompt: 'Develop a high-level electrical architecture: main voltage (12V, 48V,
+      HV), network topology (CAN, LIN), ECU locations, power distribution. Output:
+      system diagram description.'
+  develop_powertrain_architecture:
     agent: false
-    description: Create a complete 3D CAD model of the car.
-    name: generate_3d_vehicle_model
+    description: Define the configuration and integration of engine, transmission,
+      battery, or motor.
+    name: develop_powertrain_architecture
+    nodes_depended_on:
+    - select_powertrain_type
+    nodes_dependent_on: []
+    prompt: 'Specify the architecture of the powertrain: component layout, drivetrain
+      (FWD/RWD/AWD), transmission type, cooling systems, and energy storage placement.
+      Output: a system diagram description.'
+  engineer_chassis_frame:
+    agent: false
+    description: Design the structural frame or unibody structure to support mechanical
+      and safety systems.
+    name: engineer_chassis_frame
+    nodes_depended_on:
+    - define_vehicle_purpose
+    - set_performance_specifications
+    nodes_dependent_on: []
+    prompt: 'Engineer the chassis or frame structure based on performance and safety
+      requirements. Output: material choice, stiffness targets, and structural layout
+      in technical terms.'
+  finalize_exterior_design:
+    agent: false
+    description: Lock in final exterior dimensions, materials, and surface details.
+    name: finalize_exterior_design
     nodes_depended_on:
     - design_exterior_styling
+    - run_aerodynamic_simulations
+    nodes_dependent_on: []
+    prompt: 'Based on aerodynamic results, finalize the exterior design. Output: complete
+      CAD-ready dimensions, surface finish, and color/material specifications.'
+  finalize_interior_design:
+    agent: false
+    description: Lock in final cabin ergonomics, materials, and UI/UX layout.
+    name: finalize_interior_design
+    nodes_depended_on:
     - design_interior_layout
-    - design_chassis_frame
-    - specify_engine_requirements
-    - design_battery_system
-    - design_suspension_system
-    - design_braking_system
-    - create_electrical_architecture
-    - select_transmission_type
-    - design_drivetrain_layout
-    - design_cooling_system
     nodes_dependent_on: []
-    prompt: Integrate all system designs into a single 3D CAD model of the vehicle.
-      Ensure all components are dimensionally accurate and non-interfering. Output
-      only a confirmation of integration completeness.
-  install_braking_system:
+    prompt: 'Finalize the interior design based on usability and safety. Output: trim
+      materials, seat dimensions, screen sizes, and control placements.'
+  generate_final_vehicle_dossier:
     agent: false
-    description: Mount brake calipers, rotors, and hydraulic lines.
-    name: install_braking_system
+    description: Compile all design, test, and manufacturing data into a complete
+      vehicle record.
+    name: generate_final_vehicle_dossier
     nodes_depended_on:
-    - design_braking_system
-    - manufacture_chassis
+    - finalize_exterior_design
+    - finalize_interior_design
+    - perform_safety_and_regulatory_checklist
+    - perform_dynamic_road_testing
+    - conduct_functional_system_tests
     nodes_dependent_on: []
-    prompt: Install all braking components. Confirm fluid integrity, pad clearance,
-      and ABS sensor function. Output only verification status.
-  install_drivetrain:
+    prompt: 'Generate a final vehicle dossier including specifications, test results,
+      compliance status, and as-built configuration. Output: single organized document
+      or structured data file.'
+  install_electrical_harness_and_ecus:
     agent: false
-    description: Fit drive shafts, differentials, and final drive components.
-    name: install_drivetrain
+    description: Mount the wiring harness and connect all electronic control units.
+    name: install_electrical_harness_and_ecus
     nodes_depended_on:
-    - design_drivetrain_layout
-    - manufacture_chassis
+    - assemble_electrical_system_harness
+    - integrate_chassis_and_suspension
     nodes_dependent_on: []
-    prompt: Install drivetrain components including axles, differentials, and couplings.
-      Test rotational freedom and alignment. Output completion status.
-  install_electrical_system:
-    agent: false
-    description: Wire and connect all electrical subsystems.
-    name: install_electrical_system
-    nodes_depended_on:
-    - create_electrical_architecture
-    - source_electronics_components
-    - assemble_powertrain
-    nodes_dependent_on: []
-    prompt: Install main wiring harness, connect ECUs, battery pack, sensors, and
-      all electrical loads. Test continuity and short circuits. Output only validation
-      result.
+    prompt: 'Install the wiring harness and connect ECUs for engine, brakes, infotainment,
+      etc. Output: connectivity test report and power distribution verification.'
   install_interior_components:
     agent: false
-    description: Install seats, dashboard, infotainment, and trim.
+    description: Mount seats, dashboard, infotainment, and trim pieces inside the
+      cabin.
     name: install_interior_components
     nodes_depended_on:
-    - design_interior_layout
-    - source_electronics_components
+    - manufacture_interior_components
+    - assemble_body_with_chassis
     nodes_dependent_on: []
-    prompt: Install all interior components including seats, console, HVAC, and displays.
-      Confirm ergonomic alignment and power to electronics. Report only pass/fail.
-  install_suspension_system:
+    prompt: 'Install all interior parts including seats, HVAC, and lighting. Output:
+      checklist of installed components and fit verification.'
+  install_powertrain_into_chassis:
     agent: false
-    description: Mount front and rear suspension components.
-    name: install_suspension_system
+    description: Mount the assembled powertrain into the chassis.
+    name: install_powertrain_into_chassis
     nodes_depended_on:
-    - design_suspension_system
-    - manufacture_chassis
+    - assemble_powertrain
+    - integrate_chassis_and_suspension
     nodes_dependent_on: []
-    prompt: Install suspension components on the manufactured chassis. Verify correct
-      torque, alignment, and articulation. Report completion with no defects.
+    prompt: 'Install the powertrain into the chassis and connect driveline, coolant,
+      and electrical interfaces. Output: installation log and leak/alignment verification.'
   install_wheels_and_tires:
     agent: false
-    description: Mount wheels and tires onto axles.
+    description: Mount wheels, tires, and perform initial rotation balance.
     name: install_wheels_and_tires
     nodes_depended_on:
-    - source_tires
-    - install_suspension_system
+    - integrate_chassis_and_suspension
     nodes_dependent_on: []
-    prompt: Install specified wheels and tires with correct torque and balance. Confirm
-      clearance with body and suspension. Output only verification status.
-  integrate_cooling_system:
+    prompt: 'Install wheels and tires on all axles. Output: torque verification and
+      preliminary balance check.'
+  install_windows_and_seals:
     agent: false
-    description: Install radiator, coolant lines, and associated components.
-    name: integrate_cooling_system
+    description: Fit glass, seals, and weather stripping to ensure cabin integrity.
+    name: install_windows_and_seals
     nodes_depended_on:
-    - design_cooling_system
-    - assemble_powertrain
+    - finalize_exterior_design
+    - assemble_body_with_chassis
     nodes_dependent_on: []
-    prompt: Install the full cooling system including radiator, pump, and hoses. Perform
-      leak test and flow verification. Report integrity status.
-  manufacture_chassis:
+    prompt: 'Install all glass panels and sealing components. Output: leak test results
+      and noise insulation validation.'
+  integrate_chassis_and_suspension:
     agent: false
-    description: Fabricate the vehicle's structural frame.
-    name: manufacture_chassis
+    description: Mount suspension, steering, and braking systems onto the chassis.
+    name: integrate_chassis_and_suspension
     nodes_depended_on:
-    - design_chassis_frame
+    - manufacture_chassis_frame
+    - design_suspension_system
+    - design_steering_system
+    - design_braking_system
     nodes_dependent_on: []
-    prompt: Produce the chassis frame using specified materials and design. Confirm
-      frame integrity and dimensional correctness. Output only pass/fail status.
-  model_aerodynamics:
+    prompt: 'Integrate suspension, steering, and brake components onto the chassis.
+      Output: confirmation of mechanical fit and pre-alignment checks.'
+  manufacture_chassis_frame:
     agent: false
-    description: Simulate and optimize airflow around the car.
-    name: model_aerodynamics
+    description: Fabricate the chassis or unibody structure using stamping, welding,
+      or casting.
+    name: manufacture_chassis_frame
+    nodes_depended_on:
+    - engineer_chassis_frame
+    - procure_raw_materials
+    nodes_dependent_on: []
+    prompt: 'Manufacture the chassis frame using appropriate methods. Output: confirmation
+      of completion and dimensional verification report.'
+  manufacture_exterior_body_panels:
+    agent: false
+    description: Produce doors, hood, roof, and fenders from metal or composite materials.
+    name: manufacture_exterior_body_panels
+    nodes_depended_on:
+    - finalize_exterior_design
+    - procure_raw_materials
+    nodes_dependent_on: []
+    prompt: 'Fabricate exterior body panels using stamping or molding. Output: list
+      of produced parts with quality inspection stamps.'
+  manufacture_interior_components:
+    agent: false
+    description: Produce dashboard, seats, door trim, and cabin fixtures.
+    name: manufacture_interior_components
+    nodes_depended_on:
+    - finalize_interior_design
+    - procure_raw_materials
+    nodes_dependent_on: []
+    prompt: 'Manufacture interior components using molding, cutting, and assembly.
+      Output: inventory list of completed parts with batch numbers.'
+  perform_dynamic_road_testing:
+    agent: false
+    description: Test the vehicle under real driving conditions for handling, braking,
+      and endurance.
+    name: perform_dynamic_road_testing
+    nodes_depended_on:
+    - conduct_functional_system_tests
+    - run_engine_start_and_idle_test
+    - install_wheels_and_tires
+    nodes_dependent_on: []
+    prompt: 'Drive the vehicle through a standardized test route: acceleration, braking,
+      cornering, NVH. Output: test log with performance metrics and driver feedback.'
+  perform_initial_power_on:
+    agent: false
+    description: Power the vehicle for the first time and verify basic electrical
+      operation.
+    name: perform_initial_power_on
+    nodes_depended_on:
+    - program_onboard_software
+    - install_powertrain_into_chassis
+    nodes_dependent_on: []
+    prompt: 'Perform first power-on sequence: check lights, dashboard, sensors, and
+      communication networks. Output: power-up log and error code scan.'
+  perform_safety_and_regulatory_checklist:
+    agent: false
+    description: Verify compliance with safety standards (e.g., airbags, seat belts,
+      crash zones).
+    name: perform_safety_and_regulatory_checklist
+    nodes_depended_on:
+    - engineer_chassis_frame
+    - design_interior_layout
+    - install_interior_components
+    nodes_dependent_on: []
+    prompt: 'Complete a safety compliance checklist: structural integrity, restraint
+      systems, visibility, lighting. Output: compliance report with pass/fail status.'
+  procure_raw_materials:
+    agent: false
+    description: Acquire steel, aluminum, plastics, and composites for manufacturing.
+    name: procure_raw_materials
+    nodes_depended_on:
+    - engineer_chassis_frame
+    - design_exterior_styling
+    - design_interior_layout
+    nodes_dependent_on: []
+    prompt: 'List all raw materials needed (type, grade, quantity) for chassis, body,
+      and interior. Output: procurement table with material, source, and quantity.'
+  program_onboard_software:
+    agent: false
+    description: Load firmware and software into ECUs for engine, brakes, infotainment,
+      and ADAS.
+    name: program_onboard_software
+    nodes_depended_on:
+    - install_electrical_harness_and_ecus
+    nodes_dependent_on: []
+    prompt: 'Program all vehicle software modules with calibrated firmware. Output:
+      version list, boot confirmation, and ECU handshake report.'
+  run_aerodynamic_simulations:
+    agent: false
+    description: Simulate airflow over the exterior design to optimize drag and downforce.
+    name: run_aerodynamic_simulations
     nodes_depended_on:
     - design_exterior_styling
-    - determine_vehicle_segment
     nodes_dependent_on: []
-    prompt: Analyze the exterior design for aerodynamic efficiency. Report the target
-      drag coefficient (Cd) and suggest 3 design adjustments to reduce air resistance.
-  mount_powertrain_to_chassis:
+    prompt: 'Run a CFD-based aerodynamic simulation on the exterior design. Output:
+      drag coefficient, lift/downforce, and airflow patterns as numerical results.'
+  run_engine_start_and_idle_test:
     agent: false
-    description: Physically install the assembled powertrain into the chassis.
-    name: mount_powertrain_to_chassis
+    description: Start the engine or motor and verify stable idle and systems response.
+    name: run_engine_start_and_idle_test
     nodes_depended_on:
+    - perform_initial_power_on
     - assemble_powertrain
-    - manufacture_chassis
-    - install_drivetrain
     nodes_dependent_on: []
-    prompt: Mount the complete powertrain unit to the chassis using proper fasteners
-      and isolation mounts. Confirm secure attachment and driveline alignment. Output
-      only confirmation.
-  perform_initial_system_power_on:
+    prompt: 'Initiate first engine/motor start. Monitor idle stability, coolant flow,
+      oil pressure, and emissions (if applicable). Output: start-up log and sensor
+      readings.'
+  run_structural_finite_element_analysis:
     agent: false
-    description: Energize vehicle systems for the first time.
-    name: perform_initial_system_power_on
+    description: Perform stress and deformation simulations on the chassis under load.
+    name: run_structural_finite_element_analysis
     nodes_depended_on:
-    - install_electrical_system
-    - install_interior_components
-    - mount_powertrain_to_chassis
-    - integrate_cooling_system
+    - engineer_chassis_frame
     nodes_dependent_on: []
-    prompt: Apply initial power to the vehicle. Check for correct ECU boot, dashboard
-      illumination, and absence of electrical faults. Report any errors detected.
-  perform_on_road_dynamometer_test:
-    agent: false
-    description: Test vehicle performance under simulated driving loads.
-    name: perform_on_road_dynamometer_test
-    nodes_depended_on:
-    - conduct_full_system_diagnostic
-    - run_engine_or_motor_test
-    nodes_dependent_on: []
-    prompt: Run the vehicle on a dynamometer to measure acceleration, top speed, and
-      thermal endurance. Record 0–60 mph time and peak power output. Output only data.
-  run_engine_or_motor_test:
-    agent: false
-    description: Start and operate the powertrain in place.
-    name: run_engine_or_motor_test
-    nodes_depended_on:
-    - mount_powertrain_to_chassis
-    - install_electrical_system
-    - integrate_cooling_system
-    - perform_initial_system_power_on
-    nodes_dependent_on: []
-    prompt: Start the engine or activate the electric motor. Monitor RPM, temperature,
-      voltage, and vibration. Report successful operation or any anomalies.
+    prompt: 'Perform FEA on the chassis design under various load cases (cornering,
+      braking, crash). Output: stress maps, deformation points, and safety margins.'
   select_powertrain_type:
     agent: false
-    description: Choose the type of power source based on the vehicle's intended use.
+    description: Choose the type of powertrain (e.g., internal combustion engine,
+      electric motor, hybrid).
     name: select_powertrain_type
     nodes_depended_on:
     - define_vehicle_purpose
+    - set_performance_specifications
     nodes_dependent_on: []
-    prompt: Based on the vehicle purpose, select one powertrain type (e.g., battery
-      electric, gasoline ICE, plug-in hybrid). Justify your choice in one sentence
-      referencing efficiency, performance, or environmental needs.
-  select_transmission_type:
+    prompt: Select the appropriate powertrain type based on the vehicle purpose and
+      performance goals. Provide a one-sentence justification and list core components
+      (e.g., battery, ICE, fuel cell).
+  set_performance_specifications:
     agent: false
-    description: Choose the type of transmission system.
-    name: select_transmission_type
-    nodes_depended_on:
-    - specify_engine_requirements
-    nodes_dependent_on: []
-    prompt: Select a transmission type (e.g., manual, automatic, DCT, single-speed
-      EV) based on engine specs and vehicle purpose. List 3 technical reasons for
-      the choice.
-  simulate_crash_safety:
-    agent: false
-    description: Perform virtual crash testing and structural validation.
-    name: simulate_crash_safety
-    nodes_depended_on:
-    - design_chassis_frame
-    - design_interior_layout
-    nodes_dependent_on: []
-    prompt: Run a simulated frontal and side impact analysis. List 4 structural reinforcements
-      or safety systems needed (e.g., crumple zones, airbag triggers).
-  source_battery_cells:
-    agent: false
-    description: Identify suppliers for battery cells.
-    name: source_battery_cells
-    nodes_depended_on:
-    - design_battery_system
-    nodes_dependent_on: []
-    prompt: Select 3 battery cell suppliers matching the design specs. Include cell
-      chemistry, energy density, cycle life, and price per kWh.
-  source_electronics_components:
-    agent: false
-    description: Identify suppliers for ECUs, sensors, and displays.
-    name: source_electronics_components
-    nodes_depended_on:
-    - create_electrical_architecture
-    nodes_dependent_on: []
-    prompt: 'List suppliers for 5 critical electronics: ECU, infotainment display,
-      ADAS sensors, instrument cluster, and gateway module. Include compatibility
-      and cost.'
-  source_engine_manufacturer:
-    agent: false
-    description: Identify and select supplier for engine.
-    name: source_engine_manufacturer
-    nodes_depended_on:
-    - specify_engine_requirements
-    nodes_dependent_on: []
-    prompt: List 3 potential engine suppliers that meet the specified requirements.
-      For each, include compatibility rating (1–5), cost estimate, and lead time.
-  source_tires:
-    agent: false
-    description: Choose appropriate tire models and suppliers.
-    name: source_tires
+    description: Establish quantitative performance targets such as speed, acceleration,
+      range, and payload.
+    name: set_performance_specifications
     nodes_depended_on:
     - define_vehicle_purpose
-    - determine_vehicle_segment
     nodes_dependent_on: []
-    prompt: Select tire size, type (all-season, performance, off-road), and 2 suppliers.
-      Justify choice based on vehicle purpose and weight.
-  specify_engine_requirements:
+    prompt: 'Based on the vehicle purpose, specify numerical performance targets:
+      0-60 mph time, top speed, range (electric or fuel-based), towing capacity, and
+      seating capacity. List as key-value pairs.'
+  simulate_powertrain_efficiency:
     agent: false
-    description: Define performance and technical parameters for the engine or motor.
-    name: specify_engine_requirements
+    description: Model energy consumption and output under various driving conditions.
+    name: simulate_powertrain_efficiency
     nodes_depended_on:
+    - develop_powertrain_architecture
     - select_powertrain_type
     nodes_dependent_on: []
-    prompt: List required engine specifications (e.g., horsepower, torque, displacement,
-      fuel type) for the selected powertrain. Include 4 key metrics and their target
-      values.
-  submit_final_car_documentation:
-    agent: false
-    description: Compile all design, build, and test records.
-    name: submit_final_car_documentation
-    nodes_depended_on:
-    - generate_3d_vehicle_model
-    - conduct_full_system_diagnostic
-    - perform_on_road_dynamometer_test
-    - estimate_range_or_fuel_efficiency
-    nodes_dependent_on: []
-    prompt: Produce a final documentation package including technical drawings, component
-      sources, test results, and compliance status. Output confirmation of package
-      compilation.
-  test_braking_functionality:
-    agent: false
-    description: Evaluate brake response and ABS operation.
-    name: test_braking_functionality
-    nodes_depended_on:
-    - install_braking_system
-    - install_wheels_and_tires
-    - install_electrical_system
-    nodes_dependent_on: []
-    prompt: Perform brake actuation test. Confirm pedal feel, ABS activation during
-      simulated skid, and even pressure distribution. Output pass/fail with notes.
-  test_suspension_and_steering:
-    agent: false
-    description: Evaluate suspension travel and steering response.
-    name: test_suspension_and_steering
-    nodes_depended_on:
-    - install_suspension_system
-    - install_wheels_and_tires
-    nodes_dependent_on: []
-    prompt: Assess suspension compression/rebound and steering linkage movement. Check
-      for binding or excessive play. Report findings in 3 sentences.
+    prompt: 'Simulate powertrain efficiency across city/highway/driving cycles. Output:
+      estimated kWh/mile or mpg, thermal losses, regenerative braking contribution.'
