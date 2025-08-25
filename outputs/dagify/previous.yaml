@@ -1,104 +1,489 @@
 dag_type: plain_text
-description: A workflow for creating a quantitative trading algorithm, from defining
-  objectives to deploying the model.
-name: quantitative_trading_algorithm
+description: A highly concurrent, step-by-step execution plan to design, engineer,
+  and assemble a functional rocket ship, broken into elemental tasks across structural,
+  propulsion, avionics, and systems domains.
+name: build_rocket_ship
 nodes:
-  collect_historical_data:
+  assemble_avionics_modules:
     agent: false
-    description: Gather historical price and trading data for the selected assets.
-    name: collect_historical_data
+    description: Build and test flight computer, sensors, and radios
+    name: assemble_avionics_modules
     nodes_depended_on:
-    - select_asset_universe
+    - design_avionics_architecture
+    - design_guidance_navigation_and_control_system
+    - design_telemetry_and_communications_system
+    - design_power_system
     nodes_dependent_on: []
-    prompt: Collect historical price data for the selected assets over a specified
-      time period (e.g., 1 year, 5 years). Ensure data is clean and properly formatted.
-  define_trading_objectives:
+    prompt: Integrate flight computer, IMU, GPS, power regulators, and radios into
+      flight-ready boxes. Conduct EMI, thermal, and vibration testing.
+  assemble_core_rocket_blueprint:
     agent: false
-    description: Specify the primary objectives for the trading algorithm (e.g., profit
-      maximization, risk minimization).
-    name: define_trading_objectives
+    description: Integrate propulsion, structure, and vehicle shape into master design
+    name: assemble_core_rocket_blueprint
+    nodes_depended_on:
+    - design_aerodynamic_body_shape
+    - integrate_propellant_tanks
+    - design_main_engine_assembly
+    - design_interstage_adapter
+    - design_stage_separation_system
+    - define_payload_comparment_dimensions
+    - design_thermal_protection_system
+    nodes_dependent_on: []
+    prompt: Combine all structural and propulsion designs into a single integrated
+      blueprint. Show major subsystems, interfaces, and center of mass estimates.
+  assemble_payload_fairing_or_capsule:
+    agent: false
+    description: Build and test payload enclosure
+    name: assemble_payload_fairing_or_capsule
+    nodes_depended_on:
+    - define_payload_comparment_dimensions
+    - design_thermal_protection_system
+    nodes_dependent_on: []
+    prompt: Fabricate fairing or capsule using appropriate materials. Include separation
+      mechanism and environmental seals. Perform jettison test.
+  assemble_propulsion_subsystem:
+    agent: false
+    description: Integrate engine, tanks, feed lines, and turbopumps
+    name: assemble_propulsion_subsystem
+    nodes_depended_on:
+    - manufacture_fuel_tank_components
+    - conduct_main_engine_ground_test
+    - design_main_engine_assembly
+    nodes_dependent_on: []
+    prompt: Connect engine, tanks, valves, and plumbing into a functional propulsion
+      module. Perform leak and pressure tests at nominal and burst conditions.
+  assemble_stage_one_structure:
+    agent: false
+    description: Construct first stage airframe and integrate subsystems
+    name: assemble_stage_one_structure
+    nodes_depended_on:
+    - assemble_core_rocket_blueprint
+    - assemble_propulsion_subsystem
+    nodes_dependent_on: []
+    prompt: Build core stage one structure using designed materials. Install tanks,
+      engine, and base electronics. Verify alignment and mass balance.
+  assemble_upper_stage:
+    agent: false
+    description: Construct and equip upper stage (if applicable)
+    name: assemble_upper_stage
+    nodes_depended_on:
+    - design_second_stage_propulsion
+    - design_upper_stage_guidance_interfaces
+    - determine_stage_count
+    nodes_dependent_on: []
+    prompt: Assemble upper stage structure, engine, avionics, and interstage. Perform
+      fit check with lower stage and fairing.
+  calculate_total_delta_v:
+    agent: false
+    description: Compute total velocity change required for mission execution
+    name: calculate_total_delta_v
+    nodes_depended_on:
+    - select_orbit_and_trajectory
+    nodes_dependent_on: []
+    prompt: Using trajectory data, calculate the total delta-v budget required for
+      ascent, orbital insertion, maneuvers, and descent if applicable. Present result
+      in m/s with breakdown by phase.
+  choose_propulsion_type:
+    agent: false
+    description: Select primary propulsion system type
+    name: choose_propulsion_type
+    nodes_depended_on:
+    - calculate_total_delta_v
+    - define_mission_requirements
+    nodes_dependent_on: []
+    prompt: Choose between liquid, solid, hybrid, or electric propulsion based on
+      mission needs. Justify selection with three key factors such as thrust-to-weight,
+      ISP, and reusability.
+  conduct_full_system_integration_test:
+    agent: false
+    description: Test entire rocket as a unified system
+    name: conduct_full_system_integration_test
+    nodes_depended_on:
+    - integrate_all_stages_and_payload
+    nodes_dependent_on: []
+    prompt: Run avionics boot, comms link, GNC simulation, and stage separation dry
+      runs. Power all systems simultaneously and verify no interference.
+  conduct_main_engine_ground_test:
+    agent: false
+    description: Perform actual ignition and burn test of main engine
+    name: conduct_main_engine_ground_test
+    nodes_depended_on:
+    - design_test_stand_for_main_engine
+    - design_main_engine_assembly
+    nodes_dependent_on: []
+    prompt: Execute hot-fire test of main engine at sea level or altitude chamber.
+      Record combustion stability, thrust, ISP, and nozzle erosion.
+  confirm_mission_success:
+    agent: false
+    description: Validate that rocket achieved mission objectives
+    name: confirm_mission_success
+    nodes_depended_on:
+    - execute_rocket_launch
+    nodes_dependent_on: []
+    prompt: Analyze telemetry to confirm proper staging, orbit insertion, payload
+      deployment, and system shutdown. Declare success or failure with root cause
+      if applicable.
+  define_mission_requirements:
+    agent: false
+    description: Specify the primary mission parameters for the rocket ship
+    name: define_mission_requirements
     nodes_depended_on: []
     nodes_dependent_on: []
-    prompt: State the primary business objectives for the trading algorithm. Produce
-      a concise bullet list covering investment purpose, risk tolerance, and performance
-      metrics (max 8 bullets). Focus only on objectives, do not include strategy details.
-  deploy_trading_model:
+    prompt: Define the mission objectives including payload mass, target orbit or
+      trajectory, launch location, expected duration, and reusability needs. List
+      only quantifiable requirements in bullet form.
+  define_payload_comparment_dimensions:
     agent: false
-    description: Deploy the trading model in a production-ready environment.
-    name: deploy_trading_model
+    description: Determine size and shape of payload enclosure
+    name: define_payload_comparment_dimensions
     nodes_depended_on:
-    - hyperparameter_tuning
+    - define_mission_requirements
     nodes_dependent_on: []
-    prompt: Deploy the trading model in a production-ready environment. Specify the
-      deployment architecture and any necessary infrastructure (e.g., cloud services,
-      APIs).
-  evaluate_trading_model:
+    prompt: Based on payload mass and volume, specify fairing or capsule interior
+      dimensions, deployment mechanism, and environmental protection (thermal, vibration).
+  design_aerodynamic_body_shape:
     agent: false
-    description: Evaluate the performance of the trading model using the validation
-      data.
-    name: evaluate_trading_model
+    description: Define external shape for minimal drag and stability
+    name: design_aerodynamic_body_shape
     nodes_depended_on:
-    - train_trading_model
+    - define_mission_requirements
     nodes_dependent_on: []
-    prompt: Evaluate the performance of the trading model using the validation data.
-      Report metrics such as profit, loss, Sharpe ratio, and maximum drawdown.
-  feature_engineering:
+    prompt: Design outer profile (cylindrical body, ogive nose, fins) considering
+      transonic stability, drag, and structural load. List length, diameter, and fin
+      area if applicable.
+  design_avionics_architecture:
     agent: false
-    description: Create relevant features from the historical data for use in the
-      trading model.
-    name: feature_engineering
+    description: Define core avionics system layout and computing stack
+    name: design_avionics_architecture
     nodes_depended_on:
-    - collect_historical_data
+    - define_mission_requirements
     nodes_dependent_on: []
-    prompt: Extract relevant features from the historical data, such as moving averages,
-      technical indicators, and statistical measures. List the features and their
-      definitions.
-  hyperparameter_tuning:
+    prompt: Specify flight computer type, redundancy level (e.g., triple modular),
+      data buses (MIL-STD-1553, CAN), power distribution, and sensor interfaces.
+  design_combustion_chamber:
     agent: false
-    description: Perform hyperparameter tuning to optimize the trading model's performance.
-    name: hyperparameter_tuning
+    description: Design geometry and material of the main combustion chamber
+    name: design_combustion_chamber
     nodes_depended_on:
-    - evaluate_trading_model
+    - choose_propulsion_type
     nodes_dependent_on: []
-    prompt: Perform hyperparameter tuning using techniques such as grid search or
-      random search. Report the optimal hyperparameters and the corresponding performance
-      metrics.
-  monitor_trading_model:
+    prompt: Specify combustion chamber pressure, volume, throat diameter, and expansion
+      ratio. Select material (e.g., copper alloy, niobium) and cooling method (regenerative,
+      film).
+  design_flight_software_core:
     agent: false
-    description: Continuously monitor the performance of the trading model and adjust
-      as needed.
-    name: monitor_trading_model
+    description: Write fundamental logic for flight computer operation
+    name: design_flight_software_core
     nodes_depended_on:
-    - deploy_trading_model
+    - design_guidance_navigation_and_control_system
     nodes_dependent_on: []
-    prompt: Continuously monitor the performance of the trading model and adjust as
-      needed. Report any changes to the model or its parameters.
-  select_asset_universe:
+    prompt: 'Outline core software modules: boot sequence, sensor fusion, control
+      actuation, telemetry reporting, and abort logic. List programming language and
+      real-time OS.'
+  design_fuel_composition:
     agent: false
-    description: Enumerate the tradable assets and instruments for the algorithm.
-    name: select_asset_universe
+    description: Specify chemical composition of propellants
+    name: design_fuel_composition
     nodes_depended_on:
-    - define_trading_objectives
+    - choose_propulsion_type
     nodes_dependent_on: []
-    prompt: List the specific asset classes and instruments the algorithm will trade
-      (e.g., US large-cap equities, S&P futures). Keep list ≤10 items.
-  split_data:
+    prompt: Define fuel and oxidizer types (e.g., LOX/RP-1, LOX/LH2, solid composite)
+      based on propulsion choice. List physical and combustion properties including
+      specific impulse and density.
+  design_guidance_navigation_and_control_system:
     agent: false
-    description: Split the historical data into training, validation, and testing
-      sets.
-    name: split_data
+    description: Develop algorithms and hardware for flight stability and trajectory
+      tracking
+    name: design_guidance_navigation_and_control_system
     nodes_depended_on:
-    - feature_engineering
+    - design_avionics_architecture
+    - design_thrust_vector_control_system
     nodes_dependent_on: []
-    prompt: Split the historical data into training (e.g., 80%), validation (e.g.,
-      10%), and testing sets (e.g., 10%). Ensure data is properly formatted for each
-      set.
-  train_trading_model:
+    prompt: 'Define GNC components: IMU, GPS, star tracker, reaction wheels, or thrusters.
+      Specify control loop update rate, Kalman filter use, and failure modes.'
+  design_interstage_adapter:
     agent: false
-    description: Train a trading model using the training data and selected features.
-    name: train_trading_model
+    description: Create mechanical and structural interface between stages
+    name: design_interstage_adapter
     nodes_depended_on:
-    - split_data
+    - determine_stage_count
+    - integrate_propellant_tanks
     nodes_dependent_on: []
-    prompt: Train a trading model using the training data and selected features. Specify
-      the model type (e.g., linear regression, decision tree) and its parameters.
+    prompt: Design physical connection between stages including load paths, separation
+      mechanisms, and routing for wiring and plumbing.
+  design_main_engine_assembly:
+    agent: false
+    description: Assemble specifications for the main propulsion engine
+    name: design_main_engine_assembly
+    nodes_depended_on:
+    - select_main_engine_type
+    - design_nozzle_geometry
+    - design_combustion_chamber
+    nodes_dependent_on: []
+    prompt: Integrate combustion chamber, nozzle, turbopumps, and injectors into a
+      coherent engine design. List thrust, ISP, mixture ratio, and gimbal range if
+      applicable.
+  design_main_stage_fuel_tank:
+    agent: false
+    description: Construct detailed design for fuel storage tank
+    name: design_main_stage_fuel_tank
+    nodes_depended_on:
+    - size_main_fuel_tanks
+    - select_structural_materials
+    nodes_dependent_on: []
+    prompt: Specify internal and external configuration of fuel tank, including baffles,
+      feed lines, insulation, and anti-slosh features. Match material and integration
+      with oxidizer tank.
+  design_main_stage_oxidizer_tank:
+    agent: false
+    description: Construct detailed design for oxidizer storage tank
+    name: design_main_stage_oxidizer_tank
+    nodes_depended_on:
+    - size_main_fuel_tanks
+    - select_structural_materials
+    nodes_dependent_on: []
+    prompt: Specify internal and external configuration of oxidizer tank, including
+      bulkheads, feed lines, pressure regulation, and insulation. Use selected structural
+      material.
+  design_nozzle_geometry:
+    agent: false
+    description: Design the shape and structure of the rocket nozzle
+    name: design_nozzle_geometry
+    nodes_depended_on:
+    - design_combustion_chamber
+    nodes_dependent_on: []
+    prompt: Design nozzle contour (e.g., bell, aerospike), exit diameter, expansion
+      ratio, and material. Account for ambient pressure at launch and altitude compensation
+      if needed.
+  design_power_system:
+    agent: false
+    description: Design electrical power generation and distribution
+    name: design_power_system
+    nodes_depended_on:
+    - define_mission_requirements
+    nodes_dependent_on: []
+    prompt: Specify power source (batteries, fuel cells, solar for upper stage), voltage
+      rails, distribution wiring, and fault tolerance. Include total capacity in watt-hours.
+  design_quality_control_protocol:
+    agent: false
+    description: Define inspection and testing procedures for all components
+    name: design_quality_control_protocol
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: 'List required quality checks: NDT for welds, pressure testing, dimensional
+      accuracy, and material certification. Assign pass/fail criteria for each.'
+  design_second_stage_propulsion:
+    agent: false
+    description: Design propulsion system for second stage (if applicable)
+    name: design_second_stage_propulsion
+    nodes_depended_on:
+    - determine_stage_count
+    - choose_propulsion_type
+    nodes_dependent_on: []
+    prompt: If more than one stage is needed, design second stage engine and tank
+      system. Optimize for vacuum performance and restart capability.
+  design_stage_separation_system:
+    agent: false
+    description: Define mechanism for staging (if multi-stage rocket)
+    name: design_stage_separation_system
+    nodes_depended_on:
+    - define_mission_requirements
+    nodes_dependent_on: []
+    prompt: Specify separation method (explosive bolts, pneumatic pushers, staging
+      rings) and timing sequence. Include load tolerance and reliability targets.
+  design_telemetry_and_communications_system:
+    agent: false
+    description: Define radio systems for tracking and data downlink
+    name: design_telemetry_and_communications_system
+    nodes_depended_on:
+    - define_mission_requirements
+    - design_power_system
+    nodes_dependent_on: []
+    prompt: Specify frequency bands (S-band, X-band), antenna types, data rates, ground
+      station compatibility, and encryption if applicable.
+  design_test_stand_for_main_engine:
+    agent: false
+    description: Design facility to test main engine under controlled conditions
+    name: design_test_stand_for_main_engine
+    nodes_depended_on:
+    - design_main_engine_assembly
+    nodes_dependent_on: []
+    prompt: 'Specify test stand requirements: thrust anchoring, propellant feed, flame
+      deflector, data acquisition, and safety distance. Include automation for ignition
+      and shutdown.'
+  design_thermal_protection_system:
+    agent: false
+    description: Design heat shielding for atmospheric reentry or engine zones
+    name: design_thermal_protection_system
+    nodes_depended_on:
+    - define_mission_requirements
+    nodes_dependent_on: []
+    prompt: Specify materials and layout for thermal protection (e.g., ablative tiles,
+      TUFROC, radiative coatings) on nose cone, base, and reentry surfaces.
+  design_thrust_vector_control_system:
+    agent: false
+    description: Create mechanism for steering via engine or aerodynamic control
+    name: design_thrust_vector_control_system
+    nodes_depended_on:
+    - design_main_engine_assembly
+    nodes_dependent_on: []
+    prompt: Specify method of thrust vector control (gimbaled engine, vernier thrusters,
+      jet vanes). Define actuation force, response time, and redundancy level.
+  design_upper_stage_guidance_interfaces:
+    agent: false
+    description: Prepare interfaces for avionics and control in upper stage
+    name: design_upper_stage_guidance_interfaces
+    nodes_depended_on:
+    - design_second_stage_propulsion
+    nodes_dependent_on: []
+    prompt: Define how avionics, power, and telemetry will connect to the upper stage.
+      List required connectors, data rates, and environmental specs.
+  determine_stage_count:
+    agent: false
+    description: Decide number of rocket stages based on mission and delta-v
+    name: determine_stage_count
+    nodes_depended_on:
+    - calculate_total_delta_v
+    - define_mission_requirements
+    nodes_dependent_on: []
+    prompt: Determine optimal number of stages (1, 2, or 3) based on payload, delta-v,
+      and structural efficiency. Provide justification with mass ratio estimates.
+  erect_rocket_on_launch_pad:
+    agent: false
+    description: Raise rocket to vertical position on launch mount
+    name: erect_rocket_on_launch_pad
+    nodes_depended_on:
+    - transport_to_launch_site
+    nodes_dependent_on: []
+    prompt: Use crane or erector system to lift rocket onto launch pad. Align with
+      flame trench, umbilicals, and hold-down clamps.
+  execute_rocket_launch:
+    agent: false
+    description: Initiate countdown and liftoff sequence
+    name: execute_rocket_launch
+    nodes_depended_on:
+    - perform_final_launch_prechecks
+    nodes_dependent_on: []
+    prompt: Trigger automated countdown, ignite main engine, release hold-downs, and
+      achieve liftoff. Monitor trajectory and stage separation in real time.
+  generate_cfd_analysis_for_aerodynamics:
+    agent: false
+    description: Simulate airflow and pressure across rocket body
+    name: generate_cfd_analysis_for_aerodynamics
+    nodes_depended_on:
+    - design_aerodynamic_body_shape
+    nodes_dependent_on: []
+    prompt: Run computational fluid dynamics simulation across Mach 0 to 10. Report
+      drag coefficient, pressure distribution, and boundary layer behavior.
+  integrate_all_stages_and_payload:
+    agent: false
+    description: Stack all stages and attach payload fairing
+    name: integrate_all_stages_and_payload
+    nodes_depended_on:
+    - assemble_stage_one_structure
+    - assemble_upper_stage
+    - assemble_payload_fairing_or_capsule
+    - integrate_vehicle_avionics
+    nodes_dependent_on: []
+    prompt: Vertically stack stages, connect plumbing and wiring, and mount fairing
+      with simulated payload. Conduct end-to-end systems check.
+  integrate_propellant_tanks:
+    agent: false
+    description: Design intertank structure and common bulkhead (if applicable)
+    name: integrate_propellant_tanks
+    nodes_depended_on:
+    - design_main_stage_oxidizer_tank
+    - design_main_stage_fuel_tank
+    nodes_dependent_on: []
+    prompt: Design intertank segment or common bulkhead between fuel and oxidizer
+      tanks. Include load transfer, access points, and integration with avionics tunnels.
+  integrate_vehicle_avionics:
+    agent: false
+    description: Mount and connect avionics throughout the rocket body
+    name: integrate_vehicle_avionics
+    nodes_depended_on:
+    - assemble_avionics_modules
+    - assemble_core_rocket_blueprint
+    nodes_dependent_on: []
+    prompt: Install avionics bays, wire harnesses, and antennas at designated points.
+      Confirm signal integrity and grounding across all channels.
+  manufacture_fuel_tank_components:
+    agent: false
+    description: Fabricate parts for fuel and oxidizer tanks
+    name: manufacture_fuel_tank_components
+    nodes_depended_on:
+    - design_main_stage_fuel_tank
+    - design_main_stage_oxidizer_tank
+    - design_quality_control_protocol
+    nodes_dependent_on: []
+    prompt: Produce tank domes, cylinders, and rings using selected material. Follow
+      approved processes for welding, forming, and inspection.
+  perform_final_launch_prechecks:
+    agent: false
+    description: Execute pre-launch checklist and fueling procedures
+    name: perform_final_launch_prechecks
+    nodes_depended_on:
+    - erect_rocket_on_launch_pad
+    nodes_dependent_on: []
+    prompt: 'Verify all systems: avionics health, tank pressures, weather, range safety.
+      Initiate fueling sequence and confirm stable loading.'
+  run_finite_element_analysis_on_structure:
+    agent: false
+    description: Stress-test structural integrity under expected loads
+    name: run_finite_element_analysis_on_structure
+    nodes_depended_on:
+    - select_structural_materials
+    nodes_dependent_on: []
+    prompt: Apply launch acceleration, vibration, and pressure loads in FEA model.
+      Identify stress concentrations and confirm safety margins >1.4.
+  select_main_engine_type:
+    agent: false
+    description: Choose engine cycle and configuration (e.g., gas generator, staged
+      combustion)
+    name: select_main_engine_type
+    nodes_depended_on:
+    - design_combustion_chamber
+    - choose_propulsion_type
+    nodes_dependent_on: []
+    prompt: Select engine cycle type based on performance and complexity trade-offs.
+      List key components and operating pressures for fuel and oxidizer pumps.
+  select_orbit_and_trajectory:
+    agent: false
+    description: Determine orbital path or flight trajectory based on mission goals
+    name: select_orbit_and_trajectory
+    nodes_depended_on:
+    - define_mission_requirements
+    nodes_dependent_on: []
+    prompt: Based on the mission requirements, specify the target orbit (e.g., LEO,
+      GTO, escape) or trajectory (e.g., suborbital, interplanetary) and list necessary
+      velocity, inclination, and insertion parameters.
+  select_structural_materials:
+    agent: false
+    description: Choose frame and skin materials for the rocket body
+    name: select_structural_materials
+    nodes_depended_on:
+    - design_aerodynamic_body_shape
+    nodes_dependent_on: []
+    prompt: Select primary materials (e.g., aluminum-lithium, carbon fiber, titanium)
+      for fuselage, tanks, and supports. Justify based on strength-to-weight, thermal,
+      and cost factors.
+  size_main_fuel_tanks:
+    agent: false
+    description: Calculate volume and dimensions of primary propellant tanks
+    name: size_main_fuel_tanks
+    nodes_depended_on:
+    - design_fuel_composition
+    - calculate_total_delta_v
+    nodes_dependent_on: []
+    prompt: Using propellant mass requirements and density, compute tank volumes,
+      wall thickness, and approximate cylindrical dimensions. Include margin for ullage
+      and slosh.
+  transport_to_launch_site:
+    agent: false
+    description: Move rocket to launch complex safely
+    name: transport_to_launch_site
+    nodes_depended_on:
+    - conduct_full_system_integration_test
+    nodes_dependent_on: []
+    prompt: Plan transport route, select vehicle (crawler, ship, truck), and secure
+      rocket for transit. Include environmental and vibration controls.
