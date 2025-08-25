@@ -1,6 +1,6 @@
 dag_type: plain_text
-description: A directed acyclic workflow to design, manufacture, assemble, and test
-  a functional car from initial specifications to final delivery.
+description: A step-by-step workflow to design, assemble, and deliver a functional
+  car, starting from specifications to final testing.
 name: build_car
 nodes:
   assemble_electrical_system:
